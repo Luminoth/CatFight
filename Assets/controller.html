@@ -7,10 +7,15 @@
     <title>Cat Fight Controller</title>
 </head>
 <body onload="window.app = new App()">
-<div id="controls">
-    <button ontouchstart="window.app.sendMessageToScreen('Hello World!')">Hello World!</button>
+<div id="loading">
+    Game is loading!
 </div>
-<div id="info"></div>
+<div id="welcome" style="display: none;">
+    <div id="welcome_controls">
+        <button ontouchstart="window.app.sendMessageToScreen('Hello World!')">Hello World!</button>
+    </div>
+</div>
+<div id="debug_logging"></div>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript" src="https://www.airconsole.com/api/airconsole-1.7.0.js"></script>
 <script type="text/javascript" src="js/controller.js"></script>

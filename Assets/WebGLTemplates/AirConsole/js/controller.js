@@ -2,17 +2,22 @@ var airconsole;
 
 function App() {
 
-    this.airconsole = new AirConsole({"orientation": "landscape"});
+    app = this;
+    app.airconsole = new AirConsole({"orientation": "landscape"});
 
-    this.airconsole.onMessage = function(from, data) {
+    app.airconsole.onMessage = function(from, data) {
 
         console.log("onMessage", from, data);
 
-        document.getElementById("info").innerHTML = "device " + from + " says: " + data;
+        $("#debug_logging").html("device " + from + " says: " + data);
     };
 
-    this.airconsole.onReady = function(code) {
+    app.airconsole.onReady = function(code) {
+
         console.log("onReady", code);
+
+        $("#loading").hide();
+        $("#welcome").show();
     }
 
     /** 
@@ -25,20 +30,18 @@ function App() {
      * THEY HAVE A 200MS DELAY! 
      */ 
     if(!("ontouchstart" in document.createElement("div"))) {
-        var elements = document.getElementsByTagName("*");
-        for(var i = 0; i < elements.length; ++i) {
-            var element = elements[i];
-            
-            var ontouchstart = element.getAttribute("ontouchstart");
+
+        var elements = $("*").each(function() {
+            var ontouchstart = $(this).attr("ontouchstart");
             if(ontouchstart) {
-                element.setAttribute("onmousedown", ontouchstart);
+                $(this).attr("onmousedown", ontouchstart);
             } 
 
-            var ontouchend = element.getAttribute("ontouchend");
+            var ontouchend = $(this).attr("ontouchend");
             if (ontouchend) { 
-                element.setAttribute("onmouseup", ontouchend);
+                $(this).attr("onmouseup", ontouchend);
             }
-        }
+        });
     }
 }
 
