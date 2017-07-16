@@ -2,7 +2,7 @@
 
 namespace CatFight
 {
-    public sealed class Arena : MonoBehavior
+    public sealed class Arena : SingletonBehavior<Arena>
     {
     }
 }
