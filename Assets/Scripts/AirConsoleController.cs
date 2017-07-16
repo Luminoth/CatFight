@@ -4,18 +4,21 @@ using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 using CatFight.Util;
+using UnityEngine.SceneManagement;
 
 namespace CatFight
 {
     [RequireComponent(typeof(AirConsole))]
-    public class AirConsoleController : MonoBehavior
+    public sealed class AirConsoleController : SingletonBehavior<AirConsoleController>
     {
         private void Start()
         {
             AirConsole.instance.onMessage += OnMessage;
+
+            SceneManager.LoadSceneAsync("lobby", LoadSceneMode.Additive);
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
             AirConsole.instance.onMessage -= OnMessage;
         }
