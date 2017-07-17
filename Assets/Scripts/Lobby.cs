@@ -1,6 +1,6 @@
-﻿using NDream.AirConsole;
+﻿using CatFight.Util;
 
-using CatFight.Util;
+using NDream.AirConsole;
 
 namespace CatFight
 {

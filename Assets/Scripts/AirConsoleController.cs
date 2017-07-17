@@ -1,13 +1,13 @@
 using System;
 
+using CatFight.Data;
+using CatFight.Util;
+
 using NDream.AirConsole;
 using Newtonsoft.Json.Linq;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
-using CatFight.Data;
-using CatFight.Util;
 
 namespace CatFight
 {
