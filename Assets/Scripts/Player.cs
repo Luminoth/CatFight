@@ -1,4 +1,5 @@
-﻿using CatFight.Schematics;
+﻿using CatFight.Data;
+using CatFight.Schematics;
 
 namespace CatFight
 {
@@ -10,11 +11,12 @@ namespace CatFight
 
         public bool IsMasterPlayer { get; private set; }
 
-        public Schematic Schematic => new Schematic();
+        public Schematic Schematic { get; }
 
-        public Player(int deviceId)
+        public Player(int deviceId, SchematicData schematicData)
         {
             DeviceId = deviceId;
+            Schematic = new Schematic(schematicData);
         }
 
         public void SetMasterPlayer(bool isMasterPlayer)

@@ -2,11 +2,18 @@
 
 namespace CatFight.Data
 {
-    [Serializable]
-    public abstract class Data
+    public interface IData
     {
-        public string id = string.Empty;
+        void Process();
+    }
+
+    [Serializable]
+    public abstract class Data : IData
+    {
+        public int id;
 
         public string name = string.Empty;
+
+        public abstract void Process();
     }
 }

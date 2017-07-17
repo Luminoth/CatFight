@@ -23,7 +23,7 @@ namespace CatFight
 
         public TextAsset GameDataFile => _gameDataFile;
 
-        private GameData _gameData;
+        public GameData GameData { get; private set; }
 
 #region Unity Lifecycle
         private void Start()
@@ -55,13 +55,14 @@ namespace CatFight
             //Debug.Log(GameDataFile.text);
 
 // TODO: show an error dialog
-            _gameData = JsonUtility.FromJson<GameData>(GameDataFile.text);
-            if(null == _gameData) {
+            GameData = JsonUtility.FromJson<GameData>(GameDataFile.text);
+            if(null == GameData) {
                 Debug.LogError("There was an error loading the game data!");
                 return false;
             }
 
-            _gameData.DebugDump();
+            GameData.Process();
+            GameData.DebugDump();
 
             return true;
         }

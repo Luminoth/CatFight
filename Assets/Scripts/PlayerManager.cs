@@ -20,7 +20,7 @@ namespace CatFight
                 return;
             }
 
-            Player player = new Player(deviceId)
+            Player player = new Player(deviceId, AirConsoleController.Instance.GameData.schematic)
             {
                 IsConnected = true
             };

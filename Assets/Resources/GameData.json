@@ -1,14 +1,54 @@
 {
+    "schematic": {
+        "maxFilledSlots": 3,
+        "slots": [
+            {
+                "id": 1,
+                "name": "Head",
+                "type": "armor"
+            },
+            {
+                "id": 2,
+                "name": "Left Weapon",
+                "type": "weapon"
+            },
+            {
+                "id": 3,
+                "name": "Right Weapon",
+                "type": "weapon"
+            },
+            {
+                "id": 4,
+                "name": "Left Side",
+                "type": "armor"
+            },
+            {
+                "id": 5,
+                "name": "Right Side",
+                "type": "armor"
+            },
+            {
+                "id": 6,
+                "name": "Tail",
+                "type": "armor"
+            },
+            {
+                "id": 7,
+                "name": "Core",
+                "type": "core"
+            }
+        ]
+    },
     "weapons": [
         {
-            "id": 0,
-            "name": "Test"
+            "id": 1,
+            "name": "Test Weapon"
         }
     ],
     "armor": [
         {
-            "id": 0,
-            "name": "Test"
+            "id": 1,
+            "name": "Test Armor"
         }
     ]
 }
