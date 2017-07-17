@@ -17,7 +17,7 @@ namespace NDream.AirConsole.Editor {
 		private static PlayModeState _currentState = PlayModeState.Stopped;
 
 		static PlayMode () {
-			EditorApplication.playmodeStateChanged = OnUnityPlayModeChanged;
+			EditorApplication.playmodeStateChanged += OnUnityPlayModeChanged;
 			if (EditorApplication.isPaused)
 				_currentState = PlayModeState.Paused;
 		}

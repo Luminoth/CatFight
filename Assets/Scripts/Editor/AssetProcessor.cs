@@ -16,7 +16,7 @@ namespace CatFight.Editor
     	static AssetProcessor()
         {
             _isPlaying = !EditorApplication.isPlayingOrWillChangePlaymode;
-            EditorApplication.playmodeStateChanged = OnUnityPlayModeChanged;
+            EditorApplication.playmodeStateChanged += OnUnityPlayModeChanged;
 		}
 
         [PostProcessBuild]
