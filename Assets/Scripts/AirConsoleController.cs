@@ -17,6 +17,11 @@ namespace CatFight
         public event EventHandler<MessageEvent> MessageEvent;
 #endregion
 
+        [SerializeField]
+        private TextAsset _gameDataFile;
+
+        public TextAsset GameDataFile => _gameDataFile;
+
 #region Unity Lifecycle
         private void Start()
         {
