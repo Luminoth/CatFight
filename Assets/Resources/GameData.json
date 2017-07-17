@@ -1,0 +1,14 @@
+{
+    "weapons": [
+        {
+            "id": 0,
+            "name": "Test"
+        }
+    ],
+    "armor": [
+        {
+            "id": 0,
+            "name": "Test"
+        }
+    ]
+}
