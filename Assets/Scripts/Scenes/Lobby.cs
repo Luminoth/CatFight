@@ -1,4 +1,5 @@
 ﻿using CatFight.AirConsole;
+using CatFight.AirConsole.Messages;
 using CatFight.Util;
 
 namespace CatFight.Scenes
@@ -19,7 +20,11 @@ namespace CatFight.Scenes
 
         private void MessageEventHandler(object sender, MessageEvent evt)
         {
-            AirConsoleController.Instance.Message(evt.From, "Hello World!");
+            AirConsoleController.Instance.Message(evt.From, new DebugMessage
+                {
+                    message = $"Hello World {evt.From}"
+                }
+            );
         }
     }
 }

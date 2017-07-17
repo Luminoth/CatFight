@@ -1,5 +1,7 @@
 ﻿using System;
 
+using CatFight.AirConsole.Messages;
+
 using Newtonsoft.Json.Linq;
 
 namespace CatFight.AirConsole
@@ -8,12 +10,12 @@ namespace CatFight.AirConsole
     {
         public int From { get; }
 
-        public JToken Data { get; }
+        public Message Message { get; }
 
         public MessageEvent(int from, JToken data)
         {
             From = from;
-            Data = data;
+            Message = MessageFactory.Parse(data);
         }
     }
 }

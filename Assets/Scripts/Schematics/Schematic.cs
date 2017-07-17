@@ -18,15 +18,15 @@ namespace CatFight.Schematics
         {
             _schematicData = data;
 
-            foreach(SchematicSlotData slotData in _schematicData.slots) {
-                //Debug.Log($"Adding schematic slot {slotData.id}: {slotData.name} - {slotData.type}");
-                _slots.Add(slotData.id, SchematicSlotFactory.Create(slotData));
+            foreach(SchematicSlotData slotData in _schematicData.Slots) {
+                //Debug.Log($"Adding schematic slot {slotData.Id}: {slotData.Name} - {slotData.Type}");
+                _slots.Add(slotData.Id, SchematicSlotFactory.Create(slotData));
             }
         }
 
         public bool SetSlot(int slotId, int itemId)
         {
-            if(_filledSlotCount >= _schematicData.maxFilledSlots) {
+            if(_filledSlotCount >= _schematicData.MaxFilledSlots) {
                 return false;
             }
 

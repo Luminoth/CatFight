@@ -1,5 +1,6 @@
 using System;
 
+using CatFight.AirConsole.Messages;
 using CatFight.Data;
 using CatFight.Util;
 
@@ -66,12 +67,12 @@ namespace CatFight.AirConsole
             return true;
         }
 
-        public void Message(int to, object data)
+        public void Message(int to, Message message)
         {
-            NDream.AirConsole.AirConsole.instance.Message(to, "Hello World!");
+            NDream.AirConsole.AirConsole.instance.Message(to, message);
         }
 
-        #region Event Handlers
+#region Event Handlers
         private void OnConnect(int deviceId)
         {
             Debug.Log($"OnConnect({deviceId})");

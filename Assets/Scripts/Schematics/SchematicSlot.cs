@@ -11,7 +11,7 @@ namespace CatFight.Schematics
     {
         public static SchematicSlot Create(SchematicSlotData data)
         {
-            switch(data.type)
+            switch(data.Type)
             {
             case SchematicSlotData.SchematicSlotTypeWeapon:
                 return new WeaponSchematicSlot();

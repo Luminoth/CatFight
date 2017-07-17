@@ -11,13 +11,15 @@ namespace CatFight.Data
     [Serializable]
     public sealed class GameData : IData
     {
-        public WeaponData[] weapons = new WeaponData[0];
+        [SerializeField]
+        private WeaponData[] weapons = new WeaponData[0];
 
-        private readonly Dictionary<int, WeaponData> _weapons = new Dictionary<int, WeaponData>();
+        private readonly Dictionary<int, WeaponData> _weaponData = new Dictionary<int, WeaponData>();
 
-        public ArmorData[] armor = new ArmorData[0];
+        [SerializeField]
+        private ArmorData[] armor = new ArmorData[0];
 
-        private readonly Dictionary<int, ArmorData> _armor = new Dictionary<int, ArmorData>();
+        private readonly Dictionary<int, ArmorData> _armorData = new Dictionary<int, ArmorData>();
 
         public SchematicData schematic = new SchematicData();
 
@@ -27,12 +29,12 @@ namespace CatFight.Data
 
             foreach(WeaponData weaponData in weapons) {
                 weaponData.Process();
-                _weapons.Add(weaponData.id, weaponData);
+                _weaponData.Add(weaponData.Id, weaponData);
             }
 
             foreach(ArmorData armorData in armor) {
                 armorData.Process();
-                _armor.Add(armorData.id, armorData);
+                _armorData.Add(armorData.Id, armorData);
             }
 
             schematic.Process();

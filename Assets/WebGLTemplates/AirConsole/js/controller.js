@@ -1,15 +1,30 @@
 var airconsole;
 
+var MessageType = {};
+MessageType.None = 0;
+MessageType.Debug = 1;
+
 function App() {
 
     app = this;
+
+    var debug_log = $("#debug_log");
+
     app.airconsole = new AirConsole({"orientation": "landscape"});
 
     app.airconsole.onMessage = function(from, data) {
 
         console.log("onMessage", from, data);
 
-        $("#debug_logging").html("device " + from + " says: " + data);
+        var messageType = data.type;
+        switch(messageType) {
+            case MessageType.Debug:
+                debug_log.append("<div>" + from + ": " + data.message + "</div>");
+                break;
+            default:
+                alert("Invalid message type: " + messageType);
+                break;
+        }
     };
 
     app.airconsole.onReady = function(code) {
@@ -43,6 +58,13 @@ function App() {
             }
         });
     }
+}
+
+App.prototype.debugMessage = function(msg) {
+    app.sendMessageToScreen({
+        "type": MessageType.Debug,
+        "message": msg
+    });
 }
 
 App.prototype.sendMessageToScreen = function(msg) {

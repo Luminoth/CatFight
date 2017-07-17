@@ -1,5 +1,7 @@
 ﻿using System;
 
+using UnityEngine;
+
 namespace CatFight.Data
 {
     public interface IData
@@ -10,9 +12,15 @@ namespace CatFight.Data
     [Serializable]
     public abstract class Data : IData
     {
-        public int id;
+        [SerializeField]
+        private int id;
 
-        public string name = string.Empty;
+        public int Id => id;
+
+        [SerializeField]
+        private string name = string.Empty;
+
+        public string Name => name;
 
         public abstract void Process();
     }
