@@ -12,6 +12,11 @@ namespace CatFight.Data
     public sealed class GameData : IData
     {
         [SerializeField]
+        private int version;
+
+        public int Version => version;
+
+        [SerializeField]
         private WeaponData[] weapons = new WeaponData[0];
 
         private readonly Dictionary<int, WeaponData> _weaponData = new Dictionary<int, WeaponData>();
