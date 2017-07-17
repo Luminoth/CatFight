@@ -1,5 +1,7 @@
 ﻿using System;
 
+using JetBrains.Annotations;
+
 using Newtonsoft.Json.Linq;
 
 using UnityEngine;
@@ -39,5 +41,17 @@ namespace CatFight.AirConsole.Messages
         }
 
         public abstract MessageType type { get; }
+
+        [CanBeNull]
+        public JToken Data { get; }
+
+        protected Message(JToken data)
+        {
+            Data = data;
+        }
+
+        protected Message()
+        {
+        }
     }
 }

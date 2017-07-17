@@ -12,6 +12,7 @@ namespace CatFight.AirConsole.Messages
         public string message { get; set; } = string.Empty;
 
         public DebugMessage(JToken data)
+            : base(data)
         {
             message = (string)data["message"];
         }
