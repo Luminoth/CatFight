@@ -13,7 +13,9 @@ namespace CatFight
 
         protected override void OnDestroy()
         {
-            AirConsoleController.Instance.MessageEvent -= MessageEventHandler;
+            if(AirConsoleController.HasInstance) {
+                AirConsoleController.Instance.MessageEvent -= MessageEventHandler;
+            }
         }
 
         private void MessageEventHandler(object sender, MessageEvent evt)

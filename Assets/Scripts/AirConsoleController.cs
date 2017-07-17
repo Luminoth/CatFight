@@ -34,9 +34,11 @@ namespace CatFight
 
         protected override void OnDestroy()
         {
-            AirConsole.instance.onMessage -= OnMessage;
-            AirConsole.instance.onDisconnect -= OnDisconnect;
-            AirConsole.instance.onConnect -= OnConnect;
+            if(null != AirConsole.instance) {
+                AirConsole.instance.onMessage -= OnMessage;
+                AirConsole.instance.onDisconnect -= OnDisconnect;
+                AirConsole.instance.onConnect -= OnConnect;
+            }
         }
 #endregion
 
