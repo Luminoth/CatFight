@@ -1,9 +1,12 @@
-﻿namespace CatFight.Data
+﻿using System;
+
+namespace CatFight.Data
 {
+    [Serializable]
     public abstract class Data
     {
-        public string Id { get; private set; }
+        public string id = string.Empty;
 
-        public string Name { get; private set; }
+        public string name = string.Empty;
     }
 }

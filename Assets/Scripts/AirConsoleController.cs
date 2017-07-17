@@ -6,6 +6,7 @@ using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using CatFight.Data;
 using CatFight.Util;
 
 namespace CatFight
@@ -22,9 +23,15 @@ namespace CatFight
 
         public TextAsset GameDataFile => _gameDataFile;
 
+        private GameData _gameData;
+
 #region Unity Lifecycle
         private void Start()
         {
+            if(!LoadGameData()) {
+                return;
+            }
+
             AirConsole.instance.onConnect += OnConnect;
             AirConsole.instance.onDisconnect += OnDisconnect;
             AirConsole.instance.onMessage += OnMessage;
@@ -41,6 +48,23 @@ namespace CatFight
             }
         }
 #endregion
+
+        private bool LoadGameData()
+        {
+            Debug.Log("Loading game data...");
+            //Debug.Log(GameDataFile.text);
+
+// TODO: show an error dialog
+            _gameData = JsonUtility.FromJson<GameData>(GameDataFile.text);
+            if(null == _gameData) {
+                Debug.LogError("There was an error loading the game data!");
+                return false;
+            }
+
+            _gameData.DebugDump();
+
+            return true;
+        }
 
 #region Event Handlers
         private void OnConnect(int deviceId)
