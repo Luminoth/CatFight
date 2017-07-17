@@ -8,6 +8,8 @@
 
         public bool IsMasterPlayer { get; private set; }
 
+        public Schematic Schematic => new Schematic();
+
         public Player(int deviceId)
         {
             DeviceId = deviceId;
