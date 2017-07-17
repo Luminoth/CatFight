@@ -1,4 +1,6 @@
-﻿namespace CatFight
+﻿using CatFight.Schematics;
+
+namespace CatFight
 {
     public sealed class Player
     {

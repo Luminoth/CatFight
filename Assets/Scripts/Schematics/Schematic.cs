@@ -1,4 +1,4 @@
-﻿namespace CatFight
+﻿namespace CatFight.Schematics
 {
     public sealed class Schematic
     {
