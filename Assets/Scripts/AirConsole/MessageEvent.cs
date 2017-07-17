@@ -2,7 +2,7 @@
 
 using Newtonsoft.Json.Linq;
 
-namespace CatFight
+namespace CatFight.AirConsole
 {
     public sealed class MessageEvent : EventArgs
     {

@@ -1,8 +1,7 @@
-﻿using CatFight.Util;
+﻿using CatFight.AirConsole;
+using CatFight.Util;
 
-using NDream.AirConsole;
-
-namespace CatFight
+namespace CatFight.Scenes
 {
     public sealed class Lobby : SingletonBehavior<Lobby>
     {
@@ -20,7 +19,7 @@ namespace CatFight
 
         private void MessageEventHandler(object sender, MessageEvent evt)
         {
-            AirConsole.instance.Message(evt.From, "Hello World!");
+            AirConsoleController.Instance.Message(evt.From, "Hello World!");
         }
     }
 }

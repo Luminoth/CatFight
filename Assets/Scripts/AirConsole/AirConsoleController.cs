@@ -3,15 +3,14 @@ using System;
 using CatFight.Data;
 using CatFight.Util;
 
-using NDream.AirConsole;
 using Newtonsoft.Json.Linq;
 
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace CatFight
+namespace CatFight.AirConsole
 {
-    [RequireComponent(typeof(AirConsole))]
+    [RequireComponent(typeof(NDream.AirConsole.AirConsole))]
     public sealed class AirConsoleController : SingletonBehavior<AirConsoleController>
     {
 #region Events
@@ -32,19 +31,19 @@ namespace CatFight
                 return;
             }
 
-            AirConsole.instance.onConnect += OnConnect;
-            AirConsole.instance.onDisconnect += OnDisconnect;
-            AirConsole.instance.onMessage += OnMessage;
+            NDream.AirConsole.AirConsole.instance.onConnect += OnConnect;
+            NDream.AirConsole.AirConsole.instance.onDisconnect += OnDisconnect;
+            NDream.AirConsole.AirConsole.instance.onMessage += OnMessage;
 
             SceneManager.LoadSceneAsync("lobby", LoadSceneMode.Additive);
         }
 
         protected override void OnDestroy()
         {
-            if(null != AirConsole.instance) {
-                AirConsole.instance.onMessage -= OnMessage;
-                AirConsole.instance.onDisconnect -= OnDisconnect;
-                AirConsole.instance.onConnect -= OnConnect;
+            if(null != NDream.AirConsole.AirConsole.instance) {
+                NDream.AirConsole.AirConsole.instance.onMessage -= OnMessage;
+                NDream.AirConsole.AirConsole.instance.onDisconnect -= OnDisconnect;
+                NDream.AirConsole.AirConsole.instance.onConnect -= OnConnect;
             }
         }
 #endregion
@@ -67,7 +66,12 @@ namespace CatFight
             return true;
         }
 
-#region Event Handlers
+        public void Message(int to, object data)
+        {
+            NDream.AirConsole.AirConsole.instance.Message(to, "Hello World!");
+        }
+
+        #region Event Handlers
         private void OnConnect(int deviceId)
         {
             Debug.Log($"OnConnect({deviceId})");
