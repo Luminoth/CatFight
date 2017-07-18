@@ -59,7 +59,6 @@ namespace CatFight.Lobby
                 return;
             }
 
-            // TODO: lobby is full!
         }
 
         private void ReconnectPlayer(int deviceId)
