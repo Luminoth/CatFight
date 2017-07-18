@@ -16,9 +16,12 @@ namespace CatFight
 
         private Player _masterPlayer;
 
-        public void ConnectPlayer(int deviceId)
+        public void ConnectPlayer(int deviceId, out bool isReconnect)
         {
+            isReconnect = false;
+
             if(ReconnectPlayer(deviceId)) {
+                isReconnect = true;
                 return;
             }
 

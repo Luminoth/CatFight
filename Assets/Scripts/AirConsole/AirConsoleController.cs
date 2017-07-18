@@ -15,7 +15,9 @@ namespace CatFight.AirConsole
     public sealed class AirConsoleController : SingletonBehavior<AirConsoleController>
     {
 #region Events
-        public event EventHandler<MessageEvent> MessageEvent;
+        public event EventHandler<ConnectEventArgs> ConnectEvent;
+        public event EventHandler<DisconnectEventArgs> DisconnectEvent;
+        public event EventHandler<MessageEventArgs> MessageEvent;
 #endregion
 
         [SerializeField]
@@ -77,7 +79,10 @@ namespace CatFight.AirConsole
         {
             Debug.Log($"OnConnect({deviceId})");
 
-            PlayerManager.Instance.ConnectPlayer(deviceId);
+            bool isReconnect;
+            PlayerManager.Instance.ConnectPlayer(deviceId, out isReconnect);
+
+            ConnectEvent?.Invoke(this, new ConnectEventArgs(deviceId, isReconnect));
         }
 
         private void OnDisconnect(int deviceId)
@@ -85,13 +90,15 @@ namespace CatFight.AirConsole
             Debug.Log($"OnDisconnect({deviceId})");
 
             PlayerManager.Instance.DisconnectPlayer(deviceId);
+
+            DisconnectEvent?.Invoke(this, new DisconnectEventArgs(deviceId));
         }
 
         private void OnMessage(int from, JToken data)
         {
             Debug.Log($"OnMessage({from}: {data})");
 
-            MessageEvent?.Invoke(this, new MessageEvent(from, data));
+            MessageEvent?.Invoke(this, new MessageEventArgs(from, data));
         }
 #endregion
     }

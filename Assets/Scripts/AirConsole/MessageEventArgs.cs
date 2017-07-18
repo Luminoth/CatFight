@@ -6,13 +6,13 @@ using Newtonsoft.Json.Linq;
 
 namespace CatFight.AirConsole
 {
-    public sealed class MessageEvent : EventArgs
+    public sealed class MessageEventArgs : EventArgs
     {
         public int From { get; }
 
         public Message Message { get; }
 
-        public MessageEvent(int from, JToken data)
+        public MessageEventArgs(int from, JToken data)
         {
             From = from;
             Message = MessageFactory.Parse(data);
