@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cat Fight Controller</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="/controls/button/button.css">
     <link rel="stylesheet" type="text/css" href="styles/controller.css">
     
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -22,7 +23,9 @@
     </div>
     <div id="welcome" style="display: none;">
         <div id="welcome_controls">
-            <button type="button" class="btn btn-lg btn-primary" ontouchstart="window.app.debugMessage('Hello World!')">Hello World!</button>
+            <div id="button-debug" class="button-300-150">
+                <div class="button-text">Hello World!</div>
+            </div>
         </div>
     </div>
     <div id="debug_log"></div>
@@ -30,6 +33,7 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="https://www.airconsole.com/api/airconsole-1.7.0.js"></script>
-<script type="text/javascript" src="js/controller.js"></script>
+<script type="text/javascript" src="/controls/button/button.js"></script>
+<script type="text/javascript" src="/js/controller.js"></script>
 </body>
 </html>

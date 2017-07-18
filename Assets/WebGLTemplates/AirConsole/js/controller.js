@@ -59,29 +59,12 @@ function App() {
         $("#welcome").show();
     }
 
-    /** 
-     * Here we are adding support for mouse events manually. 
-     * WE STRONGLY ENCOURAGE YOU TO USE THE AIRCONSOLE CONTROLS LIBRARY 
-     * WHICH IS EVEN BETTER (BUT WE DONT WANT TO BLOAT THE CODE HERE). 
-     * https://github.com/AirConsole/airconsole-controls/ 
-     *  
-     * NO MATTER WHAT YOU DECIDE, DO NOT USE ONCLICK HANDLERS. 
-     * THEY HAVE A 200MS DELAY! 
-     */ 
-    if(!("ontouchstart" in document.createElement("div"))) {
-
-        var elements = $("*").each(function() {
-            var ontouchstart = $(this).attr("ontouchstart");
-            if(ontouchstart) {
-                $(this).attr("onmousedown", ontouchstart);
-            } 
-
-            var ontouchend = $(this).attr("ontouchend");
-            if (ontouchend) { 
-                $(this).attr("onmouseup", ontouchend);
-            }
-        });
-    }
+    // control hookups
+    var buttonDebug = new Button("button-debug", {
+        "down": function() {
+            app.debugMessage("Hello World!");
+        }
+    });
 }
 
 App.prototype.debugMessage = function(msg) {
