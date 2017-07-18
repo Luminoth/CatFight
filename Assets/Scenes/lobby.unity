@@ -632,7 +632,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxPlayers: 10
-  _lobby: {fileID: 0}
 --- !u!1 &457340527
 GameObject:
   m_ObjectHideFlags: 0
@@ -666,6 +665,7 @@ MonoBehaviour:
   - {fileID: 405214244}
   - {fileID: 1044446633}
   - {fileID: 1773014474}
+  _playerCountText: {fileID: 1025328274}
 --- !u!4 &457340529
 Transform:
   m_ObjectHideFlags: 0
@@ -859,7 +859,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxPlayers: 10
-  _lobby: {fileID: 0}
 --- !u!1 &1617425884
 GameObject:
   m_ObjectHideFlags: 0
@@ -1462,7 +1461,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxPlayers: 10
-  _lobby: {fileID: 0}
 --- !u!1 &1927907375
 GameObject:
   m_ObjectHideFlags: 0

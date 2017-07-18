@@ -5,6 +5,7 @@ using CatFight.AirConsole.Messages;
 using CatFight.Util;
 
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace CatFight.Lobby
 {
@@ -21,9 +22,14 @@ namespace CatFight.Lobby
         // deviceId => playerList
         private readonly Dictionary<int, LobbyPlayerList> _playerListMapping = new Dictionary<int, LobbyPlayerList>();
 
+        [SerializeField]
+        private Text _playerCountText;
+
 #region Unity Lifecycle
         private void Start()
         {
+            _playerCountText.text = "0";
+
             AirConsoleController.Instance.ConnectEvent += ConnectEventHandler;
             AirConsoleController.Instance.DisconnectEvent += DisconnectEventHandler;
             AirConsoleController.Instance.MessageEvent += MessageEventHandler;
@@ -56,9 +62,14 @@ namespace CatFight.Lobby
                 }
 
                 playerList.AddPlayer(deviceId);
+                _playerListMapping.Add(deviceId, playerList);
+                _playerCountText.text = _playerListMapping.Count.ToString();
+
                 return;
             }
 
+// TODO: lobby is full, need to send a message to the controller
+// and remove them from the player manager
         }
 
         private void ReconnectPlayer(int deviceId)
