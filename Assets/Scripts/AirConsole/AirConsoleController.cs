@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 
 using CatFight.AirConsole.Messages;
 using CatFight.Data;
@@ -7,6 +8,7 @@ using CatFight.Util;
 using Newtonsoft.Json.Linq;
 
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
 namespace CatFight.AirConsole
@@ -27,6 +29,11 @@ namespace CatFight.AirConsole
 
         public GameData GameData { get; private set; }
 
+        [SerializeField]
+        private string _lobbySceneName = "lobby";
+
+        private Action _showAdCallback;
+
 #region Unity Lifecycle
         private void Start()
         {
@@ -34,19 +41,23 @@ namespace CatFight.AirConsole
                 return;
             }
 
+            NDream.AirConsole.AirConsole.instance.onReady += OnReady;
             NDream.AirConsole.AirConsole.instance.onConnect += OnConnect;
             NDream.AirConsole.AirConsole.instance.onDisconnect += OnDisconnect;
             NDream.AirConsole.AirConsole.instance.onMessage += OnMessage;
+            NDream.AirConsole.AirConsole.instance.onAdComplete += OnAdComplete;
 
-            SceneManager.LoadSceneAsync("lobby", LoadSceneMode.Additive);
+            SceneManager.LoadSceneAsync(_lobbySceneName, LoadSceneMode.Additive);
         }
 
         protected override void OnDestroy()
         {
             if(null != NDream.AirConsole.AirConsole.instance) {
+                NDream.AirConsole.AirConsole.instance.onAdComplete -= OnAdComplete;
                 NDream.AirConsole.AirConsole.instance.onMessage -= OnMessage;
                 NDream.AirConsole.AirConsole.instance.onDisconnect -= OnDisconnect;
                 NDream.AirConsole.AirConsole.instance.onConnect -= OnConnect;
+                NDream.AirConsole.AirConsole.instance.onReady -= OnReady;
             }
         }
 #endregion
@@ -69,12 +80,51 @@ namespace CatFight.AirConsole
             return true;
         }
 
+        public string GetNickname(int deviceId)
+        {
+            return NDream.AirConsole.AirConsole.instance.GetNickname(deviceId);
+        }
+
+        public void GetProfilePicture(int deviceId, Action<Texture2D> callback)
+        {
+            string profilePictureUrl = NDream.AirConsole.AirConsole.instance.GetProfilePicture(deviceId);
+            StartCoroutine(DownloadProfilePicture(profilePictureUrl, callback));
+        }
+
         public void Message(int to, Message message)
         {
             NDream.AirConsole.AirConsole.instance.Message(to, message);
         }
 
+        public void Broadcast(Message message)
+        {
+            NDream.AirConsole.AirConsole.instance.Broadcast(message);
+        }
+
+        public void ShowAd(Action callback)
+        {
+            NDream.AirConsole.AirConsole.instance.ShowAd();
+            _showAdCallback += callback;
+        }
+
+        private IEnumerator DownloadProfilePicture(string profilePictureUrl, Action<Texture2D> callback)
+        {
+            UnityWebRequest request = UnityWebRequestTexture.GetTexture(profilePictureUrl);
+            yield return request.Send();
+
+            if(request.isHttpError || request.isNetworkError) {
+                yield break;
+            }
+
+            callback(((DownloadHandlerTexture)request.downloadHandler).texture);
+        }
+
 #region Event Handlers
+        private void OnReady(string code)
+        {
+            Debug.Log($"OnReady({code})");
+        }
+
         private void OnConnect(int deviceId)
         {
             Debug.Log($"OnConnect({deviceId})");
@@ -99,6 +149,14 @@ namespace CatFight.AirConsole
             Debug.Log($"OnMessage({from}: {data})");
 
             MessageEvent?.Invoke(this, new MessageEventArgs(from, data));
+        }
+
+        private void OnAdComplete(bool adWasShown)
+        {
+            Debug.Log($"OnAdComplete({adWasShown})");
+
+            _showAdCallback?.Invoke();
+            _showAdCallback = null;
         }
 #endregion
     }

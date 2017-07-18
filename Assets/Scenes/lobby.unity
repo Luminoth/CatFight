@@ -1154,7 +1154,7 @@ GameObject:
   - component: {fileID: 1717126780}
   - component: {fileID: 1717126779}
   m_Layer: 5
-  m_Name: PlayerCountPanel (1)
+  m_Name: TimePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
