@@ -26,7 +26,9 @@ namespace CatFight.Lobby
 
             LobbyPlayer lobbyPlayer = Instantiate(Lobby.Instance.LobbyPlayerPrefab, transform);
             lobbyPlayer.Name = AirConsoleController.Instance.GetNickname(deviceId);
-// TODO: load the player's profile picture
+            AirConsoleController.Instance.GetProfilePicture(deviceId, profileImage => {
+                lobbyPlayer.ProfileImage = profileImage;
+            });
             lobbyPlayer.SetConnected(true);
 
             _players.Add(deviceId, lobbyPlayer);
