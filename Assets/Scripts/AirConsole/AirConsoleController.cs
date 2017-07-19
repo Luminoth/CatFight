@@ -103,6 +103,7 @@ namespace CatFight.AirConsole
 
         public void SetMasterPlayer(int deviceId)
         {
+            Debug.Log($"Promoting player {deviceId} to master player!");
             SetCustomDeviceStateProperty(DeviceStateMasterPlayerKey, deviceId);
         }
 

@@ -87,7 +87,6 @@ namespace CatFight
 
             _masterPlayer?.SetMasterPlayer(false);
 
-            Debug.Log($"Promoting player {player.DeviceId} to master player!");
             _masterPlayer = player;
             player.SetMasterPlayer(true);
         }
