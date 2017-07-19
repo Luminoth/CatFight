@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 
-using CatFight.AirConsole;
 using CatFight.Util;
 
 using UnityEngine;
@@ -25,10 +24,7 @@ namespace CatFight.Lobby
             }
 
             LobbyPlayer lobbyPlayer = Instantiate(Lobby.Instance.LobbyPlayerPrefab, transform);
-            lobbyPlayer.Name = AirConsoleManager.Instance.GetNickname(deviceId);
-            AirConsoleManager.Instance.GetProfilePicture(deviceId, profileImage => {
-                lobbyPlayer.ProfileImage = profileImage;
-            });
+            lobbyPlayer.Initialize(PlayerManager.Instance.Players[deviceId]);
             lobbyPlayer.SetConnected(true);
 
             _players.Add(deviceId, lobbyPlayer);

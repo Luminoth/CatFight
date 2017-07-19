@@ -10,13 +10,17 @@ namespace CatFight
 {
     public sealed class PlayerManager : SingletonBehavior<PlayerManager>
     {
-        private readonly HashSet<int> _players = new HashSet<int>();
+        private readonly Dictionary<int, Player> _players = new Dictionary<int, Player>();
 
-        public IReadOnlyCollection<int> Players => _players;
+        public IReadOnlyDictionary<int, Player> Players => _players;
 
         private readonly Dictionary<int, Player> _connectedPlayers = new Dictionary<int, Player>();
 
         private readonly Dictionary<int, Player> _disconnectedPlayers = new Dictionary<int, Player>();
+
+        private readonly List<Player> _teamA = new List<Player>();
+
+        private readonly List<Player> _teamB = new List<Player>();
 
         private Player _masterPlayer;
 
@@ -33,9 +37,11 @@ namespace CatFight
             {
                 IsConnected = true
             };
-            _connectedPlayers.Add(deviceId, player);
-            _players.Add(deviceId);
+            _players.Add(deviceId, player);
 
+            _connectedPlayers.Add(deviceId, player);
+
+            SetPlayerTeam(player);
             SetMasterPlayer(player);
         }
 
@@ -97,6 +103,17 @@ namespace CatFight
                 }
             }
             return true;
+        }
+
+        private void SetPlayerTeam(Player player)
+        {
+            if(_teamA.Count <= _teamB.Count) {
+                player.Team.Id = PlayerTeam.TeamIds.TeamA;
+                _teamA.Add(player);
+            } else {
+                player.Team.Id = PlayerTeam.TeamIds.TeamB;
+                _teamB.Add(player);
+            }
         }
 
         private void SetMasterPlayer(Player player, bool force=false)

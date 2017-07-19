@@ -1,4 +1,5 @@
-﻿using CatFight.Util;
+﻿using CatFight.AirConsole;
+using CatFight.Util;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,20 +21,29 @@ namespace CatFight.Lobby
         private Text _name;
 
         [SerializeField]
+        private Text _team;
+
+        [SerializeField]
         [ReadOnly]
         private Texture _defaultProfileImage;
 
         [SerializeField]
         private RawImage _profileImage;
 
+        public Player Player { get; private set; }
+
         public string Name
         {
             get { return _name.text; }
 
-            set
-            {
-                _name.text = value;
-            }
+            private set { _name.text = value; }
+        }
+
+        public string Team
+        {
+            get { return _team.text; }
+
+            set { _team.text = value; }
         }
 
         public Texture ProfileImage
@@ -48,9 +58,22 @@ namespace CatFight.Lobby
             }
         }
 
+#region Unity Lifecycle
         private void Awake()
         {
             _defaultProfileImage = _profileImage?.texture;
+        }
+#endregion
+
+        public void Initialize(Player player)
+        {
+            Player = player;
+
+            Name = AirConsoleManager.Instance.GetNickname(Player.DeviceId);
+            Team = Player.Team.ToString();
+            AirConsoleManager.Instance.GetProfilePicture(Player.DeviceId, profileImage => {
+                ProfileImage = profileImage;
+            });
         }
 
         public void SetConnected(bool isConnected)

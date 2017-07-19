@@ -58,8 +58,8 @@ namespace CatFight.Lobby
 
         private void AddExistingPlayers()
         {
-            foreach(int deviceId in PlayerManager.Instance.Players) {
-                AddPlayer(deviceId);
+            foreach(var kvp in PlayerManager.Instance.Players) {
+                AddPlayer(kvp.Key);
             }
         }
 

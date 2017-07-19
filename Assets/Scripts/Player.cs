@@ -12,11 +12,14 @@ namespace CatFight
 
         public bool IsMasterPlayer { get; private set; }
 
+        public PlayerTeam Team { get; }
+
         public Schematic Schematic { get; }
 
         public Player(int deviceId, SchematicData schematicData)
         {
             DeviceId = deviceId;
+            Team = new PlayerTeam(this);
             Schematic = new Schematic(schematicData);
         }
 
