@@ -11,7 +11,12 @@ namespace CatFight
     {
         public static PlayerManager Instance { get; } = new PlayerManager();
 
+        private readonly HashSet<int> _players = new HashSet<int>();
+
+        public IReadOnlyCollection<int> Players => _players;
+
         private readonly Dictionary<int, Player> _connectedPlayers = new Dictionary<int, Player>();
+
         private readonly Dictionary<int, Player> _disconnectedPlayers = new Dictionary<int, Player>();
 
         private Player _masterPlayer;
@@ -30,6 +35,7 @@ namespace CatFight
                 IsConnected = true
             };
             _connectedPlayers.Add(deviceId, player);
+            _players.Add(deviceId);
 
             SetMasterPlayer(player);
         }
@@ -60,7 +66,7 @@ namespace CatFight
         {
             Player player;
             if(!_connectedPlayers.TryGetValue(deviceId, out player)) {
-                Debug.LogError($"Disconnecting unknown player {deviceId}!");
+                Debug.LogError($"Disconnecting unknown player {deviceId} (already disconnected: {_disconnectedPlayers.ContainsKey(deviceId)})!");
                 return;
             }
 
@@ -81,6 +87,7 @@ namespace CatFight
 
             _masterPlayer?.SetMasterPlayer(false);
 
+            Debug.Log($"Promoting player {player.DeviceId} to master player!");
             _masterPlayer = player;
             player.SetMasterPlayer(true);
         }

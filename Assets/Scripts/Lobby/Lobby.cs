@@ -33,6 +33,8 @@ namespace CatFight.Lobby
             AirConsoleController.Instance.ConnectEvent += ConnectEventHandler;
             AirConsoleController.Instance.DisconnectEvent += DisconnectEventHandler;
             AirConsoleController.Instance.MessageEvent += MessageEventHandler;
+
+            AddExistingPlayers();
         }
 
         protected override void OnDestroy()
@@ -52,6 +54,13 @@ namespace CatFight.Lobby
                 isFull = isFull || playerList.IsFull;
             }
             return isFull;
+        }
+
+        private void AddExistingPlayers()
+        {
+            foreach(int deviceId in PlayerManager.Instance.Players) {
+                AddPlayer(deviceId);
+            }
         }
 
         private void AddPlayer(int deviceId)
