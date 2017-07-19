@@ -15,6 +15,7 @@ function loadJSON(filename, callback) {
 var MessageType = {};
 MessageType.None = 0;
 MessageType.StartGame = 1;
+MessageType.ConfirmStaging = 2;
 
 var airconsole;
 var viewManager;
@@ -65,9 +66,15 @@ function App() {
     };
 
     // control hookups 
-    var buttonDebug = new Button("button-start", { 
+    var buttonStart = new Button("button-start", { 
         "down": function() {
             app.startGame(); 
+        } 
+    });
+
+    var buttonConfirm = new Button("button-confirm", { 
+        "down": function() {
+            app.confirmStaging(); 
         } 
     });
 }
@@ -96,6 +103,14 @@ App.prototype.startGame = function(msg) {
     app.debugLog("Starting game...");
     app.sendMessageToScreen({ 
         "type": MessageType.StartGame
+    });
+}
+
+App.prototype.confirmStaging = function(msg) {
+
+    app.debugLog("Confirming staging...");
+    app.sendMessageToScreen({
+        "type": MessageType.ConfirmStaging
     });
 }
 

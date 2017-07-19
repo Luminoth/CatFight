@@ -38,6 +38,7 @@ namespace CatFight.AirConsole.Messages
         {
             None = 0,
             StartGame,
+            ConfirmStaging,
         }
 
         public abstract MessageType type { get; }
