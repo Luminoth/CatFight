@@ -9,12 +9,12 @@ namespace CatFight.Scenes
 #region Unity Lifecycle
         private void Start()
         {
-            AirConsoleController.Instance.MessageEvent += MessageEventHandler;
+            AirConsoleManager.Instance.MessageEvent += MessageEventHandler;
         }
 
         protected override void OnDestroy()
         {
-            AirConsoleController.Instance.MessageEvent -= MessageEventHandler;
+            AirConsoleManager.Instance.MessageEvent -= MessageEventHandler;
         }
 #endregion
 

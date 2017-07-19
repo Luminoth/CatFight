@@ -22,26 +22,26 @@ namespace CatFight.Editor
 		}
 
         [PostProcessBuild]
-        public static void CopyControllerResources(BuildTarget target, string pathToBuiltProject)
+        public static void CopyAirConsoleResources(BuildTarget target, string pathToBuiltProject)
         {
-            CopyControllerResources();
+            CopyAirConsoleResources();
         }
 
-        private static void CopyControllerResources()
+        private static void CopyAirConsoleResources()
         {
-            AirConsoleController controller = Object.FindObjectOfType<AirConsoleController>();
-            if(null == controller) {
-                Debug.LogError("Missing AirConsole controller!");
+            AirConsoleManager airConsoleManager = Object.FindObjectOfType<AirConsoleManager>();
+            if(null == airConsoleManager) {
+                Debug.LogError("Missing AirConsoleManager!");
                 return;
             }
 
-            Debug.Log("Copying controller resources...");
-            CopyGameData(controller);
+            Debug.Log("Copying AirConsole resources...");
+            CopyGameData(airConsoleManager);
         }
 
-        private static void CopyGameData(AirConsoleController controller)
+        private static void CopyGameData(AirConsoleManager airConsoleManager)
         {
-            string src = Path.Combine(Directory.GetCurrentDirectory(), AssetDatabase.GetAssetPath(controller.GameDataFile));
+            string src = Path.Combine(Directory.GetCurrentDirectory(), AssetDatabase.GetAssetPath(airConsoleManager.GameDataFile));
             string dest = Path.Combine(Directory.GetCurrentDirectory(), "Assets" + Settings.WEBTEMPLATE_PATH + "/data/GameData.json");
 
             Debug.Log($"Copying game data from {src} to {dest}...");
@@ -54,10 +54,10 @@ namespace CatFight.Editor
             // do things either when starting to play or finishing play
             if(!_isPlaying && EditorApplication.isPlayingOrWillChangePlaymode) {
                 _isPlaying = true;
-                CopyControllerResources();
+                CopyAirConsoleResources();
             } else if(_isPlaying && !EditorApplication.isPaused) {
                 _isPlaying = false;
-                CopyControllerResources();
+                CopyAirConsoleResources();
             }
         }
 #endregion

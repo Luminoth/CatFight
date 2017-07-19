@@ -29,12 +29,12 @@ namespace CatFight
 #region Unity Lifecycle
         private void Awake()
         {
-            AirConsoleController.Instance.ReadyEvent += ReadyEventHandler;
+            AirConsoleManager.Instance.ReadyEvent += ReadyEventHandler;
         }
 
         protected override void OnDestroy()
         {
-            AirConsoleController.Instance.ReadyEvent -= ReadyEventHandler;
+            AirConsoleManager.Instance.ReadyEvent -= ReadyEventHandler;
         }
 #endregion
 
@@ -43,7 +43,7 @@ namespace CatFight
             UnloadScenes();
 
             StartCoroutine(LoadSceneRoutine(_lobbySceneName, () => {
-                AirConsoleController.Instance.SetView(AirConsoleController.ViewLobby);
+                AirConsoleManager.Instance.SetView(AirConsoleManager.ViewLobby);
 
                 callback?.Invoke();
             }));
@@ -54,7 +54,7 @@ namespace CatFight
             UnloadScenes();
 
             StartCoroutine(LoadSceneRoutine(_stagingSceneName, () => {
-                AirConsoleController.Instance.SetView(AirConsoleController.ViewStaging);
+                AirConsoleManager.Instance.SetView(AirConsoleManager.ViewStaging);
 
                 callback?.Invoke();
             }));
@@ -65,7 +65,7 @@ namespace CatFight
             UnloadScenes();
 
             StartCoroutine(LoadSceneRoutine(_arenaSceneName, () => {
-                AirConsoleController.Instance.SetView(AirConsoleController.ViewArena);
+                AirConsoleManager.Instance.SetView(AirConsoleManager.ViewArena);
 
                 callback?.Invoke();
             }));

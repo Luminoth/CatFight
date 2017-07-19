@@ -25,7 +25,7 @@ namespace CatFight
             IsMasterPlayer = isMasterPlayer;
 
             if(IsMasterPlayer) {
-                AirConsoleController.Instance.SetMasterPlayer(DeviceId);
+                AirConsoleManager.Instance.SetMasterPlayer(DeviceId);
             }
         }
     }

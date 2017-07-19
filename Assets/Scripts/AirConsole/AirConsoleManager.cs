@@ -14,7 +14,7 @@ namespace CatFight.AirConsole
 {
 // TODO: rename AirConsoleManager
     [RequireComponent(typeof(NDream.AirConsole.AirConsole))]
-    public sealed class AirConsoleController : SingletonBehavior<AirConsoleController>
+    public sealed class AirConsoleManager : SingletonBehavior<AirConsoleManager>
     {
 #region Events
         public event EventHandler<ReadyEventArgs> ReadyEvent;

@@ -30,19 +30,19 @@ namespace CatFight.Lobby
         {
             _playerCountText.text = "0";
 
-            AirConsoleController.Instance.ConnectEvent += ConnectEventHandler;
-            AirConsoleController.Instance.DisconnectEvent += DisconnectEventHandler;
-            AirConsoleController.Instance.MessageEvent += MessageEventHandler;
+            AirConsoleManager.Instance.ConnectEvent += ConnectEventHandler;
+            AirConsoleManager.Instance.DisconnectEvent += DisconnectEventHandler;
+            AirConsoleManager.Instance.MessageEvent += MessageEventHandler;
 
             AddExistingPlayers();
         }
 
         protected override void OnDestroy()
         {
-            if(AirConsoleController.HasInstance) {
-                AirConsoleController.Instance.MessageEvent -= MessageEventHandler;
-                AirConsoleController.Instance.DisconnectEvent -= DisconnectEventHandler;
-                AirConsoleController.Instance.ConnectEvent -= ConnectEventHandler;
+            if(AirConsoleManager.HasInstance) {
+                AirConsoleManager.Instance.MessageEvent -= MessageEventHandler;
+                AirConsoleManager.Instance.DisconnectEvent -= DisconnectEventHandler;
+                AirConsoleManager.Instance.ConnectEvent -= ConnectEventHandler;
             }
         }
 #endregion
