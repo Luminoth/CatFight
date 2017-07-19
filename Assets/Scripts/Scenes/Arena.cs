@@ -38,6 +38,8 @@ namespace CatFight.Scenes
             }));
         }
 
+// TODO: these shouldn't be in coroutines, just do them in Update() and track the state
+
         private IEnumerator Countdown(Action callback)
         {
             DateTime start = DateTime.Now;
