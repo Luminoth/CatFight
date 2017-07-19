@@ -9,7 +9,7 @@ namespace CatFight
 {
     public sealed class PlayerManager
     {
-        public static PlayerManager Instance => new PlayerManager();
+        public static PlayerManager Instance { get; } = new PlayerManager();
 
         private readonly Dictionary<int, Player> _connectedPlayers = new Dictionary<int, Player>();
         private readonly Dictionary<int, Player> _disconnectedPlayers = new Dictionary<int, Player>();
