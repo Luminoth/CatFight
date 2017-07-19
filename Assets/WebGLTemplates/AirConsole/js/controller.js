@@ -12,72 +12,99 @@ function loadJSON(filename, callback) {
     xobj.send();
 }
 
-var airconsole;
-
 var MessageType = {};
 MessageType.None = 0;
-MessageType.Debug = 1;
+MessageType.StartGame = 1;
+
+var airconsole;
+var viewManager;
+
+var isMasterPlayer = false;
 
 function App() {
 
     app = this;
 
-    // controls
-    var debug_log = $("#debug_log");
-
-    // load game data
-    console.log("Requesting game data...");
-    var gameData = {};
-    loadJSON("/data/GameData.json", function(response) {
-        gameData = response;
-        console.log("Received game data version " + gameData.version);
-    });
-
     // init AirConsole
     app.airconsole = new AirConsole({"orientation": "landscape"});
 
+    app.airconsole.onReady = function(code) {
+
+        app.debugLog("onReady", code);
+
+        app.viewManager = new AirConsoleViewManager(app.airconsole);
+
+        // load game data
+        app.debugLog("Requesting game data...");
+        var gameData = {};
+        loadJSON("/data/GameData.json", function(response) {
+            gameData = response;
+            app.debugLog("Received game data version " + gameData.version);
+        });
+    }
+
     app.airconsole.onMessage = function(from, data) {
 
-        console.log("onMessage", from, data);
+        app.debugLog("onMessage", from, data);
 
         var messageType = data.type;
         switch(messageType) {
-            case MessageType.Debug:
-                debug_log.append("<div>" + from + ": " + data.message + "</div>");
-                break;
             default:
                 alert("Invalid message type: " + messageType);
                 break;
         }
     };
 
-    app.airconsole.onReady = function(code) {
+    app.airconsole.onCustomDeviceStateChange = function(deviceId, data) {
+        app.debugLog("onCustomDeviceStateChange", deviceId, data);
+        app.checkForMasterPlayer(data);
 
-        console.log("onReady", code);
+        app.viewManager.onViewChange(data, function(viewId) {
+            app.debugLog("onViewChange", viewId);
+        });
+    };
 
-        $("#loading").hide();
-        $("#welcome").show();
-    }
-
-    // control hookups
-    var buttonDebug = new Button("button-debug", {
+    // control hookups 
+    var buttonDebug = new Button("button-start", { 
         "down": function() {
-            app.debugMessage("Hello World!");
-        }
+            app.startGame(); 
+        } 
     });
 }
 
-App.prototype.debugMessage = function(msg) {
-    app.sendMessageToScreen({
-        "type": MessageType.Debug,
-        "message": msg
+App.prototype.debugLog = function() {
+
+    var args = Array.from(arguments);
+    args.unshift(app.airconsole.getDeviceId());
+    return window.console && console.log && Function.apply.call(console.log, console, args);
+}
+
+App.prototype.checkForMasterPlayer = function(data) {
+
+    if(!data.masterPlayer) {
+        return;
+    }
+
+    app.isMasterPlayer = data.masterPlayer === app.airconsole.getDeviceId();
+    if(app.isMasterPlayer && data.ctrl_view && data.ctrl_view == "lobby") {
+        data.ctrl_view = "lobby-master";
+    }
+}
+
+App.prototype.startGame = function(msg) { 
+
+    app.debugLog("Starting game...");
+    app.sendMessageToScreen({ 
+        "type": MessageType.StartGame
     });
 }
 
 App.prototype.sendMessageToScreen = function(msg) {
-    this.airconsole.message(AirConsole.SCREEN, msg);
+
+    app.airconsole.message(AirConsole.SCREEN, msg);
 }
 
 App.prototype.broadcastMessage = function(msg) {
-    this.airconsole.broadcast(msg);
+
+    app.airconsole.broadcast(msg);
 }

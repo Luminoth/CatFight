@@ -18,17 +18,26 @@
 </head>
 <body onload="window.app=new App()">
 <div class="container">
-    <div id="loading">
+    <div id="loading" class="view default-view">
         Game is loading!
     </div>
-    <div id="welcome" style="display: none;">
-        <div id="welcome_controls">
-            <div id="button-debug" class="button-300-150">
-                <div class="button-text">Hello World!</div>
-            </div>
+    <div id="lobby" class="view">
+        Welcome to the lobby!
+    </div>
+    <div id="lobby-master" class="view">
+        <div>
+            Welcome to the lobby!
+        </div>
+        <div id="button-start" class="button-300-150">
+            <div class="button-text">Start</div>
         </div>
     </div>
-    <div id="debug_log"></div>
+    <div id="staging" class="view">
+        Welcome to staging!
+    </div>
+    <div id="arena" class="view">
+        Welcome to arena!
+    </div>
 </div>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

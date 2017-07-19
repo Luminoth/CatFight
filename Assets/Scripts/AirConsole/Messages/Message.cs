@@ -18,8 +18,8 @@ namespace CatFight.AirConsole.Messages
 
                 switch(messageType)
                 {
-                case Message.MessageType.Debug:
-                    return new DebugMessage(data);
+                case Message.MessageType.StartGame:
+                    return new StartGameMessage(data);
                 default:
                     Debug.LogError($"Unsupported message type: {messageType}");
                     return null;
@@ -36,8 +36,8 @@ namespace CatFight.AirConsole.Messages
     {
         public enum MessageType
         {
-            None,
-            Debug,
+            None = 0,
+            StartGame,
         }
 
         public abstract MessageType type { get; }

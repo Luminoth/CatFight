@@ -1,4 +1,5 @@
-﻿using CatFight.Data;
+﻿using CatFight.AirConsole;
+using CatFight.Data;
 using CatFight.Schematics;
 
 namespace CatFight
@@ -23,7 +24,7 @@ namespace CatFight
         {
             IsMasterPlayer = isMasterPlayer;
 
-            // TODO: notify the device
+            AirConsoleController.Instance.SetMasterPlayer(DeviceId);
         }
     }
 }

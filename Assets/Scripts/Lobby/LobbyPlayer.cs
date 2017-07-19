@@ -14,6 +14,9 @@ namespace CatFight.Lobby
         private GameObject _disconnectedState;
 
         [SerializeField]
+        private GameObject _masterPlayerState;
+
+        [SerializeField]
         private Text _name;
 
         [SerializeField]

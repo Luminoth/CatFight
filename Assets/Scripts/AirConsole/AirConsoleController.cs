@@ -9,19 +9,30 @@ using Newtonsoft.Json.Linq;
 
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.SceneManagement;
 
 namespace CatFight.AirConsole
 {
+// TODO: rename AirConsoleManager
     [RequireComponent(typeof(NDream.AirConsole.AirConsole))]
     public sealed class AirConsoleController : SingletonBehavior<AirConsoleController>
     {
 #region Events
+        public event EventHandler<ReadyEventArgs> ReadyEvent;
         public event EventHandler<ConnectEventArgs> ConnectEvent;
         public event EventHandler<DisconnectEventArgs> DisconnectEvent;
+        public event EventHandler<CustomDeviceStateChangeEventArgs> CustomDeviceStateEvent;
         public event EventHandler<MessageEventArgs> MessageEvent;
 #endregion
 
+        public const string ViewLobby = "lobby";
+        public const string ViewStaging = "staging";
+        public const string ViewArena = "arena";
+
+        private const string DeviceStateMasterPlayerKey = "masterPlayer";
+        private const string DeviceStateScreenViewKey = "screen_view";
+        private const string DeviceStateControlViewKey = "ctrl_view";
+
+// TODO: move game data to a different manager (this manager should only be used for AirConsole stuff)
         [SerializeField]
         private TextAsset _gameDataFile;
 
@@ -29,31 +40,29 @@ namespace CatFight.AirConsole
 
         public GameData GameData { get; private set; }
 
-        [SerializeField]
-        private string _lobbySceneName = "lobby";
-
         private Action _showAdCallback;
 
 #region Unity Lifecycle
         private void Start()
         {
-            if(!LoadGameData()) {
-                return;
-            }
-
             NDream.AirConsole.AirConsole.instance.onReady += OnReady;
             NDream.AirConsole.AirConsole.instance.onConnect += OnConnect;
             NDream.AirConsole.AirConsole.instance.onDisconnect += OnDisconnect;
             NDream.AirConsole.AirConsole.instance.onMessage += OnMessage;
+            NDream.AirConsole.AirConsole.instance.onCustomDeviceStateChange += OnCustomDeviceStateChange;
             NDream.AirConsole.AirConsole.instance.onAdComplete += OnAdComplete;
 
-            SceneManager.LoadSceneAsync(_lobbySceneName, LoadSceneMode.Additive);
+// TODO: move to game data manager
+            if(!LoadGameData()) {
+                return;
+            }
         }
 
         protected override void OnDestroy()
         {
             if(null != NDream.AirConsole.AirConsole.instance) {
                 NDream.AirConsole.AirConsole.instance.onAdComplete -= OnAdComplete;
+                NDream.AirConsole.AirConsole.instance.onCustomDeviceStateChange -= OnCustomDeviceStateChange;
                 NDream.AirConsole.AirConsole.instance.onMessage -= OnMessage;
                 NDream.AirConsole.AirConsole.instance.onDisconnect -= OnDisconnect;
                 NDream.AirConsole.AirConsole.instance.onConnect -= OnConnect;
@@ -62,6 +71,7 @@ namespace CatFight.AirConsole
         }
 #endregion
 
+// TODO: move to game data manager
         private bool LoadGameData()
         {
             Debug.Log("Loading game data...");
@@ -89,6 +99,34 @@ namespace CatFight.AirConsole
         {
             string profilePictureUrl = NDream.AirConsole.AirConsole.instance.GetProfilePicture(deviceId);
             StartCoroutine(DownloadProfilePicture(profilePictureUrl, callback));
+        }
+
+        public void SetMasterPlayer(int deviceId)
+        {
+            SetCustomDeviceStateProperty(DeviceStateMasterPlayerKey, deviceId);
+        }
+
+#region Views
+        public void SetScreenView(string view)
+        {
+            SetCustomDeviceStateProperty(DeviceStateScreenViewKey, view);
+        }
+
+        public void SetControllerView(string view)
+        {
+            SetCustomDeviceStateProperty(DeviceStateControlViewKey, view);
+        }
+
+        public void SetView(string view)
+        {
+            SetScreenView(view);
+            SetControllerView(view);
+        }
+#endregion
+
+        public void SetCustomDeviceStateProperty(string key, object value)
+        {
+            NDream.AirConsole.AirConsole.instance.SetCustomDeviceStateProperty(key, value);
         }
 
         public void Message(int to, Message message)
@@ -123,6 +161,8 @@ namespace CatFight.AirConsole
         private void OnReady(string code)
         {
             Debug.Log($"OnReady({code})");
+
+            ReadyEvent?.Invoke(this, new ReadyEventArgs());
         }
 
         private void OnConnect(int deviceId)
@@ -144,9 +184,16 @@ namespace CatFight.AirConsole
             DisconnectEvent?.Invoke(this, new DisconnectEventArgs(deviceId));
         }
 
+        private void OnCustomDeviceStateChange(int deviceId, JToken customDeviceData)
+        {
+            Debug.Log($"OnCustomDeviceStateChange({deviceId}, {customDeviceData})");
+
+            CustomDeviceStateEvent?.Invoke(this, new CustomDeviceStateChangeEventArgs(deviceId, customDeviceData));
+        }
+
         private void OnMessage(int from, JToken data)
         {
-            Debug.Log($"OnMessage({from}: {data})");
+            Debug.Log($"OnMessage({from}, {data})");
 
             MessageEvent?.Invoke(this, new MessageEventArgs(from, data));
         }

@@ -92,6 +92,11 @@ namespace CatFight.Lobby
             playerList.DisconnectPlayer(deviceId);
         }
 
+        private void StartGame()
+        {
+            GameStageManager.Instance.LoadStaging();  
+        }
+
 #region Event Handlers
         private void ConnectEventHandler(object sender, ConnectEventArgs evt)
         {
@@ -109,11 +114,15 @@ namespace CatFight.Lobby
 
         private void MessageEventHandler(object sender, MessageEventArgs evt)
         {
-            AirConsoleController.Instance.Message(evt.From, new DebugMessage
-                {
-                    message = $"Hello World {evt.From}"
-                }
-            );
+            switch(evt.Message.type)
+            {
+            case Message.MessageType.StartGame:
+                StartGame();
+                break;
+            default:
+                Debug.LogWarning($"Ignoring message {evt.Message} from {evt.From}");
+                break;
+            }
         }
 #endregion
     }
