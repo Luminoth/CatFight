@@ -13,9 +13,6 @@ namespace CatFight
     public sealed class GameStageManager : SingletonBehavior<GameStageManager>
     {
         [SerializeField]
-        private GameObject _loadingScreen;
-
-        [SerializeField]
         private string _lobbySceneName = "lobby";
 
         [SerializeField]
@@ -95,10 +92,7 @@ namespace CatFight
         private void ReadyEventHandler(object sender, ReadyEventArgs evt)
         {
             LoadLobby(() => {
-                if(null != _loadingScreen) {
-                    Destroy(_loadingScreen);
-                    _loadingScreen = null;
-                }
+                LoadingManager.Instance.Destroy();
             });
         }
 #endregion
