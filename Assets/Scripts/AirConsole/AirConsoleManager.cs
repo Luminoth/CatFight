@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 
 using CatFight.AirConsole.Messages;
-using CatFight.Data;
 using CatFight.Util;
 
 using Newtonsoft.Json.Linq;
@@ -12,8 +11,6 @@ using UnityEngine.Networking;
 
 namespace CatFight.AirConsole
 {
-// TODO: rename AirConsoleManager
-    [RequireComponent(typeof(NDream.AirConsole.AirConsole))]
     public sealed class AirConsoleManager : SingletonBehavior<AirConsoleManager>
     {
 #region Events
@@ -32,14 +29,6 @@ namespace CatFight.AirConsole
         private const string DeviceStateScreenViewKey = "screen_view";
         private const string DeviceStateControlViewKey = "ctrl_view";
 
-// TODO: move game data to a different manager (this manager should only be used for AirConsole stuff)
-        [SerializeField]
-        private TextAsset _gameDataFile;
-
-        public TextAsset GameDataFile => _gameDataFile;
-
-        public GameData GameData { get; private set; }
-
         private Action _showAdCallback;
 
 #region Unity Lifecycle
@@ -51,11 +40,6 @@ namespace CatFight.AirConsole
             NDream.AirConsole.AirConsole.instance.onMessage += OnMessage;
             NDream.AirConsole.AirConsole.instance.onCustomDeviceStateChange += OnCustomDeviceStateChange;
             NDream.AirConsole.AirConsole.instance.onAdComplete += OnAdComplete;
-
-// TODO: move to game data manager
-            if(!LoadGameData()) {
-                return;
-            }
         }
 
         protected override void OnDestroy()
@@ -70,25 +54,6 @@ namespace CatFight.AirConsole
             }
         }
 #endregion
-
-// TODO: move to game data manager
-        private bool LoadGameData()
-        {
-            Debug.Log("Loading game data...");
-            //Debug.Log(GameDataFile.text);
-
-// TODO: show an error dialog
-            GameData = JsonUtility.FromJson<GameData>(GameDataFile.text);
-            if(null == GameData) {
-                Debug.LogError("There was an error loading the game data!");
-                return false;
-            }
-
-            GameData.Process();
-            GameData.DebugDump();
-
-            return true;
-        }
 
         public string GetNickname(int deviceId)
         {

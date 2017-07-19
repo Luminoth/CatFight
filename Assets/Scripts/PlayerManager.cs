@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using CatFight.AirConsole;
+using CatFight.Data;
 
 using UnityEngine;
 
@@ -30,7 +30,7 @@ namespace CatFight
                 return;
             }
 
-            Player player = new Player(deviceId, AirConsoleManager.Instance.GameData.schematic)
+            Player player = new Player(deviceId, DataManager.Instance.GameData.schematic)
             {
                 IsConnected = true
             };
