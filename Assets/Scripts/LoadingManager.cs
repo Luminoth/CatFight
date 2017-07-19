@@ -7,7 +7,7 @@ namespace CatFight
     public sealed class LoadingManager : SingletonBehavior<LoadingManager>
     {
         [SerializeField]
-        private GameObject _loadingScreen;
+        private LoadingScreen _loadingScreen;
 
         private void Start()
         {
@@ -26,7 +26,7 @@ namespace CatFight
 
         public void Destroy()
         {
-            Destroy(_loadingScreen);
+            Destroy(_loadingScreen.gameObject);
             _loadingScreen = null;
 
             Destroy(gameObject);
