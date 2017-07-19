@@ -11,6 +11,7 @@ using UnityEngine.Networking;
 
 namespace CatFight.AirConsole
 {
+    [RequireComponent(typeof(NDream.AirConsole.AirConsole))]
     public sealed class AirConsoleManager : SingletonBehavior<AirConsoleManager>
     {
 #region Events

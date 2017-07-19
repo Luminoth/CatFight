@@ -13,6 +13,8 @@ namespace CatFight.Editor
     [InitializeOnLoad]
     public static class AssetProcessor
     {
+        private const string GameDataFile = "Assets/Resources/GameData.json";
+
         private static bool _isPlaying;
 
     	static AssetProcessor()
@@ -29,19 +31,7 @@ namespace CatFight.Editor
 
         private static void CopyControllerResources()
         {
-            DataManager dataManager = Object.FindObjectOfType<DataManager>();
-            if(null == dataManager) {
-                Debug.LogError("Missing DataManager!");
-                return;
-            }
-
-            Debug.Log("Copying controller resources...");
-            CopyGameData(dataManager);
-        }
-
-        private static void CopyGameData(DataManager dataManager)
-        {
-            string src = Path.Combine(Directory.GetCurrentDirectory(), AssetDatabase.GetAssetPath(dataManager.GameDataFile));
+            string src = Path.Combine(Directory.GetCurrentDirectory(), GameDataFile);
             string dest = Path.Combine(Directory.GetCurrentDirectory(), "Assets" + Settings.WEBTEMPLATE_PATH + "/data/GameData.json");
 
             Debug.Log($"Copying game data from {src} to {dest}...");

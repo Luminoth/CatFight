@@ -13,16 +13,7 @@ namespace CatFight.Data
 
         public GameData GameData { get; private set; }
 
-#region Unity Lifecycle
-        private void Start()
-        {
-            if(!LoadGameData()) {
-                return;
-            }
-        }
-#endregion
-
-        private bool LoadGameData()
+        public bool Load()
         {
             Debug.Log("Loading game data...");
             //Debug.Log(GameDataFile.text);

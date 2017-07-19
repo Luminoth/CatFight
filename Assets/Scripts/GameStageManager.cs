@@ -23,17 +23,7 @@ namespace CatFight
 
         private readonly List<string> _loadedScenes = new List<string>();
 
-#region Unity Lifecycle
-        private void Awake()
-        {
-            AirConsoleManager.Instance.ReadyEvent += ReadyEventHandler;
-        }
-
-        protected override void OnDestroy()
-        {
-            AirConsoleManager.Instance.ReadyEvent -= ReadyEventHandler;
-        }
-#endregion
+// TODO: show a loading screen during stage swaps
 
         public void LoadLobby(Action callback=null)
         {
@@ -87,14 +77,5 @@ namespace CatFight
             }
             _loadedScenes.Clear();
         }
-
-#region Event Handlers
-        private void ReadyEventHandler(object sender, ReadyEventArgs evt)
-        {
-            LoadLobby(() => {
-                LoadingManager.Instance.Destroy();
-            });
-        }
-#endregion
     }
 }

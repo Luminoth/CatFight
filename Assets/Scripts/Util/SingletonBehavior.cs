@@ -65,6 +65,18 @@ namespace CatFight.Util
             return _instance;
         }
 
+        public static T CreateFromPrefab(GameObject prefab, GameObject parent)
+        {
+            if(HasInstance) {
+                Debug.LogWarning($"[Singleton] Using instance already created: {_instance.gameObject.name}");
+                return _instance;
+            }
+
+            GameObject owner = Instantiate(prefab, parent.transform);
+            _instance = owner.GetComponent<T>();
+            return _instance;
+        }
+
         /// <summary>
         /// When Unity quits, it destroys objects in a random order.
         /// In principle, a Singleton is only destroyed when application quits.

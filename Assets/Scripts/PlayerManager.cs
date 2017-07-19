@@ -2,15 +2,14 @@
 using System.Linq;
 
 using CatFight.Data;
+using CatFight.Util;
 
 using UnityEngine;
 
 namespace CatFight
 {
-    public sealed class PlayerManager
+    public sealed class PlayerManager : SingletonBehavior<PlayerManager>
     {
-        public static PlayerManager Instance { get; } = new PlayerManager();
-
         private readonly HashSet<int> _players = new HashSet<int>();
 
         public IReadOnlyCollection<int> Players => _players;
@@ -118,10 +117,6 @@ namespace CatFight
                 return;
             }
             SetMasterPlayer(_connectedPlayers.First().Value);
-        }
-
-        private PlayerManager()
-        {
         }
     }
 }

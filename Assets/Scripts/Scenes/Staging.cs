@@ -14,7 +14,9 @@ namespace CatFight.Scenes
 
         protected override void OnDestroy()
         {
-            AirConsoleManager.Instance.MessageEvent -= MessageEventHandler;
+            if(AirConsoleManager.HasInstance) {
+                AirConsoleManager.Instance.MessageEvent -= MessageEventHandler;
+            }
         }
 #endregion
 
