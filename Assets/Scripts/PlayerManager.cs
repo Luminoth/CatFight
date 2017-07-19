@@ -79,6 +79,27 @@ namespace CatFight
             }
         }
 
+        public void ConfirmPlayerSchematic(int deviceId, bool isConfirmed)
+        {
+            Player player;
+            if(!_connectedPlayers.TryGetValue(deviceId, out player)) {
+                Debug.LogError($"Cannot confirm non-connected player {deviceId} schematic!");
+                return;
+            }
+
+            player.Schematic.IsConfirmed = isConfirmed;
+        }
+
+        public bool AreAllPlayersReady()
+        {
+            foreach(var kvp in _connectedPlayers) {
+                if(!kvp.Value.Schematic.IsConfirmed) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         private void SetMasterPlayer(Player player, bool force=false)
         {
             if(null != _masterPlayer && !force) {

@@ -2,6 +2,7 @@
 
 using JetBrains.Annotations;
 
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 using UnityEngine;
@@ -20,6 +21,8 @@ namespace CatFight.AirConsole.Messages
                 {
                 case Message.MessageType.StartGame:
                     return new StartGameMessage(data);
+                case Message.MessageType.ConfirmStaging:
+                    return new ConfirmStagingMessage(data);
                 default:
                     Debug.LogError($"Unsupported message type: {messageType}");
                     return null;
@@ -44,6 +47,7 @@ namespace CatFight.AirConsole.Messages
         public abstract MessageType type { get; }
 
         [CanBeNull]
+        [JsonIgnore]
         public JToken Data { get; }
 
         protected Message(JToken data)

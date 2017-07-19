@@ -21,6 +21,7 @@ var airconsole;
 var viewManager;
 
 var isMasterPlayer = false;
+var isConfirmed = false;
 
 function App() {
 
@@ -108,10 +109,14 @@ App.prototype.startGame = function(msg) {
 
 App.prototype.confirmStaging = function(msg) {
 
-    app.debugLog("Confirming staging...");
+    isConfirmed = !isConfirmed;
+
+    app.debugLog("Confirming staging: ", isConfirmed);
     app.sendMessageToScreen({
-        "type": MessageType.ConfirmStaging
+        "type": MessageType.ConfirmStaging,
+        "isConfirmed": isConfirmed
     });
+    $("#button-confirm-text").html(isConfirmed ? "Unconfirm" : "Confirm");
 }
 
 App.prototype.sendMessageToScreen = function(msg) {

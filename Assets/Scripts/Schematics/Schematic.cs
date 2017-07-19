@@ -12,6 +12,8 @@ namespace CatFight.Schematics
 
         private readonly Dictionary<int, SchematicSlot> _slots = new Dictionary<int, SchematicSlot>();
 
+        public bool IsConfirmed { get; set; }
+
         private int _filledSlotCount;
 
         public Schematic(SchematicData data)

@@ -9,9 +9,12 @@ namespace CatFight.AirConsole.Messages
     {
         public override MessageType type => MessageType.ConfirmStaging;
 
+        public bool isConfirmed { get; set; }
+
         public ConfirmStagingMessage(JToken data)
             : base(data)
         {
+            isConfirmed = (bool)data["isConfirmed"];
         }
 
         public ConfirmStagingMessage()
@@ -20,7 +23,7 @@ namespace CatFight.AirConsole.Messages
 
         public override string ToString()
         {
-            return "ConfirmStagingMessage()";
+            return $"ConfirmStagingMessage({isConfirmed})";
         }
     }
 }
