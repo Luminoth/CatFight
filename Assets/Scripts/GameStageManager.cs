@@ -49,21 +49,25 @@ namespace CatFight
             }));
         }
 
-        public void LoadStaging()
+        public void LoadStaging(Action callback=null)
         {
             UnloadScenes();
 
             StartCoroutine(LoadSceneRoutine(_stagingSceneName, () => {
                 AirConsoleController.Instance.SetView(AirConsoleController.ViewStaging);
+
+                callback?.Invoke();
             }));
         }
 
-        public void LoadArena()
+        public void LoadArena(Action callback=null)
         {
             UnloadScenes();
 
             StartCoroutine(LoadSceneRoutine(_arenaSceneName, () => {
                 AirConsoleController.Instance.SetView(AirConsoleController.ViewArena);
+
+                callback?.Invoke();
             }));
         }
 
