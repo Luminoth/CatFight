@@ -23,6 +23,8 @@ namespace CatFight.AirConsole.Messages
                     return new StartGameMessage(data);
                 case Message.MessageType.ConfirmStaging:
                     return new ConfirmStagingMessage(data);
+                case Message.MessageType.SetTeam:
+                    return new SetTeamMessage(data);
                 default:
                     Debug.LogError($"Unsupported message type: {messageType}");
                     return null;
@@ -42,6 +44,7 @@ namespace CatFight.AirConsole.Messages
             None = 0,
             StartGame,
             ConfirmStaging,
+            SetTeam,
         }
 
         public abstract MessageType type { get; }

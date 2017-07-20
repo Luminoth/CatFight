@@ -70,7 +70,7 @@ namespace CatFight.Lobby
             Player = player;
 
             Name = AirConsoleManager.Instance.GetNickname(Player.DeviceId);
-            Team = Player.Team.ToString();
+            Team = Player.Team.Id.GetDescription();
             AirConsoleManager.Instance.GetProfilePicture(Player.DeviceId, profileImage => {
                 ProfileImage = profileImage;
             });

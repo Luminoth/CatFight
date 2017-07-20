@@ -1,4 +1,7 @@
-﻿using CatFight.AirConsole;
+﻿using System.ComponentModel;
+
+using CatFight.AirConsole;
+using CatFight.AirConsole.Messages;
 
 namespace CatFight
 {
@@ -6,7 +9,10 @@ namespace CatFight
     {
         public enum TeamIds
         {
+            [Description("Team A")]
             TeamA = 1,
+
+            [Description("Team B")]
             TeamB = 2
         }
 
@@ -19,11 +25,11 @@ namespace CatFight
             set
             {
                 _id = value;
-                //AirConsoleManager.Instance.Message(_player.DeviceId, TODO: send team id message (and the controller would then set that in its custom state);
+                AirConsoleManager.Instance.Message(_player.DeviceId, new SetTeamMessage(_id));
             }
         }
 
-        private Player _player;
+        private readonly Player _player;
 
         public PlayerTeam(Player player)
         {

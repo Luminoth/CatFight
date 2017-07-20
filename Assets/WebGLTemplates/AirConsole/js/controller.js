@@ -16,16 +16,26 @@ var MessageType = {};
 MessageType.None = 0;
 MessageType.StartGame = 1;
 MessageType.ConfirmStaging = 2;
+MessageType.SetTeam = 3;
+
+var templateScript;
 
 var airconsole;
 var viewManager;
 
 var isMasterPlayer = false;
 var isConfirmed = false;
+var playerName;
+var playerTeamName;
 
 function App() {
 
     app = this;
+
+    // compile content template and set it with the initial values
+    // so that the airconsole scripts don't choke on missing ids
+    var template = $("#content-template").html();
+    app.templateScript = Handlebars.compile(template);
 
     // init AirConsole
     app.airconsole = new AirConsole({"orientation": "landscape"});
@@ -33,6 +43,9 @@ function App() {
     app.airconsole.onReady = function(code) {
 
         app.debugLog("onReady", code);
+
+        app.playerName = app.airconsole.getNickname();
+        app.updateContent();
 
         app.viewManager = new AirConsoleViewManager(app.airconsole);
 
@@ -51,6 +64,10 @@ function App() {
 
         var messageType = data.type;
         switch(messageType) {
+            case MessageType.SetTeam:
+                app.playerTeamName = data.teamName;
+                app.updateContent();
+                break;
             default:
                 alert("Invalid message type: " + messageType);
                 break;
@@ -58,6 +75,7 @@ function App() {
     };
 
     app.airconsole.onCustomDeviceStateChange = function(deviceId, data) {
+
         app.debugLog("onCustomDeviceStateChange", deviceId, data);
         app.checkForMasterPlayer(data);
 
@@ -65,26 +83,46 @@ function App() {
             app.debugLog("onViewChange", viewId);
         });
     };
+}
 
-    // control hookups 
-    var buttonStart = new Button("button-start", { 
-        "down": function() {
-            app.startGame(); 
-        } 
+App.prototype.debugLog = function() {
+
+    var args = Array.from(arguments);
+    if(app.airconsole) {
+        args.unshift(app.airconsole.getDeviceId());
+    }
+    return window.console && console.log && Function.apply.call(console.log, console, args);
+}
+
+App.prototype.updateContent = function() {
+
+    app.debugLog("Updating content...");
+    var compiledHtml = app.templateScript({
+        "playerName": app.playerName,
+        "playerTeamName": app.playerTeamName,
+        "isMasterPlayer": app.isMasterPlayer
     });
+    $("#content-placeholder").html(compiledHtml);
+
+    // control hookups
+    if(app.isMasterPlayer) {
+        var buttonStart = new Button("button-start", { 
+            "down": function() {
+                app.startGame(); 
+            } 
+        });
+    }
 
     var buttonConfirm = new Button("button-confirm", { 
         "down": function() {
             app.confirmStaging(); 
         } 
     });
-}
 
-App.prototype.debugLog = function() {
-
-    var args = Array.from(arguments);
-    args.unshift(app.airconsole.getDeviceId());
-    return window.console && console.log && Function.apply.call(console.log, console, args);
+    // view manager must reset views
+    if(app.viewManager) {
+        app.viewManager.setupViews();
+    }
 }
 
 App.prototype.checkForMasterPlayer = function(data) {
@@ -93,9 +131,10 @@ App.prototype.checkForMasterPlayer = function(data) {
         return;
     }
 
+    var wasMasterPlayer = app.isMasterPlayer;
     app.isMasterPlayer = data.masterPlayer === app.airconsole.getDeviceId();
-    if(app.isMasterPlayer && data.ctrl_view && data.ctrl_view == "lobby") {
-        data.ctrl_view = "lobby-master";
+    if(wasMasterPlayer != isMasterPlayer) {
+        app.updateContent();
     }
 }
 
