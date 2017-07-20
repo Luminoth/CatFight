@@ -20,7 +20,7 @@ namespace CatFight
         {
             DeviceId = deviceId;
             Team = new PlayerTeam(this);
-            Schematic = new Schematic(schematicData);
+            Schematic = new Schematic(this, schematicData);
         }
 
         public void SetMasterPlayer(bool isMasterPlayer)

@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
+using CatFight.AirConsole;
+using CatFight.AirConsole.Messages;
 using CatFight.Data;
 using CatFight.Util;
 
@@ -18,11 +21,18 @@ namespace CatFight
 
         private readonly Dictionary<int, Player> _disconnectedPlayers = new Dictionary<int, Player>();
 
-        private readonly List<Player> _teamA = new List<Player>();
-
-        private readonly List<Player> _teamB = new List<Player>();
+        private readonly Dictionary<PlayerTeam.TeamIds, List<Player>> _teams = new Dictionary<PlayerTeam.TeamIds, List<Player>>();
 
         private Player _masterPlayer;
+
+#region  Unity Lifecycle
+        private void Awake()
+        {
+            foreach(PlayerTeam.TeamIds teamId in Enum.GetValues(typeof(PlayerTeam.TeamIds))) {
+                _teams.Add(teamId, new List<Player>());
+            }
+        }
+#endregion
 
         public void ConnectPlayer(int deviceId, out bool isReconnect)
         {
@@ -107,12 +117,35 @@ namespace CatFight
 
         private void SetPlayerTeam(Player player)
         {
-            if(_teamA.Count <= _teamB.Count) {
-                player.Team.Id = PlayerTeam.TeamIds.TeamA;
-                _teamA.Add(player);
-            } else {
-                player.Team.Id = PlayerTeam.TeamIds.TeamB;
-                _teamB.Add(player);
+            PlayerTeam.TeamIds smallestTeamId = PlayerTeam.TeamIds.TeamA;
+            List<Player> smallestTeam = null;
+
+            foreach(var kvp in _teams) {
+                if(null == smallestTeam || kvp.Value.Count < smallestTeam.Count) {
+                    smallestTeamId = kvp.Key;
+                    smallestTeam = kvp.Value;
+                }
+            }
+
+            if(null != smallestTeam) {
+                player.Team.Id = smallestTeamId;
+                smallestTeam.Add(player);
+            }
+        }
+
+        public void BroadcastToTeam(PlayerTeam.TeamIds teamId, Message message, int exceptDeviceId=-1)
+        {
+            List<Player> players;
+            if(!_teams.TryGetValue(teamId, out players)) {
+                Debug.LogError($"Unable to broadcast message to non-existant team {teamId}!");
+                return;
+            }
+
+            foreach(Player player in players) {
+                if(exceptDeviceId > 0 && player.DeviceId == exceptDeviceId) {
+                    continue;
+                }
+                AirConsoleManager.Instance.Message(player.DeviceId, message);
             }
         }
 

@@ -79,6 +79,12 @@ function App() {
                 app.updateContent();
                 app.airconsole.setCustomDeviceStateProperty("teamData", data);
                 break;
+            case MessageType.SetSlot:
+app.debugLog("TODO: handle set slot message");
+                break;
+            case MessageType.ClearSlot:
+app.debugLog("TODO: handle set slot message");
+                break;
             default:
                 alert("Invalid message type: " + messageType);
                 break;

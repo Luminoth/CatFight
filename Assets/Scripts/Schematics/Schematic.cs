@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+using CatFight.AirConsole.Messages;
 using CatFight.Data;
 
 using UnityEngine;
@@ -16,8 +17,11 @@ namespace CatFight.Schematics
 
         private int _filledSlotCount;
 
-        public Schematic(SchematicData data)
+        private readonly Player _player;
+
+        public Schematic(Player player, SchematicData data)
         {
+            _player = player;
             _schematicData = data;
 
             foreach(SchematicSlotData slotData in _schematicData.Slots) {
@@ -32,9 +36,17 @@ namespace CatFight.Schematics
                 return false;
             }
 
-// TODO: error check
+// TODO: error check (also validate the itemId is legit)
             _slots[slotId].ItemId = itemId;
             ++_filledSlotCount;
+
+            PlayerManager.Instance.BroadcastToTeam(_player.Team.Id, new SetSlotMessage
+                {
+                    slotId = slotId,
+                    itemId = itemId
+                },
+                _player.DeviceId
+            );
 
             return true;
 
@@ -45,6 +57,13 @@ namespace CatFight.Schematics
 // TODO: error check
             _slots[slotId].ItemId = 0;
             --_filledSlotCount;
+
+            PlayerManager.Instance.BroadcastToTeam(_player.Team.Id, new ClearSlotMessage
+                {
+                    slotId = slotId
+                },
+                _player.DeviceId
+            );
         }
     }
 }
