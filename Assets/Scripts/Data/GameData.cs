@@ -11,8 +11,10 @@ namespace CatFight.Data
     [Serializable]
     public sealed class GameData : IData
     {
+        public const int CurrentVersion = 1;
+
         [SerializeField]
-        private int version;
+        private int version = CurrentVersion;
 
         public int Version => version;
 
@@ -27,6 +29,8 @@ namespace CatFight.Data
         private readonly Dictionary<int, ArmorData> _armorData = new Dictionary<int, ArmorData>();
 
         public SchematicData schematic = new SchematicData();
+
+        public bool IsValid => CurrentVersion == version;
 
         public void Process()
         {

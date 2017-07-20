@@ -12,6 +12,8 @@ function loadJSON(filename, callback) {
     xobj.send();
 }
 
+const CurrentGameDataVersion = 1;
+
 var MessageType = {};
 MessageType.None = 0;
 MessageType.StartGame = 1;
@@ -53,6 +55,11 @@ function App() {
         app.debugLog("Requesting game data...");
         var gameData = {};
         loadJSON("/data/GameData.json", function(response) {
+            if(!response.version || CurrentGameDataVersion != response.version) {
+                app.debugLog("Invalid game data version. Got " + response.version + ", expected " + CurrentGameDataVersion);
+                return;
+            }
+
             gameData = response;
             app.debugLog("Received game data version " + gameData.version);
         });

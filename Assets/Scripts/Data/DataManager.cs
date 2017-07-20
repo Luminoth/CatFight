@@ -25,6 +25,11 @@ namespace CatFight.Data
                 return false;
             }
 
+            if(!GameData.IsValid) {
+                Debug.LogError($"Invalid game data version. Got {GameData.Version}, expected {GameData.CurrentVersion}!");
+                return false;
+            }
+
             GameData.Process();
             GameData.DebugDump();
 
