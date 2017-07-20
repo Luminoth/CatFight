@@ -67,6 +67,7 @@ function App() {
             case MessageType.SetTeam:
                 app.playerTeamName = data.teamName;
                 app.updateContent();
+                app.airconsole.setCustomDeviceStateProperty("teamData", data);
                 break;
             default:
                 alert("Invalid message type: " + messageType);
