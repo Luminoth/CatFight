@@ -109,7 +109,8 @@ namespace CatFight.Scenes
 
         private void StartCountdown()
         {
-            _countdownEnd = DateTime.Now.AddSeconds(_countdownSeconds);
+            // plus 1 because frames
+            _countdownEnd = DateTime.Now.AddSeconds(_countdownSeconds + 1);
         }
 
         private void StartTimer()
