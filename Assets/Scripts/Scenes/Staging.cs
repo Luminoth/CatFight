@@ -1,37 +1,34 @@
 ﻿using CatFight.AirConsole;
 using CatFight.AirConsole.Messages;
-using CatFight.Util;
+
+using UnityEngine;
 
 namespace CatFight.Scenes
 {
-    public sealed class Staging : SingletonBehavior<Staging>
+    public sealed class Staging : Stage<Staging>
     {
-#region Unity Lifecycle
-        private void Start()
         {
-            AirConsoleManager.Instance.MessageEvent += MessageEventHandler;
         }
 
-        protected override void OnDestroy()
         {
-            if(AirConsoleManager.HasInstance) {
-                AirConsoleManager.Instance.MessageEvent -= MessageEventHandler;
             }
         }
-#endregion
 
 #region Event Handlers
-        private void MessageEventHandler(object sender, MessageEventArgs evt)
+        protected override void MessageEventHandler(object sender, MessageEventArgs evt)
         {
             switch(evt.Message.type)
             {
             case Message.MessageType.ConfirmStaging:
-                ConfirmStagingMessage message = (ConfirmStagingMessage)evt.Message;
-                PlayerManager.Instance.ConfirmPlayerSchematic(evt.From, message.isConfirmed);
+                ConfirmStagingMessage confirmStagingMessage = (ConfirmStagingMessage)evt.Message;
+                PlayerManager.Instance.ConfirmPlayerSchematic(evt.From, confirmStagingMessage.isConfirmed);
 
                 if(PlayerManager.Instance.AreAllPlayersReady()) {
                     GameStageManager.Instance.LoadArena();
                 }
+                break;
+            default:
+                Debug.LogWarning($"Ignoring unexpected message type {evt.Message.type} from {evt.From}");
                 break;
             }
         }

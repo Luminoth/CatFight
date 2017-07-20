@@ -2,14 +2,13 @@
 
 using CatFight.AirConsole;
 using CatFight.AirConsole.Messages;
-using CatFight.Util;
 
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace CatFight.Lobby
 {
-    public sealed class Lobby : SingletonBehavior<Lobby>
+    public sealed class Lobby : Stage<Lobby>
     {
         [SerializeField]
         private LobbyPlayer _lobbyPlayerPrefab;
@@ -26,13 +25,14 @@ namespace CatFight.Lobby
         private Text _playerCountText;
 
 #region Unity Lifecycle
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
+
             _playerCountText.text = "0";
 
             AirConsoleManager.Instance.ConnectEvent += ConnectEventHandler;
             AirConsoleManager.Instance.DisconnectEvent += DisconnectEventHandler;
-            AirConsoleManager.Instance.MessageEvent += MessageEventHandler;
 
             AddExistingPlayers();
         }
@@ -40,10 +40,11 @@ namespace CatFight.Lobby
         protected override void OnDestroy()
         {
             if(AirConsoleManager.HasInstance) {
-                AirConsoleManager.Instance.MessageEvent -= MessageEventHandler;
                 AirConsoleManager.Instance.DisconnectEvent -= DisconnectEventHandler;
                 AirConsoleManager.Instance.ConnectEvent -= ConnectEventHandler;
             }
+
+            base.OnDestroy();
         }
 #endregion
 
@@ -121,7 +122,7 @@ namespace CatFight.Lobby
             DisconnectPlayer(evt.DeviceId);
         }
 
-        private void MessageEventHandler(object sender, MessageEventArgs evt)
+        protected override void MessageEventHandler(object sender, MessageEventArgs evt)
         {
             switch(evt.Message.type)
             {
@@ -129,7 +130,7 @@ namespace CatFight.Lobby
                 StartGame();
                 break;
             default:
-                Debug.LogWarning($"Ignoring message {evt.Message} from {evt.From}");
+                Debug.LogWarning($"Ignoring unexpected message type {evt.Message.type} from {evt.From}");
                 break;
             }
         }

@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
+using CatFight.AirConsole;
 using CatFight.Util;
 
 using UnityEngine;
@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace CatFight.Scenes
 {
-    public sealed class Arena : SingletonBehavior<Arena>
+    public sealed class Arena : Stage<Arena>
     {
 #region Countdown
         [SerializeField]
@@ -51,8 +51,11 @@ namespace CatFight.Scenes
 
         private readonly List<Fighter> _fighters = new List<Fighter>();
 
-        private void Start()
+#region Unity Lifecycle
+        protected override void Start()
         {
+            base.Start();
+
             _countdownText.text = _countdownSeconds.ToString();
             _timerText.text = _fightTimeSeconds.ToString();
 
@@ -66,6 +69,8 @@ namespace CatFight.Scenes
         {
             Destroy(_fighterContainer);
             _fighterContainer = null;
+
+            base.OnDestroy();
         }
 
         private void Update()
@@ -95,6 +100,7 @@ namespace CatFight.Scenes
                 }
             }
         }
+#endregion
 
         private void InitFighters()
         {
@@ -123,5 +129,17 @@ namespace CatFight.Scenes
         {
             GameStageManager.Instance.LoadLobby();
         }
+
+#region Event Handlers
+        protected override void MessageEventHandler(object sender, MessageEventArgs evt)
+        {
+            switch(evt.Message.type)
+            {
+            default:
+                Debug.LogWarning($"Ignoring unexpected message type {evt.Message.type} from {evt.From}");
+                break;
+            }
+        }
+#endregion
     }
 }

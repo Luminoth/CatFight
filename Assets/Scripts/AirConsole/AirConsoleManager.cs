@@ -53,6 +53,8 @@ namespace CatFight.AirConsole
                 NDream.AirConsole.AirConsole.instance.onConnect -= OnConnect;
                 NDream.AirConsole.AirConsole.instance.onReady -= OnReady;
             }
+
+            base.OnDestroy();
         }
 #endregion
 
