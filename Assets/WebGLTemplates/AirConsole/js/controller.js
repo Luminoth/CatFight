@@ -12,38 +12,78 @@ function loadJSON(filename, callback) {
     xobj.send();
 }
 
-var airconsole;
+const CurrentGameDataVersion = 1;
 
-var MessageType = {};
-MessageType.None = 0;
-MessageType.Debug = 1;
+var MessageType = Object.freeze({
+    None: 0,
+    StartGame: 1,
+    ConfirmStaging: 2,
+    SetTeam: 3,
+    SetSlot: 4,
+    ClearSlot: 5
+});
+
+var templateScript;
+
+var airconsole;
+var viewManager;
+
+var isMasterPlayer = false;
+var isConfirmed = false;
+var playerName;
+var playerTeamName;
 
 function App() {
 
     app = this;
 
-    // controls
-    var debug_log = $("#debug_log");
-
-    // load game data
-    console.log("Requesting game data...");
-    var gameData = {};
-    loadJSON("/data/GameData.json", function(response) {
-        gameData = response;
-        console.log("Received game data version " + gameData.version);
-    });
+    // compile content template and set it with the initial values
+    // so that the airconsole scripts don't choke on missing ids
+    var template = $("#content-template").html();
+    app.templateScript = Handlebars.compile(template);
 
     // init AirConsole
     app.airconsole = new AirConsole({"orientation": "landscape"});
 
+    app.airconsole.onReady = function(code) {
+
+        app.debugLog("onReady", code);
+
+        app.playerName = app.airconsole.getNickname();
+        app.updateContent();
+
+        app.viewManager = new AirConsoleViewManager(app.airconsole);
+
+        // load game data
+        app.debugLog("Requesting game data...");
+        var gameData = {};
+        loadJSON("/data/GameData.json", function(response) {
+            if(!response.version || CurrentGameDataVersion != response.version) {
+                app.debugLog("Invalid game data version. Got " + response.version + ", expected " + CurrentGameDataVersion);
+                return;
+            }
+
+            gameData = response;
+            app.debugLog("Received game data version " + gameData.version);
+        });
+    }
+
     app.airconsole.onMessage = function(from, data) {
 
-        console.log("onMessage", from, data);
+        app.debugLog("onMessage", from, data);
 
         var messageType = data.type;
         switch(messageType) {
-            case MessageType.Debug:
-                debug_log.append("<div>" + from + ": " + data.message + "</div>");
+            case MessageType.SetTeam:
+                app.playerTeamName = data.teamName;
+                app.updateContent();
+                app.airconsole.setCustomDeviceStateProperty("teamData", data);
+                break;
+            case MessageType.SetSlot:
+app.debugLog("TODO: handle set slot message");
+                break;
+            case MessageType.ClearSlot:
+app.debugLog("TODO: handle set slot message");
                 break;
             default:
                 alert("Invalid message type: " + messageType);
@@ -51,33 +91,96 @@ function App() {
         }
     };
 
-    app.airconsole.onReady = function(code) {
+    app.airconsole.onCustomDeviceStateChange = function(deviceId, data) {
 
-        console.log("onReady", code);
+        app.debugLog("onCustomDeviceStateChange", deviceId, data);
+        app.checkForMasterPlayer(data);
 
-        $("#loading").hide();
-        $("#welcome").show();
+        app.viewManager.onViewChange(data, function(viewId) {
+            app.debugLog("onViewChange", viewId);
+        });
+    };
+}
+
+App.prototype.debugLog = function() {
+
+    var args = Array.from(arguments);
+    if(app.airconsole) {
+        args.unshift(app.airconsole.getDeviceId());
     }
+    return window.console && console.log && Function.apply.call(console.log, console, args);
+}
+
+App.prototype.updateContent = function() {
+
+    app.debugLog("Updating content...");
+    var compiledHtml = app.templateScript({
+        "playerName": app.playerName,
+        "playerTeamName": app.playerTeamName,
+        "isMasterPlayer": app.isMasterPlayer
+    });
+    $("#content-placeholder").html(compiledHtml);
 
     // control hookups
-    var buttonDebug = new Button("button-debug", {
+    if(app.isMasterPlayer) {
+        var buttonStart = new Button("button-start", { 
+            "down": function() {
+                app.startGame(); 
+            } 
+        });
+    }
+
+    var buttonConfirm = new Button("button-confirm", { 
         "down": function() {
-            app.debugMessage("Hello World!");
-        }
+            app.confirmStaging(); 
+        } 
+    });
+
+    // view manager must reset views
+    if(app.viewManager) {
+        app.viewManager.setupViews();
+    }
+}
+
+App.prototype.checkForMasterPlayer = function(data) {
+
+    if(!data.masterPlayer) {
+        return;
+    }
+
+    var wasMasterPlayer = app.isMasterPlayer;
+    app.isMasterPlayer = data.masterPlayer === app.airconsole.getDeviceId();
+    if(wasMasterPlayer != isMasterPlayer) {
+        app.updateContent();
+    }
+}
+
+App.prototype.startGame = function(msg) { 
+
+    app.debugLog("Starting game...");
+    app.sendMessageToScreen({ 
+        "type": MessageType.StartGame
     });
 }
 
-App.prototype.debugMessage = function(msg) {
+App.prototype.confirmStaging = function(msg) {
+
+    isConfirmed = !isConfirmed;
+
+    app.debugLog("Confirming staging: ", isConfirmed);
     app.sendMessageToScreen({
-        "type": MessageType.Debug,
-        "message": msg
+        "type": MessageType.ConfirmStaging,
+        "isConfirmed": isConfirmed
     });
+    $("#button-confirm-text").html(isConfirmed ? "Unconfirm" : "Confirm");
 }
 
 App.prototype.sendMessageToScreen = function(msg) {
-    this.airconsole.message(AirConsole.SCREEN, msg);
+
+    app.airconsole.message(AirConsole.SCREEN, msg);
 }
 
 App.prototype.broadcastMessage = function(msg) {
-    this.airconsole.broadcast(msg);
+
+    app.airconsole.broadcast(msg);
 }

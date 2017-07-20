@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-using CatFight.AirConsole;
+using CatFight.Data;
 
 using NDream.AirConsole;
 
@@ -13,6 +13,8 @@ namespace CatFight.Editor
     [InitializeOnLoad]
     public static class AssetProcessor
     {
+        private const string GameDataFile = "Assets/Resources/GameData.json";
+
         private static bool _isPlaying;
 
     	static AssetProcessor()
@@ -29,19 +31,7 @@ namespace CatFight.Editor
 
         private static void CopyControllerResources()
         {
-            AirConsoleController controller = Object.FindObjectOfType<AirConsoleController>();
-            if(null == controller) {
-                Debug.LogError("Missing AirConsole controller!");
-                return;
-            }
-
-            Debug.Log("Copying controller resources...");
-            CopyGameData(controller);
-        }
-
-        private static void CopyGameData(AirConsoleController controller)
-        {
-            string src = Path.Combine(Directory.GetCurrentDirectory(), AssetDatabase.GetAssetPath(controller.GameDataFile));
+            string src = Path.Combine(Directory.GetCurrentDirectory(), GameDataFile);
             string dest = Path.Combine(Directory.GetCurrentDirectory(), "Assets" + Settings.WEBTEMPLATE_PATH + "/data/GameData.json");
 
             Debug.Log($"Copying game data from {src} to {dest}...");

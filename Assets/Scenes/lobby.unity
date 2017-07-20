@@ -555,10 +555,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 293511cbbce08d548a5c9b7ef5f00742, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lobbyPlayerPrefab: {fileID: 114741424550089292, guid: 64eebe8b1fa685d429f79d09087df213,
+  _lobbyPlayerPrefab: {fileID: 114201471369917902, guid: 64e92566c1704ad4bb6821c485194306,
     type: 2}
   _playerLists:
-  - {fileID: 0}
+  - {fileID: 528676945}
   - {fileID: 1044446633}
   - {fileID: 1773014474}
   _playerCountText: {fileID: 1025328274}

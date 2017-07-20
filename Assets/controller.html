@@ -17,21 +17,37 @@
     <![endif]-->
 </head>
 <body onload="window.app=new App()">
-<div class="container">
-    <div id="loading">
-        Game is loading!
+<div id="content-placeholder" class="container">Loading, please wait...</div>
+<script id="content-template" type="text/x-handlebars-template">
+    <div id="loading" class="view default-view view-container">
+        The game is loading! One moment, please...
     </div>
-    <div id="welcome" style="display: none;">
-        <div id="welcome_controls">
-            <div id="button-debug" class="button-300-150">
-                <div class="button-text">Hello World!</div>
-            </div>
+    <div id="lobby" class="view view-container">
+        <div>
+            Welcome to the lobby {{playerName}}! You're on team {{playerTeamName}}!<br />
+            This is where we gather and wait for the master player to start the game.
+        </div>
+    {{#if isMasterPlayer}}
+        <div id="button-start" class="button-300-150 center">
+            <div class="button-text">Start</div>
+        </div>
+    {{/if}}
+    </div>
+    <div id="staging" class="view view-container">
+        Welcome to the staging area {{playerName}}!<br />
+        This is where we assign weapons, armor, and core parts to our fighter.
+        <div id="button-confirm" class="button-300-150 center">
+            <div id="button-confirm-text" class="button-text">Confirm</div>
         </div>
     </div>
-    <div id="debug_log"></div>
-</div>
+    <div id="arena" class="view view-container">
+        Welcome to the arena {{playerName}}!<br />
+        This is where we watch our fighter compete against the other team's fighter!
+    </div>
+</script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min.js"></script>
 <script type="text/javascript" src="https://www.airconsole.com/api/airconsole-1.7.0.js"></script>
 <script type="text/javascript" src="/controls/button/button.js"></script>
 <script type="text/javascript" src="/js/airconsole-view-manager.js"></script>

@@ -2,6 +2,7 @@
 
 using JetBrains.Annotations;
 
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 using UnityEngine;
@@ -18,8 +19,16 @@ namespace CatFight.AirConsole.Messages
 
                 switch(messageType)
                 {
-                case Message.MessageType.Debug:
-                    return new DebugMessage(data);
+                case Message.MessageType.StartGame:
+                    return new StartGameMessage(data);
+                case Message.MessageType.ConfirmStaging:
+                    return new ConfirmStagingMessage(data);
+                case Message.MessageType.SetTeam:
+                    return new SetTeamMessage(data);
+                case Message.MessageType.SetSlot:
+                    return new SetSlotMessage(data);
+                case Message.MessageType.ClearSlot:
+                    return new ClearSlotMessage(data);
                 default:
                     Debug.LogError($"Unsupported message type: {messageType}");
                     return null;
@@ -36,13 +45,18 @@ namespace CatFight.AirConsole.Messages
     {
         public enum MessageType
         {
-            None,
-            Debug,
+            None = 0,
+            StartGame,
+            ConfirmStaging,
+            SetTeam,
+            SetSlot,
+            ClearSlot,
         }
 
         public abstract MessageType type { get; }
 
         [CanBeNull]
+        [JsonIgnore]
         public JToken Data { get; }
 
         protected Message(JToken data)

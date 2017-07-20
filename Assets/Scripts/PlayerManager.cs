@@ -1,20 +1,38 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using CatFight.AirConsole;
+using CatFight.AirConsole.Messages;
+using CatFight.Data;
+using CatFight.Util;
 
 using UnityEngine;
 
 namespace CatFight
 {
-    public sealed class PlayerManager
+    public sealed class PlayerManager : SingletonBehavior<PlayerManager>
     {
-        public static PlayerManager Instance => new PlayerManager();
+        private readonly Dictionary<int, Player> _players = new Dictionary<int, Player>();
+
+        public IReadOnlyDictionary<int, Player> Players => _players;
 
         private readonly Dictionary<int, Player> _connectedPlayers = new Dictionary<int, Player>();
+
         private readonly Dictionary<int, Player> _disconnectedPlayers = new Dictionary<int, Player>();
 
+        private readonly Dictionary<PlayerTeam.TeamIds, List<Player>> _teams = new Dictionary<PlayerTeam.TeamIds, List<Player>>();
+
         private Player _masterPlayer;
+
+#region  Unity Lifecycle
+        private void Awake()
+        {
+            foreach(PlayerTeam.TeamIds teamId in Enum.GetValues(typeof(PlayerTeam.TeamIds))) {
+                _teams.Add(teamId, new List<Player>());
+            }
+        }
+#endregion
 
         public void ConnectPlayer(int deviceId, out bool isReconnect)
         {
@@ -25,12 +43,15 @@ namespace CatFight
                 return;
             }
 
-            Player player = new Player(deviceId, AirConsoleController.Instance.GameData.schematic)
+            Player player = new Player(deviceId, DataManager.Instance.GameData.schematic)
             {
                 IsConnected = true
             };
+            _players.Add(deviceId, player);
+
             _connectedPlayers.Add(deviceId, player);
 
+            SetPlayerTeam(player);
             SetMasterPlayer(player);
         }
 
@@ -60,7 +81,7 @@ namespace CatFight
         {
             Player player;
             if(!_connectedPlayers.TryGetValue(deviceId, out player)) {
-                Debug.LogError($"Disconnecting unknown player {deviceId}!");
+                Debug.LogError($"Disconnecting unknown player {deviceId} (already disconnected: {_disconnectedPlayers.ContainsKey(deviceId)})!");
                 return;
             }
 
@@ -70,6 +91,61 @@ namespace CatFight
             if(player == _masterPlayer) {
                 _masterPlayer = null;
                 FindNewMasterPlayer();
+            }
+        }
+
+        public void ConfirmPlayerSchematic(int deviceId, bool isConfirmed)
+        {
+            Player player;
+            if(!_connectedPlayers.TryGetValue(deviceId, out player)) {
+                Debug.LogError($"Cannot confirm non-connected player {deviceId} schematic!");
+                return;
+            }
+
+            player.Schematic.IsConfirmed = isConfirmed;
+        }
+
+        public bool AreAllPlayersReady()
+        {
+            foreach(var kvp in _connectedPlayers) {
+                if(!kvp.Value.Schematic.IsConfirmed) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private void SetPlayerTeam(Player player)
+        {
+            PlayerTeam.TeamIds smallestTeamId = PlayerTeam.TeamIds.TeamA;
+            List<Player> smallestTeam = null;
+
+            foreach(var kvp in _teams) {
+                if(null == smallestTeam || kvp.Value.Count < smallestTeam.Count) {
+                    smallestTeamId = kvp.Key;
+                    smallestTeam = kvp.Value;
+                }
+            }
+
+            if(null != smallestTeam) {
+                player.Team.Id = smallestTeamId;
+                smallestTeam.Add(player);
+            }
+        }
+
+        public void BroadcastToTeam(PlayerTeam.TeamIds teamId, Message message, int exceptDeviceId=-1)
+        {
+            List<Player> players;
+            if(!_teams.TryGetValue(teamId, out players)) {
+                Debug.LogError($"Unable to broadcast message to non-existant team {teamId}!");
+                return;
+            }
+
+            foreach(Player player in players) {
+                if(exceptDeviceId > 0 && player.DeviceId == exceptDeviceId) {
+                    continue;
+                }
+                AirConsoleManager.Instance.Message(player.DeviceId, message);
             }
         }
 
@@ -91,10 +167,6 @@ namespace CatFight
                 return;
             }
             SetMasterPlayer(_connectedPlayers.First().Value);
-        }
-
-        private PlayerManager()
-        {
         }
     }
 }

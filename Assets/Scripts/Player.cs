@@ -1,4 +1,5 @@
-﻿using CatFight.Data;
+﻿using CatFight.AirConsole;
+using CatFight.Data;
 using CatFight.Schematics;
 
 namespace CatFight
@@ -11,19 +12,24 @@ namespace CatFight
 
         public bool IsMasterPlayer { get; private set; }
 
+        public PlayerTeam Team { get; }
+
         public Schematic Schematic { get; }
 
         public Player(int deviceId, SchematicData schematicData)
         {
             DeviceId = deviceId;
-            Schematic = new Schematic(schematicData);
+            Team = new PlayerTeam(this);
+            Schematic = new Schematic(this, schematicData);
         }
 
         public void SetMasterPlayer(bool isMasterPlayer)
         {
             IsMasterPlayer = isMasterPlayer;
 
-            // TODO: notify the device
+            if(IsMasterPlayer) {
+                AirConsoleManager.Instance.SetMasterPlayer(DeviceId);
+            }
         }
     }
 }

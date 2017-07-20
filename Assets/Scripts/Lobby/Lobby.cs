@@ -2,14 +2,13 @@
 
 using CatFight.AirConsole;
 using CatFight.AirConsole.Messages;
-using CatFight.Util;
 
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace CatFight.Lobby
 {
-    public sealed class Lobby : SingletonBehavior<Lobby>
+    public sealed class Lobby : Stage<Lobby>
     {
         [SerializeField]
         private LobbyPlayer _lobbyPlayerPrefab;
@@ -26,22 +25,26 @@ namespace CatFight.Lobby
         private Text _playerCountText;
 
 #region Unity Lifecycle
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
+
             _playerCountText.text = "0";
 
-            AirConsoleController.Instance.ConnectEvent += ConnectEventHandler;
-            AirConsoleController.Instance.DisconnectEvent += DisconnectEventHandler;
-            AirConsoleController.Instance.MessageEvent += MessageEventHandler;
+            AirConsoleManager.Instance.ConnectEvent += ConnectEventHandler;
+            AirConsoleManager.Instance.DisconnectEvent += DisconnectEventHandler;
+
+            AddExistingPlayers();
         }
 
         protected override void OnDestroy()
         {
-            if(AirConsoleController.HasInstance) {
-                AirConsoleController.Instance.MessageEvent -= MessageEventHandler;
-                AirConsoleController.Instance.DisconnectEvent -= DisconnectEventHandler;
-                AirConsoleController.Instance.ConnectEvent -= ConnectEventHandler;
+            if(AirConsoleManager.HasInstance) {
+                AirConsoleManager.Instance.DisconnectEvent -= DisconnectEventHandler;
+                AirConsoleManager.Instance.ConnectEvent -= ConnectEventHandler;
             }
+
+            base.OnDestroy();
         }
 #endregion
 
@@ -52,6 +55,13 @@ namespace CatFight.Lobby
                 isFull = isFull || playerList.IsFull;
             }
             return isFull;
+        }
+
+        private void AddExistingPlayers()
+        {
+            foreach(var kvp in PlayerManager.Instance.Players) {
+                AddPlayer(kvp.Key);
+            }
         }
 
         private void AddPlayer(int deviceId)
@@ -92,6 +102,11 @@ namespace CatFight.Lobby
             playerList.DisconnectPlayer(deviceId);
         }
 
+        private void StartGame()
+        {
+            GameStageManager.Instance.LoadStaging();  
+        }
+
 #region Event Handlers
         private void ConnectEventHandler(object sender, ConnectEventArgs evt)
         {
@@ -107,13 +122,17 @@ namespace CatFight.Lobby
             DisconnectPlayer(evt.DeviceId);
         }
 
-        private void MessageEventHandler(object sender, MessageEventArgs evt)
+        protected override void MessageEventHandler(object sender, MessageEventArgs evt)
         {
-            AirConsoleController.Instance.Message(evt.From, new DebugMessage
-                {
-                    message = $"Hello World {evt.From}"
-                }
-            );
+            switch(evt.Message.type)
+            {
+            case Message.MessageType.StartGame:
+                StartGame();
+                break;
+            default:
+                Debug.LogWarning($"Ignoring unexpected message type {evt.Message.type} from {evt.From}");
+                break;
+            }
         }
 #endregion
     }

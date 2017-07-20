@@ -1,3 +1,7 @@
+// Shane Lillie: modified to work with Handlebars
+// basically setupViews is no longer private
+// and only resets to the start view if it needs to
+
 /**
  * A view manager for both screen and controller
  * @params {AirConsole} airconsole - The airconsole instance
@@ -13,16 +17,15 @@ var AirConsoleViewManager = function(airconsole) {
   };
   this.class_start = 'default-view';
   this.is_screen = airconsole.device_id === AirConsole.SCREEN;
-  this.setupViews_();
+  this.setupViews();
 };
 
 AirConsoleViewManager.prototype = {
 
   /**
    * Called to setup the <div class="view"></div>
-   * @private
    */
-  setupViews_: function() {
+  setupViews: function() {
     var start_view_id = null;
     var views = document.querySelectorAll('.view');
     for (var i = 0; i < views.length; i++) {
@@ -34,8 +37,14 @@ AirConsoleViewManager.prototype = {
         start_view_id = id;
       }
     }
+
     this.hideAll();
-    if (start_view_id) {
+    if(this.current_view.self) {
+      var current_view = this.current_view.self;
+      this.current_view.self = null;
+
+      this.show(current_view);
+    } else if (start_view_id) {
       this.show(start_view_id);
     }
   },

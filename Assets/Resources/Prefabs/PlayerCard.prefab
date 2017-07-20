@@ -355,7 +355,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _connectedState: {fileID: 1342014018065342}
   _disconnectedState: {fileID: 1265176067388212}
+  _masterPlayerState: {fileID: 0}
   _name: {fileID: 114159411359404860}
+  _team: {fileID: 114760036454858546}
+  _defaultProfileImage: {fileID: 0}
+  _profileImage: {fileID: 0}
 --- !u!114 &114672827274544736
 MonoBehaviour:
   m_ObjectHideFlags: 1
