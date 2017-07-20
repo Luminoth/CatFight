@@ -77,10 +77,7 @@ namespace CatFight
 
         private void CreateManagers()
         {
-            _managersObject = new GameObject
-            {
-                name = "Managers"
-            };
+            _managersObject = new GameObject("Managers");
 
             DataManager.CreateFromPrefab(_dataManagerPrefab.gameObject, _managersObject);
             GameStageManager.CreateFromPrefab(_gameStageManagerPrefab.gameObject, _managersObject);

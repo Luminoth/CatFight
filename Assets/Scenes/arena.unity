@@ -661,10 +661,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _countdownSeconds: 5
+  _countdownContainer: {fileID: 1496483010}
   _countdownText: {fileID: 453984974}
   _fightTimeSeconds: 10
   _timerText: {fileID: 1920480596}
   _actualFightTimeSeconds: 0
+  _isRoundOver: 0
+  _fighterPrefab: {fileID: 114063225311026680, guid: b3ba74e7d78b99544b0f26ee85da0523,
+    type: 2}
+  _fighterContainer: {fileID: 0}
 --- !u!4 &1914783895
 Transform:
   m_ObjectHideFlags: 0

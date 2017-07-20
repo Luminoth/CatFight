@@ -64,6 +64,7 @@ namespace CatFight
             while(!asyncOp.isDone) {
                 yield return null;
             }
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneName));
 
             _loadedScenes.Add(sceneName);
 
