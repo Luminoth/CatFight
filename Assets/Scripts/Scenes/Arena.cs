@@ -80,28 +80,19 @@ namespace CatFight.Scenes
             }
 
             if(_countdownContainer.activeInHierarchy) {
-                TimeSpan countdownRemaining = _countdownEnd - DateTime.Now;
-                if(countdownRemaining.TotalSeconds >= 0) {
-                    _countdownText.text = ((int)countdownRemaining.TotalSeconds).ToString();
-                } else {
-                    _countdownContainer.SetActive(false);
-
-                    StartTimer();
-                }
+                UpdateCountdown();
             } else {
-                DateTime timerEnd = _timerStart.AddSeconds(_actualFightTimeSeconds);
-                TimeSpan timerRemaining = timerEnd - DateTime.Now;
-                if(timerRemaining.TotalSeconds >= 0) {
-                    _timerText.text = ((int)timerRemaining.TotalSeconds).ToString();
-                } else {
-                    _timerText.text = "0";
-
-                    EndRound();
-                }
+                UpdateTimer();
             }
         }
 #endregion
 
+        private void EndRound()
+        {
+            GameStageManager.Instance.LoadLobby();
+        }
+
+#region Fighters
         private void InitFighters()
         {
             // TODO: clear out the _fighterContainer children
@@ -112,23 +103,48 @@ namespace CatFight.Scenes
             fighter = Instantiate(_fighterPrefab, _fighterContainer.transform);
             _fighters.Add(fighter);
         }
+#endregion
 
+#region Countdown
         private void StartCountdown()
         {
             // plus 1 because frames
             _countdownEnd = DateTime.Now.AddSeconds(_countdownSeconds + 1);
         }
 
+        private void UpdateCountdown()
+        {
+            TimeSpan countdownRemaining = _countdownEnd - DateTime.Now;
+            if(countdownRemaining.TotalSeconds <= 0) {
+                _countdownContainer.SetActive(false);
+                StartTimer();
+                return;
+            }
+
+            _countdownText.text = ((int)countdownRemaining.TotalSeconds).ToString();
+        }
+#endregion
+
+#region Timer
         private void StartTimer()
         {
             _timerStart = DateTime.Now;
             _actualFightTimeSeconds = _fightTimeSeconds;
         }
 
-        private void EndRound()
+        private void UpdateTimer()
         {
-            GameStageManager.Instance.LoadLobby();
+            DateTime timerEnd = _timerStart.AddSeconds(_actualFightTimeSeconds);
+            TimeSpan timerRemaining = timerEnd - DateTime.Now;
+            if(timerRemaining.TotalSeconds <= 0) {
+                _timerText.text = "0";
+                EndRound();
+                return;
+            }
+
+            _timerText.text = ((int)timerRemaining.TotalSeconds).ToString();
         }
+#endregion
 
 #region Event Handlers
         protected override void MessageEventHandler(object sender, MessageEventArgs evt)
