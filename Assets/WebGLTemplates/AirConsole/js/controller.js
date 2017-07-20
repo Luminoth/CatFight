@@ -14,11 +14,14 @@ function loadJSON(filename, callback) {
 
 const CurrentGameDataVersion = 1;
 
-var MessageType = {};
-MessageType.None = 0;
-MessageType.StartGame = 1;
-MessageType.ConfirmStaging = 2;
-MessageType.SetTeam = 3;
+var MessageType = Object.freeze({
+    None: 0,
+    StartGame: 1,
+    ConfirmStaging: 2,
+    SetTeam: 3,
+    SetSlot: 4,
+    ClearSlot: 5
+});
 
 var templateScript;
 

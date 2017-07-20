@@ -24,7 +24,8 @@
     </div>
     <div id="lobby" class="view view-container">
         <div>
-            Welcome to the lobby {{playerName}}! You're on team {{playerTeamName}}!
+            Welcome to the lobby {{playerName}}! You're on team {{playerTeamName}}!<br />
+            This is where we gather and wait for the master player to start the game.
         </div>
     {{#if isMasterPlayer}}
         <div id="button-start" class="button-300-150 center">
@@ -33,13 +34,15 @@
     {{/if}}
     </div>
     <div id="staging" class="view view-container">
-        Welcome to staging!
+        Welcome to the staging area {{playerName}}!<br />
+        This is where we assign weapons, armor, and core parts to our fighter.
         <div id="button-confirm" class="button-300-150 center">
             <div id="button-confirm-text" class="button-text">Confirm</div>
         </div>
     </div>
     <div id="arena" class="view view-container">
-        Welcome to arena!
+        Welcome to the arena {{playerName}}!<br />
+        This is where we watch our fighter compete against the other team's fighter!
     </div>
 </script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

@@ -25,6 +25,10 @@ namespace CatFight.AirConsole.Messages
                     return new ConfirmStagingMessage(data);
                 case Message.MessageType.SetTeam:
                     return new SetTeamMessage(data);
+                case Message.MessageType.SetSlot:
+                    return new SetSlotMessage(data);
+                case Message.MessageType.ClearSlot:
+                    return new ClearSlotMessage(data);
                 default:
                     Debug.LogError($"Unsupported message type: {messageType}");
                     return null;
@@ -45,6 +49,8 @@ namespace CatFight.AirConsole.Messages
             StartGame,
             ConfirmStaging,
             SetTeam,
+            SetSlot,
+            ClearSlot,
         }
 
         public abstract MessageType type { get; }

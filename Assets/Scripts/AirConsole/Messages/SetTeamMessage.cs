@@ -34,7 +34,7 @@ namespace CatFight.AirConsole.Messages
 
         public override string ToString()
         {
-            return $"SetTeamMessage({teamId}:{teamName})";
+            return $"SetTeamMessage({teamId}: {teamName})";
         }
     }
 }
