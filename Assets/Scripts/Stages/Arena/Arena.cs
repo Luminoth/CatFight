@@ -7,7 +7,7 @@ using CatFight.Util;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CatFight.Stages
+namespace CatFight.Stages.Arena
 {
     public sealed class Arena : Stage
     {
