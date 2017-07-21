@@ -7,10 +7,12 @@ using CatFight.Util;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CatFight.Scenes
+namespace CatFight.Stages
 {
-    public sealed class Arena : Stage<Arena>
+    public sealed class Arena : Stage
     {
+        public new static Arena Instance => (Arena)Stage.Instance;
+
 #region Countdown
         [SerializeField]
         private int _countdownSeconds = 5;

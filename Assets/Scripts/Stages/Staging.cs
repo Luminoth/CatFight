@@ -3,10 +3,12 @@ using CatFight.AirConsole.Messages;
 
 using UnityEngine;
 
-namespace CatFight.Scenes
+namespace CatFight.Stages
 {
-    public sealed class Staging : Stage<Staging>
+    public sealed class Staging : Stage
     {
+        public new static Staging Instance => (Staging)Stage.Instance;
+
         private void SetSlot(int deviceId, int slotId, int itemId)
         {
             Player player;

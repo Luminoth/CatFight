@@ -2,6 +2,7 @@
 
 using CatFight.AirConsole;
 using CatFight.Data;
+using CatFight.Stages;
 using CatFight.Util;
 
 using UnityEngine;

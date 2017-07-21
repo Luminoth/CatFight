@@ -1,24 +1,35 @@
 ﻿using CatFight.AirConsole;
 using CatFight.Util;
 
-namespace CatFight
+namespace CatFight.Stages
 {
-    public abstract class Stage<T> : SingletonBehavior<T> where T: SingletonBehavior<T>
+    public abstract class Stage : MonoBehavior
     {
+        public static Stage Instance { get; private set; }
+
+#region Unity Lifecycle
+        protected virtual void Awake()
+        {
+            Instance = this;
+        }
+
         protected virtual void Start()
         {
             AirConsoleManager.Instance.MessageEvent += MessageEventHandler;
         }
 
-        protected override void OnDestroy()
+        protected virtual void OnDestroy()
         {
             if(AirConsoleManager.HasInstance) {
                 AirConsoleManager.Instance.MessageEvent -= MessageEventHandler;
             }
 
-            base.OnDestroy();
+            Instance = null;
         }
+#endregion
 
+#region Event Handlers
         protected abstract void MessageEventHandler(object sender, MessageEventArgs evt);
+#endregion
     }
 }

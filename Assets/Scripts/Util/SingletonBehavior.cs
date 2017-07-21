@@ -87,8 +87,7 @@ namespace CatFight.Util
         /// </summary>
         protected virtual void OnDestroy()
         {
-// temporarily disabling this because it's messing with scene swapping
-//            applicationIsQuitting = true;
+            applicationIsQuitting = true;
         }
     }
 }

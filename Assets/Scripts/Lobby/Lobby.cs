@@ -2,14 +2,17 @@
 
 using CatFight.AirConsole;
 using CatFight.AirConsole.Messages;
+using CatFight.Stages;
 
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace CatFight.Lobby
 {
-    public sealed class Lobby : Stage<Lobby>
+    public sealed class Lobby : Stage
     {
+        public new static Lobby Instance => (Lobby)Stage.Instance;
+
         [SerializeField]
         private LobbyPlayer _lobbyPlayerPrefab;
 

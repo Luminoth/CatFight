@@ -8,7 +8,7 @@ using CatFight.Util;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace CatFight
+namespace CatFight.Stages
 {
     public sealed class GameStageManager : SingletonBehavior<GameStageManager>
     {
