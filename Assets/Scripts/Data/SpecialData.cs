@@ -1,7 +1,5 @@
 ﻿using System;
 
-using CatFight.Items;
-
 using UnityEngine;
 
 namespace CatFight.Data
@@ -9,8 +7,6 @@ namespace CatFight.Data
     [Serializable]
     public sealed class SpecialData : ItemData
     {
-        public override Item.ItemType ItemType => Item.ItemType.Special;
-
         [SerializeField]
         private string _type = string.Empty;
 

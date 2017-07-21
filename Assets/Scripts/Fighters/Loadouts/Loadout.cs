@@ -2,6 +2,7 @@
 
 using CatFight.Players;
 using CatFight.Players.Schematics;
+using CatFight.Util;
 
 using UnityEngine;
 
@@ -10,6 +11,8 @@ namespace CatFight.Fighters.Loadouts
     public sealed class Loadout
     {
         private readonly Dictionary<int, LoadoutSlot> _slots = new Dictionary<int, LoadoutSlot>();
+
+        public IReadOnlyDictionary<int, LoadoutSlot> Slots => _slots;
 
         private readonly Fighter _fighter;
 
@@ -28,8 +31,8 @@ namespace CatFight.Fighters.Loadouts
             foreach(Player player in team) {
                 Schematic schematic = player.Schematic;
                 foreach(var kvp in schematic.Slots) {                    
-                    LoadoutSlot loadoutSlot;
-                    if(!_slots.TryGetValue(kvp.Key, out loadoutSlot)) {
+                    LoadoutSlot loadoutSlot = _slots.GetOrDefault(kvp.Key);
+                    if(null == loadoutSlot) {
                         loadoutSlot = LoadoutSlotFactory.Create(kvp.Value.SlotData);
                         if(null == loadoutSlot) {
                             continue;

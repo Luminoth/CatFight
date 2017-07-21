@@ -46,7 +46,7 @@ namespace CatFight.Players
                 return;
             }
 
-            Player player = new Player(deviceId, DataManager.Instance.GameData.schematic)
+            Player player = new Player(deviceId, DataManager.Instance.GameData.Fighter.SchematicData)
             {
                 IsConnected = true
             };
@@ -60,8 +60,8 @@ namespace CatFight.Players
 
         private bool ReconnectPlayer(int deviceId)
         {
-            Player player;
-            if(!_disconnectedPlayers.TryGetValue(deviceId, out player)) {
+            Player player = _disconnectedPlayers.GetOrDefault(deviceId);
+            if(null == player) {
                 return false;
             }
 
@@ -82,8 +82,8 @@ namespace CatFight.Players
 
         public void DisconnectPlayer(int deviceId)
         {
-            Player player;
-            if(!_connectedPlayers.TryGetValue(deviceId, out player)) {
+            Player player = _connectedPlayers.GetOrDefault(deviceId);
+            if(null == player) {
                 Debug.LogError($"Disconnecting unknown player {deviceId} (already disconnected: {_disconnectedPlayers.ContainsKey(deviceId)})!");
                 return;
             }
@@ -99,8 +99,8 @@ namespace CatFight.Players
 
         public void ConfirmPlayerSchematic(int deviceId, bool isConfirmed)
         {
-            Player player;
-            if(!_connectedPlayers.TryGetValue(deviceId, out player)) {
+            Player player = _connectedPlayers.GetOrDefault(deviceId);
+            if(null == player) {
                 Debug.LogError($"Cannot confirm non-connected player {deviceId} schematic!");
                 return;
             }
@@ -143,8 +143,8 @@ namespace CatFight.Players
 
         public void BroadcastToTeam(PlayerTeam.TeamIds teamId, Message message, int exceptDeviceId=-1)
         {
-            List<Player> players;
-            if(!_teams.TryGetValue(teamId, out players)) {
+            List<Player> players = _teams.GetOrDefault(teamId);
+            if(null == players) {
                 Debug.LogError($"Unable to broadcast message to non-existant team {teamId}!");
                 return;
             }

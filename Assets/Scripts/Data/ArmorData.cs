@@ -1,7 +1,5 @@
 ﻿using System;
 
-using CatFight.Items;
-
 using UnityEngine;
 
 namespace CatFight.Data
@@ -9,12 +7,24 @@ namespace CatFight.Data
     [Serializable]
     public sealed class ArmorData : ItemData
     {
-        public override Item.ItemType ItemType => Item.ItemType.Armor;
+        [SerializeField]
+        private int _slots = 1;
+
+        public int Slots => _slots;
 
         [SerializeField]
-        private string _type = string.Empty;
+        private int moveModPercent = 0;
 
-        public string Type => _type;
+        public int MoveModifierPercent => moveModPercent;
+
+        public float MoveModifier => moveModPercent / 100.0f;
+
+        [SerializeField]
+        private int armorReductionPercent = 0;
+
+        public int ArmorReductionPercent => armorReductionPercent;
+
+        public float ArmorReduction => armorReductionPercent / 100.0f;
 
         public override void Process()
         {

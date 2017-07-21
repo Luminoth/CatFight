@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using CatFight.AirConsole;
+using CatFight.Data;
 using CatFight.Fighters;
 using CatFight.Util;
 
@@ -107,7 +108,7 @@ namespace CatFight.Stages.Arena
                 Fighter fighter = SpawnFighter(spawnPoint);
                 _fighters.Add(fighter);
 
-                fighter.Initialize(spawnPoint.TeamId);
+                fighter.Initialize(spawnPoint.TeamId, DataManager.Instance.GameData.Fighter);
             }
         }
 

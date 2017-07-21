@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
+using CatFight.Util;
+
 using UnityEngine;
 
 namespace CatFight.Data
@@ -18,32 +20,34 @@ namespace CatFight.Data
 
         public int Version => version;
 
-// TODO: stuff these down into a single dictionary if dictionaries (item type -> (item id -> item))
-// and then have a method GetItemData(type, id)
+        public bool IsValid => CurrentVersion == version;
+
+        [SerializeField]
+        private FighterData fighter;
+
+        public FighterData Fighter => fighter;
+
+#region Items
+        private readonly Dictionary<string, Dictionary<int, ItemData>> _items = new Dictionary<string, Dictionary<int, ItemData>>
+        {
+            { ItemData.ItemTypeBrain, new Dictionary<int, ItemData>() },
+            { ItemData.ItemTypeArmor, new Dictionary<int, ItemData>() },
+            { ItemData.ItemTypeWeapon, new Dictionary<int, ItemData>() },
+            { ItemData.ItemTypeSpecial, new Dictionary<int, ItemData>() },
+        };
 
         [SerializeField]
         private BrainData[] brains = new BrainData[0];
 
-        private readonly Dictionary<int, BrainData> _brainData = new Dictionary<int, BrainData>();
-
         [SerializeField]
         private WeaponData[] weapons = new WeaponData[0];
-
-        private readonly Dictionary<int, WeaponData> _weaponData = new Dictionary<int, WeaponData>();
 
         [SerializeField]
         private ArmorData[] armor = new ArmorData[0];
 
-        private readonly Dictionary<int, ArmorData> _armorData = new Dictionary<int, ArmorData>();
-
         [SerializeField]
         private SpecialData[] specials = new SpecialData[0];
-
-        private readonly Dictionary<int, SpecialData> _specialData = new Dictionary<int, SpecialData>();
-
-        public SchematicData schematic = new SchematicData();
-
-        public bool IsValid => CurrentVersion == version;
+#endregion
 
         public void Process()
         {
@@ -51,32 +55,44 @@ namespace CatFight.Data
 
             foreach(BrainData brainData in brains) {
                 brainData.Process();
-                _brainData.Add(brainData.Id, brainData);
+                _items[ItemData.ItemTypeBrain].Add(brainData.Id, brainData);
             }
 
             foreach(WeaponData weaponData in weapons) {
                 weaponData.Process();
-                _weaponData.Add(weaponData.Id, weaponData);
+                _items[ItemData.ItemTypeWeapon].Add(weaponData.Id, weaponData);
             }
 
             foreach(ArmorData armorData in armor) {
                 armorData.Process();
-                _armorData.Add(armorData.Id, armorData);
+                _items[ItemData.ItemTypeArmor].Add(armorData.Id, armorData);
             }
 
             foreach(SpecialData specialData in specials) {
                 specialData.Process();
-                _specialData.Add(specialData.Id, specialData);
+                _items[ItemData.ItemTypeSpecial].Add(specialData.Id, specialData);
             }
 
 
-            schematic.Process();
+            Fighter.SchematicData.Process();
+        }
+
+        public ItemData GetItem(string itemType, int itemId)
+        {
+            Dictionary<int, ItemData> itemDatas = _items.GetOrDefault(itemType);
+            return itemDatas?.GetOrDefault(itemId);
         }
 
         public void DebugDump()
         {
             StringBuilder builder = new StringBuilder();
             builder.AppendLine("Game Data:");
+
+            builder.AppendLine($"Version: {version} ({CurrentVersion}), valid: {IsValid}");
+
+            builder.AppendLine($"Fighter: {fighter}");
+
+            builder.AppendLine($"Items:");
 
             builder.AppendLine($"Brains {brains.Length}:");
             foreach(BrainData brainData in brains) {
@@ -97,8 +113,6 @@ namespace CatFight.Data
             foreach(SpecialData specialData in specials) {
                 builder.AppendLine(specialData.ToString());
             }
-
-            builder.AppendLine(schematic.ToString());
 
             Debug.Log(builder.ToString());
         }

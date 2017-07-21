@@ -40,7 +40,6 @@ namespace CatFight.Players.Schematics
 
         private int _itemId;
 
-// TODO: subclasses need to validate that the item exists
         public int ItemId
         {
             get { return _itemId; }
@@ -48,9 +47,13 @@ namespace CatFight.Players.Schematics
             set
             {
                 _itemId = value;
+                Item = DataManager.Instance.GameData.GetItem(SlotData.Type, ItemId);
+
                 OnPropertyChanged();
             }
         }
+
+        public ItemData Item { get; private set; }
 
         public bool IsFilled => ItemId > 0;
 

@@ -1,4 +1,5 @@
-﻿using CatFight.Fighters.Loadouts;
+﻿using CatFight.Data;
+using CatFight.Fighters.Loadouts;
 using CatFight.Players;
 using CatFight.Util;
 
@@ -16,12 +17,18 @@ namespace CatFight.Fighters
 
         private Loadout _loadout;
 
-        public void Initialize(PlayerTeam.TeamIds teamId)
+        [SerializeField]
+        private FighterStats _stats;
+
+        public void Initialize(PlayerTeam.TeamIds teamId, FighterData fighterData)
         {
             _teamId = teamId;
 
             _loadout = new Loadout(this);
             _loadout.BuildLoadout();
+
+            _stats = new FighterStats(this, fighterData);
+            _stats.Compile(_loadout);
         }
     }
 }

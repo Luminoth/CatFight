@@ -1,44 +1,48 @@
 {
     "version": 1,
-    "schematic": {
-        "maxFilledSlots": 3,
-        "slots": [
-            {
-                "id": 1,
-                "name": "Head",
-                "type": "brain"
-            },
-            {
-                "id": 2,
-                "name": "Left Weapon",
-                "type": "weapon"
-            },
-            {
-                "id": 3,
-                "name": "Right Weapon",
-                "type": "weapon"
-            },
-            {
-                "id": 4,
-                "name": "Left Side",
-                "type": "armor"
-            },
-            {
-                "id": 5,
-                "name": "Right Side",
-                "type": "armor"
-            },
-            {
-                "id": 6,
-                "name": "Tail",
-                "type": "armor"
-            },
-            {
-                "id": 7,
-                "name": "Core",
-                "type": "special"
-            }
-        ]
+    "fighter": {
+        "maxHealth": 100,
+        "moveSpeed": 10,
+        "schematic": {
+            "maxFilledSlots": 3,
+            "slots": [
+                {
+                    "id": 1,
+                    "name": "Head",
+                    "type": "brain"
+                },
+                {
+                    "id": 2,
+                    "name": "Left Weapon",
+                    "type": "weapon"
+                },
+                {
+                    "id": 3,
+                    "name": "Right Weapon",
+                    "type": "weapon"
+                },
+                {
+                    "id": 4,
+                    "name": "Left Side",
+                    "type": "armor"
+                },
+                {
+                    "id": 5,
+                    "name": "Right Side",
+                    "type": "armor"
+                },
+                {
+                    "id": 6,
+                    "name": "Tail",
+                    "type": "armor"
+                },
+                {
+                    "id": 7,
+                    "name": "Core",
+                    "type": "special"
+                }
+            ]
+        }
     },
     "brains": [
         {
@@ -58,7 +62,30 @@
         {
             "id": 1,
             "name": "Light Armor",
-            "type": "light"
+            "moveModPercent": 0,
+            "armorReductionPercent": 1,
+            "slots": 1
+        },
+        {
+            "id": 2,
+            "name": "Medium Armor",
+            "moveModPercent": -10,
+            "armorReductionPercent": 5,
+            "slots": 1
+        },
+        {
+            "id": 3,
+            "name": "Heavy Armor",
+            "moveModPercent": -25,
+            "armorReductionPercent": 10,
+            "slots": 1
+        },
+        {
+            "id": 4,
+            "name": "Power Armor",
+            "moveModPercent": 0,
+            "armorReductionPercent": 5,
+            "slots": 2
         }
     ],
     "specials": [
