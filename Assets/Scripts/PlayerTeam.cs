@@ -9,6 +9,9 @@ namespace CatFight
     {
         public enum TeamIds
         {
+            [Description("None")]
+            None = 0,
+
             [Description("Team A")]
             TeamA = 1,
 

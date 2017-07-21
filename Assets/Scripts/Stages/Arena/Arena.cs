@@ -45,6 +45,9 @@ namespace CatFight.Stages.Arena
         private bool _isRoundOver;
 
         [SerializeField]
+        private FighterSpawn[] _spawnPoints;
+
+        [SerializeField]
         private Fighter _fighterPrefab;
 
         [SerializeField]
@@ -99,11 +102,19 @@ namespace CatFight.Stages.Arena
         {
             // TODO: clear out the _fighterContainer children
 
-            Fighter fighter = Instantiate(_fighterPrefab, _fighterContainer.transform);
-            _fighters.Add(fighter);
+            foreach(FighterSpawn spawnPoint in _spawnPoints) {
+                Fighter fighter = SpawnFighter(spawnPoint);
+                _fighters.Add(fighter);
 
-            fighter = Instantiate(_fighterPrefab, _fighterContainer.transform);
-            _fighters.Add(fighter);
+                // TODO: init the fighter from whatever team the spawnpoint is set to
+            }
+        }
+
+        private Fighter SpawnFighter(FighterSpawn spawnPoint)
+        {
+            Fighter fighter = Instantiate(_fighterPrefab, _fighterContainer.transform);
+            fighter.transform.position = spawnPoint.transform.position;
+            return fighter;
         }
 #endregion
 
