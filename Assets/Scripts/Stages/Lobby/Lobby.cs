@@ -7,6 +7,7 @@ using CatFight.Stages;
 using UnityEngine;
 using UnityEngine.UI;
 
+// TODO: move to staging
 namespace CatFight.Lobby
 {
     public sealed class Lobby : Stage
