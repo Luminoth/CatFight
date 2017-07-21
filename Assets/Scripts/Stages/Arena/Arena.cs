@@ -106,7 +106,7 @@ namespace CatFight.Stages.Arena
                 Fighter fighter = SpawnFighter(spawnPoint);
                 _fighters.Add(fighter);
 
-                // TODO: init the fighter from whatever team the spawnpoint is set to
+                fighter.Initialize(spawnPoint.TeamId);
             }
         }
 

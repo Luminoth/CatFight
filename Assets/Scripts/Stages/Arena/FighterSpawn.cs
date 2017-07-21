@@ -9,6 +9,8 @@ namespace CatFight.Stages.Arena
         [SerializeField]
         private PlayerTeam.TeamIds _teamId = PlayerTeam.TeamIds.None;
 
+        public PlayerTeam.TeamIds TeamId => _teamId;
+
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {

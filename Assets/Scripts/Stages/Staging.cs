@@ -49,6 +49,8 @@ namespace CatFight.Stages
                 PlayerManager.Instance.ConfirmPlayerSchematic(evt.From, confirmStagingMessage.isConfirmed);
 
                 if(PlayerManager.Instance.AreAllPlayersReady()) {
+                    // TODO: build the completed schematics for each team (or maybe we just do that as we go?)
+
                     GameStageManager.Instance.LoadArena();
                 }
                 break;
