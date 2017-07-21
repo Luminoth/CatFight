@@ -4,7 +4,7 @@ using CatFight.Util;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CatFight.Lobby
+namespace CatFight.Stages.Lobby
 {
     public sealed class LobbyPlayer : MonoBehavior
     {

@@ -5,7 +5,7 @@ using CatFight.Util;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CatFight.Lobby
+namespace CatFight.Stages.Lobby
 {
     [RequireComponent(typeof(LayoutGroup))]
     public sealed class LobbyPlayerList : MonoBehavior

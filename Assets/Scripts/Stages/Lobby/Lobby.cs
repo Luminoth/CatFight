@@ -2,13 +2,11 @@
 
 using CatFight.AirConsole;
 using CatFight.AirConsole.Messages;
-using CatFight.Stages;
 
 using UnityEngine;
 using UnityEngine.UI;
 
-// TODO: move to staging
-namespace CatFight.Lobby
+namespace CatFight.Stages.Lobby
 {
     public sealed class Lobby : Stage
     {
