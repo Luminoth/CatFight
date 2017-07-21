@@ -22,7 +22,7 @@ namespace CatFight.Players.Schematics
             case SchematicSlotData.SchematicSlotTypeArmor:
                 return new ArmorSchematicSlot(slotData);
             case SchematicSlotData.SchematicSlotTypeSpecial:
-                return new CoreSchematicSlot(slotData);
+                return new SpecialSchematicSlot(slotData);
             default:
                 Debug.LogError($"Invalid schematic slot type {slotData.Type}!");
                 return null;

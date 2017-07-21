@@ -2,7 +2,7 @@
 
 namespace CatFight.Fighters.Loadouts
 {
-    public sealed class CoreLoadoutSlot : LoadoutSlot
+    public sealed class SpecialLoadoutSlot : LoadoutSlot
     {
         public override void Process(SchematicSlot schematicSlot)
         {

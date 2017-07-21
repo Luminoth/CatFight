@@ -18,7 +18,7 @@ namespace CatFight.Fighters.Loadouts
             case SchematicSlotData.SchematicSlotTypeArmor:
                 return new ArmorLoadoutSlot();
             case SchematicSlotData.SchematicSlotTypeSpecial:
-                return new CoreLoadoutSlot();
+                return new SpecialLoadoutSlot();
             default:
                 Debug.LogError($"Invalid schematic slot type {slotData.Type}!");
                 return null;

@@ -2,9 +2,9 @@
 
 namespace CatFight.Players.Schematics
 {
-    public sealed class CoreSchematicSlot : SchematicSlot
+    public sealed class SpecialSchematicSlot : SchematicSlot
     {
-        public CoreSchematicSlot(SchematicSlotData slotData)
+        public SpecialSchematicSlot(SchematicSlotData slotData)
             : base(slotData)
         {
         }
