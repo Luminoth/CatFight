@@ -18,6 +18,9 @@ namespace CatFight.Data
 
         public int Version => version;
 
+// TODO: stuff these down into a single dictionary if dictionaries (item type -> (item id -> item))
+// and then have a method GetItemData(type, id)
+
         [SerializeField]
         private BrainData[] brains = new BrainData[0];
 

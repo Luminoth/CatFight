@@ -1,12 +1,16 @@
 ﻿using System;
 
+using CatFight.Items;
+
 using UnityEngine;
 
 namespace CatFight.Data
 {
     [Serializable]
-    public sealed class WeaponData : Data
+    public sealed class WeaponData : ItemData
     {
+        public override Item.ItemType ItemType => Item.ItemType.Weapon;
+
         [SerializeField]
         private string _type = string.Empty;
 
