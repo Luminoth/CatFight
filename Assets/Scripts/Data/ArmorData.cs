@@ -1,10 +1,17 @@
 ﻿using System;
 
+using UnityEngine;
+
 namespace CatFight.Data
 {
     [Serializable]
     public sealed class ArmorData : Data
     {
+        [SerializeField]
+        private string _type = string.Empty;
+
+        public string Type => _type;
+
         public override void Process()
         {
         }

@@ -15,11 +15,13 @@ namespace CatFight.Players.Schematics
         {
             switch(slotData.Type)
             {
+            case SchematicSlotData.SchematicSlotTypeBrain:
+                return new BrainSchematicSlot(slotData);
             case SchematicSlotData.SchematicSlotTypeWeapon:
                 return new WeaponSchematicSlot(slotData);
             case SchematicSlotData.SchematicSlotTypeArmor:
                 return new ArmorSchematicSlot(slotData);
-            case SchematicSlotData.SchematicSlotTypeCore:
+            case SchematicSlotData.SchematicSlotTypeSpecial:
                 return new CoreSchematicSlot(slotData);
             default:
                 Debug.LogError($"Invalid schematic slot type {slotData.Type}!");

@@ -9,9 +9,10 @@ namespace CatFight.Data
     [Serializable]
     public sealed class SchematicSlotData : Data
     {
+        public const string SchematicSlotTypeBrain = "brain";
         public const string SchematicSlotTypeWeapon = "weapon";
         public const string SchematicSlotTypeArmor = "armor";
-        public const string SchematicSlotTypeCore = "core";
+        public const string SchematicSlotTypeSpecial = "special";
 
         [SerializeField]
         private string _type = SchematicSlotTypeWeapon;

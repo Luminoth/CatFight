@@ -19,6 +19,11 @@ namespace CatFight.Data
         public int Version => version;
 
         [SerializeField]
+        private BrainData[] brains = new BrainData[0];
+
+        private readonly Dictionary<int, BrainData> _brainData = new Dictionary<int, BrainData>();
+
+        [SerializeField]
         private WeaponData[] weapons = new WeaponData[0];
 
         private readonly Dictionary<int, WeaponData> _weaponData = new Dictionary<int, WeaponData>();
@@ -28,6 +33,11 @@ namespace CatFight.Data
 
         private readonly Dictionary<int, ArmorData> _armorData = new Dictionary<int, ArmorData>();
 
+        [SerializeField]
+        private SpecialData[] specials = new SpecialData[0];
+
+        private readonly Dictionary<int, SpecialData> _specialData = new Dictionary<int, SpecialData>();
+
         public SchematicData schematic = new SchematicData();
 
         public bool IsValid => CurrentVersion == version;
@@ -35,6 +45,11 @@ namespace CatFight.Data
         public void Process()
         {
             Debug.Log("Processing game data...");
+
+            foreach(BrainData brainData in brains) {
+                brainData.Process();
+                _brainData.Add(brainData.Id, brainData);
+            }
 
             foreach(WeaponData weaponData in weapons) {
                 weaponData.Process();
@@ -46,6 +61,12 @@ namespace CatFight.Data
                 _armorData.Add(armorData.Id, armorData);
             }
 
+            foreach(SpecialData specialData in specials) {
+                specialData.Process();
+                _specialData.Add(specialData.Id, specialData);
+            }
+
+
             schematic.Process();
         }
 
@@ -53,6 +74,11 @@ namespace CatFight.Data
         {
             StringBuilder builder = new StringBuilder();
             builder.AppendLine("Game Data:");
+
+            builder.AppendLine($"Brains {brains.Length}:");
+            foreach(BrainData brainData in brains) {
+                builder.AppendLine(brainData.ToString());
+            }
 
             builder.AppendLine($"Weapons {weapons.Length}:");
             foreach(WeaponData weaponData in weapons) {
@@ -62,6 +88,11 @@ namespace CatFight.Data
             builder.AppendLine($"Armor {armor.Length}:");
             foreach(ArmorData armorData in armor) {
                 builder.AppendLine(armorData.ToString());
+            }
+
+            builder.AppendLine($"Specials {specials.Length}:");
+            foreach(SpecialData specialData in specials) {
+                builder.AppendLine(specialData.ToString());
             }
 
             builder.AppendLine(schematic.ToString());

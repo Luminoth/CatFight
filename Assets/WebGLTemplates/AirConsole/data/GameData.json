@@ -6,7 +6,7 @@
             {
                 "id": 1,
                 "name": "Head",
-                "type": "armor"
+                "type": "brain"
             },
             {
                 "id": 2,
@@ -36,20 +36,36 @@
             {
                 "id": 7,
                 "name": "Core",
-                "type": "core"
+                "type": "special"
             }
         ]
     },
+    "brains": [
+        {
+            "id": 1,
+            "name": "Aggressive",
+            "type": "aggressive"
+        }
+    ],
     "weapons": [
         {
             "id": 1,
-            "name": "Test Weapon"
+            "name": "Machine Gun",
+            "type": "machinegun"
         }
     ],
     "armor": [
         {
             "id": 1,
-            "name": "Test Armor"
+            "name": "Light Armor",
+            "type": "light"
+        }
+    ],
+    "specials": [
+        {
+            "id": 1,
+            "name": "Blast Wave",
+            "type": "blast"
         }
     ]
 }

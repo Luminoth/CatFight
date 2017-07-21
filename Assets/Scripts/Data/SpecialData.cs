@@ -5,7 +5,7 @@ using UnityEngine;
 namespace CatFight.Data
 {
     [Serializable]
-    public sealed class WeaponData : Data
+    public sealed class SpecialData : Data
     {
         [SerializeField]
         private string _type = string.Empty;
