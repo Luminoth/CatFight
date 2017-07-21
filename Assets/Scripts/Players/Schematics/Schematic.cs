@@ -3,8 +3,6 @@
 using CatFight.AirConsole.Messages;
 using CatFight.Data;
 
-using UnityEngine;
-
 namespace CatFight.Players.Schematics
 {
     public sealed class Schematic
@@ -12,6 +10,8 @@ namespace CatFight.Players.Schematics
         public SchematicData SchematicData { get; }
 
         private readonly Dictionary<int, SchematicSlot> _slots = new Dictionary<int, SchematicSlot>();
+
+        public IReadOnlyDictionary<int, SchematicSlot> Slots => _slots;
 
         public bool IsConfirmed { get; set; }
 
@@ -25,8 +25,11 @@ namespace CatFight.Players.Schematics
             SchematicData = data;
 
             foreach(SchematicSlotData slotData in SchematicData.Slots) {
-                //Debug.Log($"Adding schematic slot {slotData.Id}: {slotData.Name} - {slotData.Type}");
-                _slots.Add(slotData.Id, SchematicSlotFactory.Create(slotData));
+                SchematicSlot slot = SchematicSlotFactory.Create(slotData);
+                if(null == slot) {
+                    continue;
+                }
+                _slots.Add(slotData.Id, slot);
             }
         }
 

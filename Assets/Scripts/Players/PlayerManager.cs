@@ -29,6 +29,9 @@ namespace CatFight.Players
         private void Awake()
         {
             foreach(PlayerTeam.TeamIds teamId in Enum.GetValues(typeof(PlayerTeam.TeamIds))) {
+                if(PlayerTeam.TeamIds.None == teamId) {
+                    continue;
+                }
                 _teams.Add(teamId, new List<Player>());
             }
         }

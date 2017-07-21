@@ -5,6 +5,8 @@ using CatFight.Data;
 
 using JetBrains.Annotations;
 
+using UnityEngine;
+
 namespace CatFight.Players.Schematics
 {
     public static class SchematicSlotFactory
@@ -20,6 +22,7 @@ namespace CatFight.Players.Schematics
             case SchematicSlotData.SchematicSlotTypeCore:
                 return new CoreSchematicSlot(slotData);
             default:
+                Debug.LogError($"Invalid schematic slot type {slotData.Type}!");
                 return null;
             }
         }
