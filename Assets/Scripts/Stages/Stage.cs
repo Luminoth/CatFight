@@ -5,6 +5,7 @@ namespace CatFight.Stages
 {
     public abstract class Stage : MonoBehavior
     {
+        // yep. get wrekd
         public static Stage Instance { get; private set; }
 
 #region Unity Lifecycle

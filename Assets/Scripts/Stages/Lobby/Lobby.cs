@@ -2,6 +2,7 @@
 
 using CatFight.AirConsole;
 using CatFight.AirConsole.Messages;
+using CatFight.Players;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -61,6 +62,7 @@ namespace CatFight.Stages.Lobby
 
         private void AddExistingPlayers()
         {
+// TODO: it's likely this doesn't correctly handle existing players that are also disconnected
             foreach(var kvp in PlayerManager.Instance.Players) {
                 AddPlayer(kvp.Key);
             }

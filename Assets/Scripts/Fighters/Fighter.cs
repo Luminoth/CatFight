@@ -1,8 +1,9 @@
-﻿using CatFight.Util;
+﻿using CatFight.Players;
+using CatFight.Util;
 
 using UnityEngine;
 
-namespace CatFight
+namespace CatFight.Fighters
 {
     public sealed class Fighter : MonoBehavior
     {
@@ -10,11 +11,12 @@ namespace CatFight
         [ReadOnly]
         private PlayerTeam.TeamIds _teamId;
 
+        private Loadout _loadout;
+
         public void Initialize(PlayerTeam.TeamIds teamId)
         {
             _teamId = teamId;
-
-            // TODO: get the completed schematic for the team and init all our stuff
+            _loadout = new Loadout(PlayerManager.Instance.GetTeam(teamId));
         }
     }
 }

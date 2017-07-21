@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 
 using CatFight.AirConsole.Messages;
+using CatFight.Players;
 using CatFight.Util;
 
 using Newtonsoft.Json.Linq;

@@ -1,8 +1,8 @@
 ﻿using CatFight.AirConsole;
 using CatFight.Data;
-using CatFight.Schematics;
+using CatFight.Players.Schematics;
 
-namespace CatFight
+namespace CatFight.Players
 {
     public sealed class Player
     {

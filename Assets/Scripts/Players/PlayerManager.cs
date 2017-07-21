@@ -9,7 +9,7 @@ using CatFight.Util;
 
 using UnityEngine;
 
-namespace CatFight
+namespace CatFight.Players
 {
     public sealed class PlayerManager : SingletonBehavior<PlayerManager>
     {
@@ -131,6 +131,11 @@ namespace CatFight
                 player.Team.Id = smallestTeamId;
                 smallestTeam.Add(player);
             }
+        }
+
+        public IReadOnlyCollection<Player> GetTeam(PlayerTeam.TeamIds teamId)
+        {
+            return _teams[teamId];
         }
 
         public void BroadcastToTeam(PlayerTeam.TeamIds teamId, Message message, int exceptDeviceId=-1)

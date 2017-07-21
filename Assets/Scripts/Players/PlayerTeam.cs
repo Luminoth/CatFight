@@ -3,7 +3,7 @@
 using CatFight.AirConsole;
 using CatFight.AirConsole.Messages;
 
-namespace CatFight
+namespace CatFight.Players
 {
     public sealed class PlayerTeam
     {

@@ -5,20 +5,20 @@ using CatFight.Data;
 
 using JetBrains.Annotations;
 
-namespace CatFight.Schematics
+namespace CatFight.Players.Schematics
 {
     public static class SchematicSlotFactory
     {
-        public static SchematicSlot Create(SchematicSlotData data)
+        public static SchematicSlot Create(SchematicSlotData slotData)
         {
-            switch(data.Type)
+            switch(slotData.Type)
             {
             case SchematicSlotData.SchematicSlotTypeWeapon:
-                return new WeaponSchematicSlot();
+                return new WeaponSchematicSlot(slotData);
             case SchematicSlotData.SchematicSlotTypeArmor:
-                return new ArmorSchematicSlot();
+                return new ArmorSchematicSlot(slotData);
             case SchematicSlotData.SchematicSlotTypeCore:
-                return new CoreSchematicSlot();
+                return new CoreSchematicSlot(slotData);
             default:
                 return null;
             }
@@ -30,6 +30,8 @@ namespace CatFight.Schematics
 #region Events
         public event PropertyChangedEventHandler PropertyChanged;
 #endregion
+
+        public SchematicSlotData SlotData { get; }
 
         private int _itemId;
 
@@ -46,6 +48,11 @@ namespace CatFight.Schematics
         }
 
         public bool IsFilled => ItemId > 0;
+
+        protected SchematicSlot(SchematicSlotData slotData)
+        {
+            SlotData = slotData;
+        }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

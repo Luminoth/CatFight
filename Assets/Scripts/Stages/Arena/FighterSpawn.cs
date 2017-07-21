@@ -1,4 +1,5 @@
-﻿using CatFight.Util;
+﻿using CatFight.Players;
+using CatFight.Util;
 
 using UnityEngine;
 

@@ -5,11 +5,11 @@ using CatFight.Data;
 
 using UnityEngine;
 
-namespace CatFight.Schematics
+namespace CatFight.Players.Schematics
 {
     public sealed class Schematic
     {
-        private readonly SchematicData _schematicData;
+        public SchematicData SchematicData { get; }
 
         private readonly Dictionary<int, SchematicSlot> _slots = new Dictionary<int, SchematicSlot>();
 
@@ -22,9 +22,9 @@ namespace CatFight.Schematics
         public Schematic(Player player, SchematicData data)
         {
             _player = player;
-            _schematicData = data;
+            SchematicData = data;
 
-            foreach(SchematicSlotData slotData in _schematicData.Slots) {
+            foreach(SchematicSlotData slotData in SchematicData.Slots) {
                 //Debug.Log($"Adding schematic slot {slotData.Id}: {slotData.Name} - {slotData.Type}");
                 _slots.Add(slotData.Id, SchematicSlotFactory.Create(slotData));
             }
@@ -32,7 +32,7 @@ namespace CatFight.Schematics
 
         public bool SetSlot(int slotId, int itemId)
         {
-            if(_filledSlotCount >= _schematicData.MaxFilledSlots) {
+            if(_filledSlotCount >= SchematicData.MaxFilledSlots) {
                 return false;
             }
 

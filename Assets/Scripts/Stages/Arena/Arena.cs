@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using CatFight.AirConsole;
+using CatFight.Fighters;
 using CatFight.Util;
 
 using UnityEngine;

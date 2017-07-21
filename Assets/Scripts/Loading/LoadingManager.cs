@@ -2,12 +2,13 @@
 
 using CatFight.AirConsole;
 using CatFight.Data;
+using CatFight.Players;
 using CatFight.Stages;
 using CatFight.Util;
 
 using UnityEngine;
 
-namespace CatFight
+namespace CatFight.Loading
 {
     public sealed class LoadingManager : SingletonBehavior<LoadingManager>
     {

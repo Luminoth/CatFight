@@ -4,7 +4,7 @@ using CatFight.Util;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CatFight
+namespace CatFight.Loading
 {
     public sealed class LoadingScreen : MonoBehavior
     {

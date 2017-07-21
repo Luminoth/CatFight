@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 
+using CatFight.Players;
 using CatFight.Util;
 
 using UnityEngine;
@@ -23,8 +24,14 @@ namespace CatFight.Stages.Lobby
                 return false;
             }
 
+            Player player;
+            if(!PlayerManager.Instance.Players.TryGetValue(deviceId, out player)) {
+                Debug.LogError($"Cannot add non-existant player {deviceId}");
+                return false;
+            }
+
             LobbyPlayer lobbyPlayer = Instantiate(Lobby.Instance.LobbyPlayerPrefab, transform);
-            lobbyPlayer.Initialize(PlayerManager.Instance.Players[deviceId]);
+            lobbyPlayer.Initialize(player);
             lobbyPlayer.SetConnected(true);
 
             _players.Add(deviceId, lobbyPlayer);

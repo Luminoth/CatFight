@@ -1,5 +1,6 @@
 ﻿using System;
 
+using CatFight.Players;
 using CatFight.Util;
 
 using Newtonsoft.Json.Linq;
