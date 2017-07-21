@@ -1,8 +1,11 @@
-﻿using CatFight.Data;
+﻿using System;
+
+using CatFight.Data;
 using CatFight.Players.Schematics;
 
 namespace CatFight.Fighters.Loadouts
 {
+    [Serializable]
     public sealed class SpecialLoadoutSlot : LoadoutSlot
     {
         public SpecialLoadoutSlot(SchematicSlotData slotData)
@@ -12,6 +15,10 @@ namespace CatFight.Fighters.Loadouts
 
         public override void Process(SchematicSlot schematicSlot)
         {
+            SpecialSchematicSlot specialSlot = (SpecialSchematicSlot)schematicSlot;
+            if(null == specialSlot.Item) {
+                return;
+            }
         }
 
         public override void Complete()

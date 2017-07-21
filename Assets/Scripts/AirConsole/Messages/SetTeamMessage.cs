@@ -23,7 +23,7 @@ namespace CatFight.AirConsole.Messages
             teamName = (string)data["teamName"];
         }
 
-        public SetTeamMessage(PlayerTeam.TeamIds id)
+        public SetTeamMessage(Player.TeamIds id)
         {
             teamId = (int)id;
             teamName = id.GetDescription();

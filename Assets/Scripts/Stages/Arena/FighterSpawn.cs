@@ -8,9 +8,9 @@ namespace CatFight.Stages.Arena
     public sealed class FighterSpawn : MonoBehavior
     {
         [SerializeField]
-        private PlayerTeam.TeamIds _teamId = PlayerTeam.TeamIds.None;
+        private Player.TeamIds _teamId = Player.TeamIds.None;
 
-        public PlayerTeam.TeamIds TeamId => _teamId;
+        public Player.TeamIds TeamId => _teamId;
 
 #if UNITY_EDITOR
         private void OnDrawGizmos()

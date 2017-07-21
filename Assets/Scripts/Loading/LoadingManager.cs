@@ -2,6 +2,7 @@
 
 using CatFight.AirConsole;
 using CatFight.Data;
+using CatFight.Fighters;
 using CatFight.Players;
 using CatFight.Stages;
 using CatFight.Util;
@@ -23,8 +24,12 @@ namespace CatFight.Loading
         private GameStageManager _gameStageManagerPrefab;
 #endregion
 
+        [SerializeField]
+        [ReadOnly]
         private GameObject _managersObject;
 
+        [SerializeField]
+        [ReadOnly]
         private bool _isAirConsoleReady;
 
 #region Unity Lifecycle
@@ -83,6 +88,7 @@ namespace CatFight.Loading
 
             DataManager.CreateFromPrefab(_dataManagerPrefab.gameObject, _managersObject);
             GameStageManager.CreateFromPrefab(_gameStageManagerPrefab.gameObject, _managersObject);
+            FighterManager.Create(_managersObject); // TODO: this will most likely need to come from a prefab
             PlayerManager.Create(_managersObject);
         }
 

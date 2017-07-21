@@ -1,6 +1,9 @@
 SHANE
 ==========
 
+*SLOTS NEED TO BE NON-ABSTRACT IN ORDER TO SERIALIZE IN THE EDITOR
+
+Master player is no longer updating on the controller lobby UI when the master player disconnects :(
 PROGRAMMER UI THE CONTROLLER FOR NOW TO SET/CLEAR SLOTS AND SHIT
 
 Need to handle items that take up multiple slots

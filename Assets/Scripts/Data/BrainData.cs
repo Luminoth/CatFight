@@ -8,9 +8,9 @@ namespace CatFight.Data
     public sealed class BrainData : ItemData
     {
         [SerializeField]
-        private string _type = string.Empty;
+        private string type = string.Empty;
 
-        public string Type => _type;
+        public string Type => type;
 
         public override void Process()
         {

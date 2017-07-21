@@ -8,9 +8,9 @@ namespace CatFight.Data
     public sealed class ArmorData : ItemData
     {
         [SerializeField]
-        private int _slots = 1;
+        private int slots = 1;
 
-        public int Slots => _slots;
+        public int Slots => slots;
 
         [SerializeField]
         private int moveModPercent = 0;

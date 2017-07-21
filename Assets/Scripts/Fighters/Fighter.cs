@@ -11,16 +11,19 @@ namespace CatFight.Fighters
     {
         [SerializeField]
         [ReadOnly]
-        private PlayerTeam.TeamIds _teamId;
+        private Player.TeamIds _teamId;
 
-        public PlayerTeam.TeamIds TeamId => _teamId;
+        public Player.TeamIds TeamId => _teamId;
 
+        [SerializeField]
+        [ReadOnly]
         private Loadout _loadout;
 
         [SerializeField]
+        [ReadOnly]
         private FighterStats _stats;
 
-        public void Initialize(PlayerTeam.TeamIds teamId, FighterData fighterData)
+        public void Initialize(Player.TeamIds teamId, FighterData fighterData)
         {
             _teamId = teamId;
 

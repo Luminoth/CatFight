@@ -11,7 +11,11 @@ namespace CatFight.Data
 
         public TextAsset GameDataFile => _gameDataFile;
 
-        public GameData GameData { get; private set; }
+        [SerializeField]
+        [ReadOnly]
+        private GameData _gameData;
+
+        public GameData GameData { get { return _gameData; } private set { _gameData = value; } }
 
         public bool Load()
         {

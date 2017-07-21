@@ -15,9 +15,9 @@ namespace CatFight.Data
         public const string SchematicSlotTypeSpecial = "special";
 
         [SerializeField]
-        private string _type = SchematicSlotTypeWeapon;
+        private string type = SchematicSlotTypeWeapon;
 
-        public string Type => _type;
+        public string Type => type;
 
         public override void Process()
         {

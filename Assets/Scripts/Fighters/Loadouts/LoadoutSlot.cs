@@ -1,5 +1,8 @@
-﻿using CatFight.Data;
+﻿using System;
+
+using CatFight.Data;
 using CatFight.Players.Schematics;
+using CatFight.Util;
 
 using UnityEngine;
 
@@ -26,9 +29,14 @@ namespace CatFight.Fighters.Loadouts
         }
     }
 
+    [Serializable]
     public abstract class LoadoutSlot
     {
-        public SchematicSlotData SlotData { get; }
+        [SerializeField]
+        [ReadOnly]
+        private SchematicSlotData _slotData;
+
+        public SchematicSlotData SlotData { get { return _slotData; } private set { _slotData = value; } }
 
         public abstract void Process(SchematicSlot schematicSlot);
 

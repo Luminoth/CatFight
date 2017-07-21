@@ -49,6 +49,7 @@ namespace CatFight.Stages.Arena
         [SerializeField]
         private FighterSpawn[] _spawnPoints;
 
+// TODO: move this stuff to the fighter manager
         [SerializeField]
         private Fighter _fighterPrefab;
 
@@ -57,6 +58,7 @@ namespace CatFight.Stages.Arena
         private GameObject _fighterContainer;
 
         private readonly List<Fighter> _fighters = new List<Fighter>();
+// END
 
 #region Unity Lifecycle
         protected override void Start()

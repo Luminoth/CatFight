@@ -1,10 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 using CatFight.AirConsole.Messages;
 using CatFight.Data;
+using CatFight.Util;
+
+using UnityEngine;
 
 namespace CatFight.Players.Schematics
 {
+    [Serializable]
     public sealed class Schematic
     {
         public SchematicData SchematicData { get; }
@@ -13,8 +19,20 @@ namespace CatFight.Players.Schematics
 
         public IReadOnlyDictionary<int, SchematicSlot> Slots => _slots;
 
-        public bool IsConfirmed { get; set; }
+#if UNITY_EDITOR
+        [SerializeField]
+        [ReadOnly]
+        private SchematicSlot[] _debugSlots;
+#endif
 
+        [SerializeField]
+        [ReadOnly]
+        private bool _isConfirmed;
+
+        public bool IsConfirmed { get { return _isConfirmed; } set { _isConfirmed = value; } }
+
+        [SerializeField]
+        [ReadOnly]
         private int _filledSlotCount;
 
         private readonly Player _player;
@@ -31,6 +49,10 @@ namespace CatFight.Players.Schematics
                 }
                 _slots.Add(slotData.Id, slot);
             }
+
+#if UNITY_EDITOR
+            _debugSlots = _slots.Values.ToArray();
+#endif
         }
 
         public bool SetSlot(int slotId, int itemId)
@@ -43,7 +65,7 @@ namespace CatFight.Players.Schematics
             _slots[slotId].ItemId = itemId;
             ++_filledSlotCount;
 
-            PlayerManager.Instance.BroadcastToTeam(_player.Team.Id, new SetSlotMessage
+            PlayerManager.Instance.BroadcastToTeam(_player.TeamId, new SetSlotMessage
                 {
                     slotId = slotId,
                     itemId = itemId
@@ -61,7 +83,7 @@ namespace CatFight.Players.Schematics
             _slots[slotId].ItemId = 0;
             --_filledSlotCount;
 
-            PlayerManager.Instance.BroadcastToTeam(_player.Team.Id, new ClearSlotMessage
+            PlayerManager.Instance.BroadcastToTeam(_player.TeamId, new ClearSlotMessage
                 {
                     slotId = slotId
                 },

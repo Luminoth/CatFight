@@ -17,19 +17,25 @@ namespace CatFight.Players
 
         public IReadOnlyDictionary<int, Player> Players => _players;
 
+#if UNITY_EDITOR
+        [SerializeField]
+        [ReadOnly]
+        private Player[] _debugPlayers;
+#endif
+
         private readonly Dictionary<int, Player> _connectedPlayers = new Dictionary<int, Player>();
 
         private readonly Dictionary<int, Player> _disconnectedPlayers = new Dictionary<int, Player>();
 
-        private readonly Dictionary<PlayerTeam.TeamIds, List<Player>> _teams = new Dictionary<PlayerTeam.TeamIds, List<Player>>();
+        private readonly Dictionary<Player.TeamIds, List<Player>> _teams = new Dictionary<Player.TeamIds, List<Player>>();
 
         private Player _masterPlayer;
 
 #region  Unity Lifecycle
         private void Awake()
         {
-            foreach(PlayerTeam.TeamIds teamId in Enum.GetValues(typeof(PlayerTeam.TeamIds))) {
-                if(PlayerTeam.TeamIds.None == teamId) {
+            foreach(Player.TeamIds teamId in Enum.GetValues(typeof(Player.TeamIds))) {
+                if(Player.TeamIds.None == teamId) {
                     continue;
                 }
                 _teams.Add(teamId, new List<Player>());
@@ -52,6 +58,10 @@ namespace CatFight.Players
             };
             _players.Add(deviceId, player);
 
+#if UNITY_EDITOR
+            _debugPlayers = _players.Values.ToArray();
+#endif
+
             _connectedPlayers.Add(deviceId, player);
 
             SetPlayerTeam(player);
@@ -69,6 +79,8 @@ namespace CatFight.Players
 
             _disconnectedPlayers.Remove(deviceId);
             _connectedPlayers.Add(deviceId, player);
+
+            player.IsConnected = true;
 
             // update the player's master status
             if(player.IsMasterPlayer && null != _masterPlayer && player != _masterPlayer) {
@@ -90,6 +102,8 @@ namespace CatFight.Players
 
             _disconnectedPlayers.Add(deviceId, player);
             _connectedPlayers.Remove(deviceId);
+
+            player.IsConnected = false;
 
             if(player == _masterPlayer) {
                 _masterPlayer = null;
@@ -120,7 +134,7 @@ namespace CatFight.Players
 
         private void SetPlayerTeam(Player player)
         {
-            PlayerTeam.TeamIds smallestTeamId = PlayerTeam.TeamIds.TeamA;
+            Player.TeamIds smallestTeamId = Player.TeamIds.TeamA;
             List<Player> smallestTeam = null;
 
             foreach(var kvp in _teams) {
@@ -131,17 +145,17 @@ namespace CatFight.Players
             }
 
             if(null != smallestTeam) {
-                player.Team.Id = smallestTeamId;
+                player.SetTeam(smallestTeamId);
                 smallestTeam.Add(player);
             }
         }
 
-        public IReadOnlyCollection<Player> GetTeam(PlayerTeam.TeamIds teamId)
+        public IReadOnlyCollection<Player> GetTeam(Player.TeamIds teamId)
         {
             return _teams[teamId];
         }
 
-        public void BroadcastToTeam(PlayerTeam.TeamIds teamId, Message message, int exceptDeviceId=-1)
+        public void BroadcastToTeam(Player.TeamIds teamId, Message message, int exceptDeviceId=-1)
         {
             List<Player> players = _teams.GetOrDefault(teamId);
             if(null == players) {

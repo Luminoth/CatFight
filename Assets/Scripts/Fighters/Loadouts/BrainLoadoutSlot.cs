@@ -1,8 +1,11 @@
-﻿using CatFight.Data;
+﻿using System;
+
+using CatFight.Data;
 using CatFight.Players.Schematics;
 
 namespace CatFight.Fighters.Loadouts
 {
+    [Serializable]
     public sealed class BrainLoadoutSlot : LoadoutSlot
     {
         public BrainLoadoutSlot(SchematicSlotData slotData)
@@ -12,6 +15,10 @@ namespace CatFight.Fighters.Loadouts
 
         public override void Process(SchematicSlot schematicSlot)
         {
+            BrainSchematicSlot brainSlot = (BrainSchematicSlot)schematicSlot;
+            if(null == brainSlot.Item) {
+                return;
+            }
         }
 
         public override void Complete()

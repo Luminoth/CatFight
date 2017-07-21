@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 using CatFight.Data;
@@ -30,14 +31,21 @@ namespace CatFight.Players.Schematics
         }
     }
 
+    [Serializable]
     public abstract class SchematicSlot : INotifyPropertyChanged
     {
 #region Events
         public event PropertyChangedEventHandler PropertyChanged;
 #endregion
 
-        public SchematicSlotData SlotData { get; }
+        [SerializeField]
+        [Util.ReadOnly]
+        private SchematicSlotData _slotData;
 
+        public SchematicSlotData SlotData { get { return _slotData; } private set { _slotData = value; } }
+
+        [SerializeField]
+        [Util.ReadOnly]
         private int _itemId;
 
         public int ItemId
@@ -53,6 +61,7 @@ namespace CatFight.Players.Schematics
             }
         }
 
+        [CanBeNull]
         public ItemData Item { get; private set; }
 
         public bool IsFilled => ItemId > 0;

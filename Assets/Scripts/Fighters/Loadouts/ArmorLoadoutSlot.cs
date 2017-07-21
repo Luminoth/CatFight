@@ -1,13 +1,27 @@
-﻿using CatFight.Data;
+﻿using System;
+
+using CatFight.Data;
 using CatFight.Players.Schematics;
+using CatFight.Util;
+
+using UnityEngine;
 
 namespace CatFight.Fighters.Loadouts
 {
+    [Serializable]
     public sealed class ArmorLoadoutSlot : LoadoutSlot
     {
-        public float ArmorReduction { get; private set; }
+        [SerializeField]
+        [ReadOnly]
+        private float _armorReduction;
 
-        public float MoveModifier { get; private set; } = 1.0f;
+        public float ArmorReduction { get { return _armorReduction; } private set { _armorReduction = value; } }
+
+        [SerializeField]
+        [ReadOnly]
+        private float _moveModifier = 1.0f;
+
+        public float MoveModifier { get { return _moveModifier; } private set { _moveModifier = value; } }
 
         public ArmorLoadoutSlot(SchematicSlotData slotData)
             : base(slotData)
@@ -27,6 +41,10 @@ namespace CatFight.Fighters.Loadouts
         public override void Process(SchematicSlot schematicSlot)
         {
             ArmorSchematicSlot armorSlot = (ArmorSchematicSlot)schematicSlot;
+            if(null == armorSlot.Item) {
+                return;
+            }
+
             ArmorReduction += (1.0f - ArmorReduction) * armorSlot.ArmorItem.ArmorReduction;
             MoveModifier += MoveModifier * armorSlot.ArmorItem.MoveModifier;
         }

@@ -1,26 +1,70 @@
-﻿using CatFight.AirConsole;
+﻿using System;
+using System.ComponentModel;
+
+using CatFight.AirConsole;
+using CatFight.AirConsole.Messages;
 using CatFight.Data;
 using CatFight.Players.Schematics;
 
+using UnityEngine;
+
 namespace CatFight.Players
 {
+    [Serializable]
     public sealed class Player
     {
-        public int DeviceId { get; }
+        public enum TeamIds
+        {
+            [Description("None")]
+            None = 0,
 
-        public bool IsConnected { get; set; }
+            [Description("Team A")]
+            TeamA = 1,
 
-        public bool IsMasterPlayer { get; private set; }
+            [Description("Team B")]
+            TeamB = 2
+        }
 
-        public PlayerTeam Team { get; }
+        [SerializeField]
+        [Util.ReadOnly]
+        private int _deviceId;
 
-        public Schematic Schematic { get; }
+        public int DeviceId { get { return _deviceId; } private set { _deviceId = value; } }
+
+        [SerializeField]
+        [Util.ReadOnly]
+        private bool _isConnected;
+
+        public bool IsConnected { get { return _isConnected; } set { _isConnected = value; } }
+
+        [SerializeField]
+        [Util.ReadOnly]
+        private bool _isMasterPlayer;
+
+        public bool IsMasterPlayer { get { return _isMasterPlayer; } private set { _isMasterPlayer = value; } }
+
+        [SerializeField]
+        [Util.ReadOnly]
+        private TeamIds _teamId = TeamIds.TeamA;
+
+        public TeamIds TeamId { get { return _teamId; } private set { _teamId = value; } }
+
+        [SerializeField]
+        [Util.ReadOnly]
+        private Schematic _schematic;
+
+        public Schematic Schematic { get { return _schematic; } private set { _schematic = value; } }
 
         public Player(int deviceId, SchematicData schematicData)
         {
             DeviceId = deviceId;
-            Team = new PlayerTeam(this);
             Schematic = new Schematic(this, schematicData);
+        }
+
+        public void SetTeam(TeamIds teamId)
+        {
+            TeamId = teamId;
+            AirConsoleManager.Instance.Message(DeviceId, new SetTeamMessage(TeamId));
         }
 
         public void SetMasterPlayer(bool isMasterPlayer)
