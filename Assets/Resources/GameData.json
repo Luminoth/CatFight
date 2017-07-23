@@ -33,12 +33,7 @@
                 },
                 {
                     "id": 6,
-                    "name": "Tail",
-                    "type": "armor"
-                },
-                {
-                    "id": 7,
-                    "name": "Core",
+                    "name": "Special",
                     "type": "special"
                 }
             ]
@@ -49,6 +44,11 @@
             "id": 1,
             "name": "Aggressive",
             "type": "aggressive"
+        },
+        {
+            "id": 2,
+            "name": "Defensive",
+            "type": "defensive"
         }
     ],
     "weapons": [
@@ -56,43 +56,35 @@
             "id": 1,
             "name": "Machine Gun",
             "type": "machinegun"
+        },
+        {
+            "id": 2,
+            "name": "Laser",
+            "type": "laser"
         }
     ],
     "armor": [
         {
             "id": 1,
-            "name": "Light Armor",
-            "moveModPercent": 0,
-            "armorReductionPercent": 1,
-            "slots": 1
+            "name": "Bullet Armor",
+            "type": "machinegun"
         },
         {
             "id": 2,
-            "name": "Medium Armor",
-            "moveModPercent": -10,
-            "armorReductionPercent": 5,
-            "slots": 1
-        },
-        {
-            "id": 3,
-            "name": "Heavy Armor",
-            "moveModPercent": -25,
-            "armorReductionPercent": 10,
-            "slots": 1
-        },
-        {
-            "id": 4,
-            "name": "Power Armor",
-            "moveModPercent": 0,
-            "armorReductionPercent": 5,
-            "slots": 2
+            "name": "Laser Armor",
+            "type": "laser"
         }
     ],
     "specials": [
         {
             "id": 1,
-            "name": "Blast Wave",
-            "type": "blast"
+            "name": "Missiles",
+            "type": "missiles"
+        },
+        {
+            "id": 2,
+            "name": "Chaff",
+            "type": "chaff"
         }
     ]
 }

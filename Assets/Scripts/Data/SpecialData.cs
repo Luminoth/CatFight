@@ -18,7 +18,7 @@ namespace CatFight.Data
 
         public override string ToString()
         {
-            return $"Weapon({Id}: {Name})";
+            return $"Weapon({Id}: {Name} - {Type})";
         }
     }
 }

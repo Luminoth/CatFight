@@ -7,6 +7,7 @@ namespace CatFight.Data
     [Serializable]
     public sealed class ArmorData : ItemData
     {
+/*
         [SerializeField]
         private int slots = 1;
 
@@ -25,6 +26,12 @@ namespace CatFight.Data
         public int ArmorReductionPercent => armorReductionPercent;
 
         public float ArmorReduction => armorReductionPercent / 100.0f;
+*/
+
+        [SerializeField]
+        private string type = string.Empty;
+
+        public string Type => type;
 
         public override void Process()
         {
@@ -32,7 +39,7 @@ namespace CatFight.Data
 
         public override string ToString()
         {
-            return $"Armor({Id}: {Name})";
+            return $"Armor({Id}: {Name} - {Type})";
         }
     }
 }

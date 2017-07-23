@@ -17,6 +17,7 @@ namespace CatFight.Fighters
 
         public float CurrentHealth { get { return _currentHealth; } private set { _currentHealth = value < 0.0f ? 0.0f : value; } }
 
+/*
         [SerializeField]
         [ReadOnly]
         private float _armorReduction;
@@ -28,6 +29,7 @@ namespace CatFight.Fighters
         private float _moveModifier = 1.0f;
 
         public float MoveModifier { get { return _moveModifier; } private set { _moveModifier = value < 0.0f ? 0.0f : value; } }
+*/
 
         public bool IsDead => CurrentHealth <= 0.0f;
 
@@ -35,7 +37,7 @@ namespace CatFight.Fighters
 
         private readonly Fighter _fighter;
 
-        public float MoveSpeed => _fighterData.MoveSpeed * MoveModifier;
+        public float MoveSpeed => _fighterData.MoveSpeed /** MoveModifier*/;
 
         public FighterStats(Fighter fighter, FighterData fighterData)
         {
@@ -57,8 +59,8 @@ namespace CatFight.Fighters
                     break;
                 case SchematicSlotData.SchematicSlotTypeArmor:
                     ArmorLoadoutSlot armorSlot = (ArmorLoadoutSlot)slot;
-                    ArmorReduction = armorSlot.CalculateNewArmorReduction(ArmorReduction);
-                    MoveModifier = armorSlot.CalculateNewMoveModifier(MoveModifier);
+                    /*ArmorReduction = armorSlot.CalculateNewArmorReduction(ArmorReduction);
+                    MoveModifier = armorSlot.CalculateNewMoveModifier(MoveModifier);*/
                     break;
                 case SchematicSlotData.SchematicSlotTypeSpecial:
                     break;
@@ -68,8 +70,8 @@ namespace CatFight.Fighters
 
         public void Damage(float amount)
         {
-            float reducedAmount = amount - (amount * ArmorReduction);
-            CurrentHealth -= reducedAmount;
+            //float reducedAmount = amount - (amount * ArmorReduction);
+            //CurrentHealth -= reducedAmount;
         }
     }
 }

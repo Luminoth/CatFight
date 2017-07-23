@@ -18,7 +18,7 @@ namespace CatFight.Data
 
         public override string ToString()
         {
-            return $"Brain({Id}: {Name})";
+            return $"Brain({Id}: {Name} - {Type})";
         }
     }
 }
