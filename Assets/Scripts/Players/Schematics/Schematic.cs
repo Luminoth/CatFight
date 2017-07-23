@@ -81,12 +81,14 @@ namespace CatFight.Players.Schematics
         public void ClearSlot(int slotId)
         {
 // TODO: error check
+            int itemId = _slots[slotId].ItemId;
             _slots[slotId].ItemId = 0;
             --_filledSlotCount;
 
             PlayerManager.Instance.BroadcastToTeam(_player.TeamId, new ClearSlotMessage
                 {
-                    slotId = slotId
+                    slotId = slotId,
+                    itemId = itemId
                 },
                 _player.DeviceId
             );

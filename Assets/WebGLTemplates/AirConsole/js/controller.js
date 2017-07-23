@@ -37,8 +37,9 @@ function App() {
     var playerName = "Guest";
     var playerTeamName = "Unaffiliated";
 
-    var slots = [];
+    var playerSlots = [];
     var filledSlots = 0;
+    var teamSlots = [];
 
     var gameData = {};
 
@@ -68,8 +69,9 @@ function App() {
             app.debugLog("Received game data", app.gameData.version);
 
             // init the slots to 0 (cleared)
-            app.slots = new Array(app.gameData.fighter.schematic.slots.length).fill(0);
+            app.playerSlots = new Array(app.gameData.fighter.schematic.slots.length).fill(0);
             app.filledSlots = 0;
+            app.teamSlots = new Array(app.gameData.fighter.schematic.slots.length).fill({});
 
             app.updateContent();
         });
@@ -87,10 +89,10 @@ function App() {
                 app.airconsole.setCustomDeviceStateProperty("teamData", data);
                 break;
             case MessageType.SetSlot:
-app.debugLog("TODO: handle set slot message");
+                app._setTeamSlot(data.slotId, data.itemId);
                 break;
             case MessageType.ClearSlot:
-app.debugLog("TODO: handle set slot message");
+                app._clearTeamSlot(data.slotId, data.itemId);
                 break;
             default:
                 alert("Invalid message type: " + messageType);
@@ -215,7 +217,7 @@ App.prototype._enableSchematicSlots = function() {
     var disable = app.filledSlots >= app.gameData.fighter.schematic.maxFilledSlots;
     app.gameData.fighter.schematic.slots.forEach(function(slot) {
         var slotSelector = $("#slot_" + slot.id);
-        if(app.slots[slot.id - 1] == 0) {
+        if(app.playerSlots[slot.id - 1] == 0) {
             $("#slot_" + slot.id).prop("disabled", disable);
         }
     });
@@ -230,12 +232,27 @@ App.prototype._setSlot = function(slotId, itemId) {
         "itemId": itemId
     });
 
-    if(app.slots[slotId - 1] == 0) {
+    var idx = slotId - 1;
+    if(app.playerSlots[idx] == 0) {
         ++app.filledSlots;
     }
-    app.slots[slotId - 1] = itemId;
+    app.playerSlots[idx] = itemId;
 
     app._enableSchematicSlots();
+}
+
+App.prototype._setTeamSlot = function(slotId, itemId) {
+
+    var slotIdx = slotId - 1;
+    var itemIdx = itemId - 1;
+
+    var slot = app.teamSlots[slotIdx];
+    if(!(itemIdx in slot)) {
+        slot[itemIdx] = 0;
+    }
+
+    app.debugLog("Setting team slot", slotId, itemId, slot[itemIdx]);
+    ++slot[itemIdx];
 }
 
 App.prototype._clearSlot = function(slotId) {
@@ -246,12 +263,27 @@ App.prototype._clearSlot = function(slotId) {
         "slotId": slotId
     });
 
-    if(app.slots[slotId - 1] != 0) {
+    var idx = slotId - 1;
+    if(app.playerSlots[idx] != 0) {
         --app.filledSlots;
     }
-    app.slots[slotId - 1] = 0;
+    app.playerSlots[idx] = 0;
 
     app._enableSchematicSlots();
+}
+
+App.prototype._clearTeamSlot = function(slotId, itemId) {
+
+    var slotIdx = slotId - 1;
+    var itemIdx = itemId - 1;
+
+    var slot = app.teamSlots[slotIdx];
+    if(!(itemId in slot)) {
+        slot[itemIdx] = 1;
+    }
+
+    app.debugLog("Clearing team slot", slotId, itemId, slot[itemIdx]);
+    --slot[itemIdx];
 }
 
 App.prototype.sendMessageToScreen = function(msg) {
