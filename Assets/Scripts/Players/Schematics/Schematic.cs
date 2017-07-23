@@ -58,6 +58,7 @@ namespace CatFight.Players.Schematics
         public bool SetSlot(int slotId, int itemId)
         {
             if(_filledSlotCount >= SchematicData.MaxFilledSlots) {
+                Debug.LogWarning($"Player {_player.DeviceId} has max slots filled!");
                 return false;
             }
 

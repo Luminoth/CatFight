@@ -20,13 +20,15 @@
 <div id="content-placeholder" class="container">Loading, please wait...</div>
 <script id="content-template" type="text/x-handlebars-template">
     <div id="loading" class="view default-view view-container">
-        The game is loading! One moment, please...
+        <p>
+            The game is loading! One moment, please...
+        </p>
     </div>
     <div id="lobby" class="view view-container">
-        <div>
+        <p>
             Welcome to the lobby {{playerName}}! You're on team {{playerTeamName}}!<br />
-            This is where we gather and wait for the master player to start the game.
-        </div>
+            This is where we gather and wait for the master player to start the game.<br />
+        </p>
     {{#if isMasterPlayer}}
         <div id="button-start" class="button-300-150 center">
             <div class="button-text">Start</div>
@@ -34,15 +36,38 @@
     {{/if}}
     </div>
     <div id="staging" class="view view-container">
-        Welcome to the staging area {{playerName}}!<br />
-        This is where we assign weapons, armor, and core parts to our fighter.
+        <p>
+            Welcome to the staging area {{playerName}}!<br />
+            This is where we assign weapons, armor, and core parts to our fighter.<br />
+        </p>
+    {{#each gameData.fighter.schematic.slots}}
+        <div class="form-group row">
+            <label class="col-form-label col-sm-2" for="slot_{{id}}">{{name}}</label>
+            <div class="col-sm-10">
+                <select class="form-control" name="slot_{{id}}" id="slot_{{id}}" onchange="app.selectSchematicSlot({{id}})">
+                    <option value="" selected="selected">--</option>
+                {{#ifEq type "brain"}}
+                    {{#each ../gameData.brains}}<option value="{{id}}">{{name}}</option>{{/each}}
+                {{else ifEq type "armor"}}
+                    {{#each ../gameData.armor}}<option value="{{id}}">{{name}}</option>{{/each}}
+                {{else ifEq type "weapon"}}
+                    {{#each ../gameData.weapons}}<option value="{{id}}">{{name}}</option>{{/each}}
+                {{else ifEq type "special"}}
+                    {{#each ../gameData.specials}}<option value="{{id}}">{{name}}</option>{{/each}}
+                {{/ifEq}}
+                </select>
+            </div>
+        </div>
+    {{/each}}
         <div id="button-confirm" class="button-300-150 center">
             <div id="button-confirm-text" class="button-text">Confirm</div>
         </div>
     </div>
     <div id="arena" class="view view-container">
-        Welcome to the arena {{playerName}}!<br />
-        This is where we watch our fighter compete against the other team's fighter!
+        <p>
+            Welcome to the arena {{playerName}}!<br />
+            This is where we watch our fighter compete against the other team's fighter!
+        </p>
     </div>
 </script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

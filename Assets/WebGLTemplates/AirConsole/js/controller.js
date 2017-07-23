@@ -23,24 +23,26 @@ var MessageType = Object.freeze({
     ClearSlot: 5
 });
 
-var templateScript;
-
-var airconsole;
-var viewManager;
-
-var isMasterPlayer = false;
-var isConfirmed = false;
-var playerName;
-var playerTeamName;
-
 function App() {
 
     app = this;
 
-    // compile content template and set it with the initial values
-    // so that the airconsole scripts don't choke on missing ids
-    var template = $("#content-template").html();
-    app.templateScript = Handlebars.compile(template);
+    var templateScript;
+
+    var airconsole;
+    var viewManager;
+
+    var isMasterPlayer = false;
+    var isConfirmed = false;
+    var playerName = "Guest";
+    var playerTeamName = "Unaffiliated";
+
+    var slots = [];
+    var filledSlots = 0;
+
+    var gameData = {};
+
+    app._initHandlebars()
 
     // init AirConsole
     app.airconsole = new AirConsole({"orientation": "landscape"});
@@ -56,15 +58,20 @@ function App() {
 
         // load game data
         app.debugLog("Requesting game data...");
-        var gameData = {};
         loadJSON("/data/GameData.json", function(response) {
             if(!response.version || CurrentGameDataVersion != response.version) {
                 app.debugLog("Invalid game data version. Got " + response.version + ", expected " + CurrentGameDataVersion);
                 return;
             }
 
-            gameData = response;
-            app.debugLog("Received game data version " + gameData.version);
+            app.gameData = response;
+            app.debugLog("Received game data", app.gameData.version);
+
+            // init the slots to 0 (cleared)
+            app.slots = new Array(app.gameData.fighter.schematic.slots.length).fill(0);
+            app.filledSlots = 0;
+
+            app.updateContent();
         });
     }
 
@@ -111,13 +118,31 @@ App.prototype.debugLog = function() {
     return window.console && console.log && Function.apply.call(console.log, console, args);
 }
 
+App.prototype._initHandlebars = function() {
+
+    // register helpers
+    Handlebars.registerHelper('ifEq', function(a, b, opts) {
+        if(a == b) {
+            return opts.fn(this);
+        } else {
+            return opts.inverse(this);
+        }
+    });
+
+    // compile content template and set it with the initial values
+    // so that the airconsole scripts don't choke on missing ids
+    var template = $("#content-template").html();
+    app.templateScript = Handlebars.compile(template);
+}
+
 App.prototype.updateContent = function() {
 
     app.debugLog("Updating content...");
     var compiledHtml = app.templateScript({
         "playerName": app.playerName,
         "playerTeamName": app.playerTeamName,
-        "isMasterPlayer": app.isMasterPlayer
+        "isMasterPlayer": app.isMasterPlayer,
+        "gameData": app.gameData
     });
     $("#content-placeholder").html(compiledHtml);
 
@@ -167,12 +192,66 @@ App.prototype.confirmStaging = function(msg) {
 
     isConfirmed = !isConfirmed;
 
-    app.debugLog("Confirming staging: ", isConfirmed);
+    app.debugLog("Confirming staging", isConfirmed);
     app.sendMessageToScreen({
         "type": MessageType.ConfirmStaging,
         "isConfirmed": isConfirmed
     });
     $("#button-confirm-text").html(isConfirmed ? "Unconfirm" : "Confirm");
+}
+
+App.prototype.selectSchematicSlot = function(slotId) {
+
+    var value = $("#slot_" + slotId).val();
+    if(value) {
+        app._setSlot(slotId, parseInt(value));
+    } else {
+        app._clearSlot(slotId);
+    }
+}
+
+App.prototype._enableSchematicSlots = function() {
+
+    var disable = app.filledSlots >= app.gameData.fighter.schematic.maxFilledSlots;
+    app.gameData.fighter.schematic.slots.forEach(function(slot) {
+        var slotSelector = $("#slot_" + slot.id);
+        if(app.slots[slot.id - 1] == 0) {
+            $("#slot_" + slot.id).prop("disabled", disable);
+        }
+    });
+}
+
+App.prototype._setSlot = function(slotId, itemId) {
+
+    app.debugLog("Setting slot", slotId, itemId, app.filledSlots);
+    app.sendMessageToScreen({
+        "type": MessageType.SetSlot,
+        "slotId": slotId,
+        "itemId": itemId
+    });
+
+    if(app.slots[slotId - 1] == 0) {
+        ++app.filledSlots;
+    }
+    app.slots[slotId - 1] = itemId;
+
+    app._enableSchematicSlots();
+}
+
+App.prototype._clearSlot = function(slotId) {
+
+    app.debugLog("Clearing slot", slotId, app.filledSlots);
+    app.sendMessageToScreen({
+        "type": MessageType.ClearSlot,
+        "slotId": slotId
+    });
+
+    if(app.slots[slotId - 1] != 0) {
+        --app.filledSlots;
+    }
+    app.slots[slotId - 1] = 0;
+
+    app._enableSchematicSlots();
 }
 
 App.prototype.sendMessageToScreen = function(msg) {
