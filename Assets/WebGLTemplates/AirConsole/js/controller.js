@@ -150,7 +150,7 @@ App.prototype.checkForMasterPlayer = function(data) {
 
     var wasMasterPlayer = app.isMasterPlayer;
     app.isMasterPlayer = data.masterPlayer === app.airconsole.getDeviceId();
-    if(wasMasterPlayer != isMasterPlayer) {
+    if(wasMasterPlayer != app.isMasterPlayer) {
         app.updateContent();
     }
 }
