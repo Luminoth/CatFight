@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using CatFight.Data;
 using CatFight.Fighters.Loadouts;
+using CatFight.Items.Weapons;
 using CatFight.Util;
 
 using UnityEngine;
@@ -33,6 +35,8 @@ namespace CatFight.Fighters
 
         public bool IsDead => CurrentHealth <= 0.0f;
 
+        private readonly List<Weapon> _weapons = new List<Weapon>();
+
         private readonly FighterData _fighterData;
 
         private readonly Fighter _fighter;
@@ -56,6 +60,8 @@ namespace CatFight.Fighters
                 case SchematicSlotData.SchematicSlotTypeBrain:
                     break;
                 case SchematicSlotData.SchematicSlotTypeWeapon:
+                    WeaponLoadoutSlot weaponSlot = (WeaponLoadoutSlot)slot;
+                    _weapons.Add(weaponSlot.Weapon);
                     break;
                 case SchematicSlotData.SchematicSlotTypeArmor:
                     ArmorLoadoutSlot armorSlot = (ArmorLoadoutSlot)slot;

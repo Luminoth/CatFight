@@ -10,7 +10,7 @@ namespace CatFight.Players.Schematics
     public sealed class SpecialSchematicSlot : SchematicSlot
     {
         [CanBeNull]
-        public SpecialData SpecialItem => (SpecialData)Item;
+        public SpecialData SpecialItem => Item as SpecialData;
 
         public SpecialSchematicSlot(SchematicSlotData slotData)
             : base(slotData)

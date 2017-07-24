@@ -8,7 +8,9 @@ and then the game doesn't have to do any extra broadcast work when receiving the
 
 *SLOTS NEED TO BE NON-ABSTRACT IN ORDER TO SERIALIZE IN THE EDITOR
 
-Items have behaviors that determine what happens when used (but then I removed items so I dunno)
+Need to finish the loadout slot process/completion methods
+Need to finish the item behaviors and get them hooked through the Fighter
+Need to add the special network messages and controller buttons
 Fighter needs concrete set of actions - Move, Attack - which do stuff based on equipped items
 
 

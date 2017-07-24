@@ -10,7 +10,7 @@ namespace CatFight.Players.Schematics
     public sealed class BrainSchematicSlot : SchematicSlot
     {
         [CanBeNull]
-        public BrainData BrainItem => (BrainData)Item;
+        public BrainData BrainItem => Item as BrainData;
 
         public BrainSchematicSlot(SchematicSlotData slotData)
             : base(slotData)

@@ -10,7 +10,7 @@ namespace CatFight.Players.Schematics
     public sealed class WeaponSchematicSlot : SchematicSlot
     {
         [CanBeNull]
-        public WeaponData WeaponItem => (WeaponData)Item;
+        public WeaponData WeaponItem => Item as WeaponData;
 
         public WeaponSchematicSlot(SchematicSlotData slotData)
             : base(slotData)
