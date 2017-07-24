@@ -108,6 +108,19 @@ namespace CatFight.Players
             player.Schematic.IsConfirmed = isConfirmed;
         }
 
+        public PlayerTeam.TeamIds GetPlayerTeam(int deviceId)
+        {
+            Player player;
+
+            if (!_connectedPlayers.TryGetValue(deviceId, out player))
+            {
+                Debug.LogError($"Cannot confirm non-connected player {deviceId} Team ID retunring none!");
+                return PlayerTeam.TeamIds.None;
+            }
+
+            return player.Team.Id;
+        }
+
         public bool AreAllPlayersReady()
         {
             foreach(var kvp in _connectedPlayers) {

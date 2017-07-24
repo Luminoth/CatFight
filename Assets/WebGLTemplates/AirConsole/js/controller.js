@@ -20,7 +20,8 @@ var MessageType = Object.freeze({
     ConfirmStaging: 2,
     SetTeam: 3,
     SetSlot: 4,
-    ClearSlot: 5
+    ClearSlot: 5,
+    ControllerAction: 6
 });
 
 var templateScript;
@@ -43,7 +44,7 @@ function App() {
     app.templateScript = Handlebars.compile(template);
 
     // init AirConsole
-    app.airconsole = new AirConsole({"orientation": "landscape"});
+    app.airconsole = new AirConsole({ "orientation": "landscape" });
 
     app.airconsole.onReady = function(code) {
 
@@ -136,6 +137,68 @@ App.prototype.updateContent = function() {
         } 
     });
 
+    //Controller Inputs
+    var fireDown = new Button("button-fire", { 
+        "down": function() {
+            app.controlleraction("","fire","down",0); 
+        }
+    });
+
+    var fireUp = new Button("button-fire", {
+        "up": function () {
+            app.controlleraction("", "fire", "up",0);
+        }
+    });
+
+    var upDown = new Button("button-up", {
+        "down": function () {
+            app.controlleraction("", "up", "down", 0);
+        }
+    });
+
+    var upUp = new Button("button-up", {
+        "up": function () {
+            app.controlleraction("", "up", "up", 0);
+        }
+    });
+
+    var leftDown = new Button("button-left", {
+        "down": function () {
+            app.controlleraction("", "left", "down", 0);
+        }
+    });
+
+    var leftUp = new Button("button-left", {
+        "up": function () {
+            app.controlleraction("", "left", "up", 0);
+        }
+    });
+
+    var rightDown = new Button("button-right", {
+        "down": function () {
+            app.controlleraction("", "right", "down", 0);
+        }
+    });
+
+    var rightUp = new Button("button-right", {
+        "up": function () {
+            app.controlleraction("", "right", "up", 0);
+        }
+    });
+
+    var downDown = new Button("button-down", {
+        "down": function () {
+            app.controlleraction("", "down", "down", 0);
+        }
+    });
+
+    var downUp = new Button("button-down", {
+        "up": function () {
+            app.controlleraction("", "down", "up", 0);
+        }
+    });
+
+
     // view manager must reset views
     if(app.viewManager) {
         app.viewManager.setupViews();
@@ -173,6 +236,16 @@ App.prototype.confirmStaging = function(msg) {
         "isConfirmed": isConfirmed
     });
     $("#button-confirm-text").html(isConfirmed ? "Unconfirm" : "Confirm");
+}
+
+App.prototype.controlleraction = function (msg, buttonType, state, fireType) {
+    app.debugLog("Input Pressed:", buttonType, state);
+    app.sendMessageToScreen({
+        "type": MessageType.ControllerAction,
+        "button": buttonType,
+        "buttonState": state,
+        "fireType" : fireType
+    });
 }
 
 App.prototype.sendMessageToScreen = function(msg) {

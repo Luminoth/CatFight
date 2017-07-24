@@ -5,8 +5,11 @@ using CatFight.AirConsole;
 using CatFight.Fighters;
 using CatFight.Util;
 
+using CatFight.AirConsole.Messages;
+
 using UnityEngine;
 using UnityEngine.UI;
+using CatFight.Players;
 
 namespace CatFight.Stages.Arena
 {
@@ -61,9 +64,15 @@ namespace CatFight.Stages.Arena
         protected override void Start()
         {
             base.Start();
+            if (_countdownContainer != null)
+            {
+                _countdownText.text = _countdownSeconds.ToString();
+            }
 
-            _countdownText.text = _countdownSeconds.ToString();
-            _timerText.text = _fightTimeSeconds.ToString();
+            if (_timerText != null)
+            {
+                _timerText.text = _fightTimeSeconds.ToString();
+            }
 
             _fighterContainer = new GameObject("Fighters");
             InitFighters();
@@ -85,10 +94,16 @@ namespace CatFight.Stages.Arena
                 return;
             }
 
-            if(_countdownContainer.activeInHierarchy) {
-                UpdateCountdown();
-            } else {
-                UpdateTimer();
+            if (_countdownContainer != null)
+            {
+                if (_countdownContainer.activeInHierarchy)
+                {
+                    UpdateCountdown();
+                }
+                else
+                {
+                    UpdateTimer();
+                }
             }
         }
 #endregion
@@ -165,6 +180,27 @@ namespace CatFight.Stages.Arena
         {
             switch(evt.Message.type)
             {
+            case Message.MessageType.ControllerAction:
+                SetInputMessage setSlotMessage = (SetInputMessage)evt.Message;
+
+                    Player player;
+                    if (!PlayerManager.Instance.Players.TryGetValue(evt.From, out player))
+                    {
+                        Debug.LogError($"Player {evt.From} not found.");
+                        return;
+                    }
+
+                    //Need to convert data to a betting input class
+                    for (int i = 0; _fighters.Count > i ; i++)
+                    {
+                        if(_fighters[i].TeamId == player.Team.Id)
+                        {
+                            _fighters[i].Input(setSlotMessage);
+                            break;
+                        }
+                    }
+
+                    break;
             default:
                 Debug.LogWarning($"Ignoring unexpected message type {evt.Message.type} from {evt.From}");
                 break;
