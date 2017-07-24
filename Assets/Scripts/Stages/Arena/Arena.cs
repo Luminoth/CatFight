@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using CatFight.AirConsole;
-using CatFight.Data;
 using CatFight.Fighters;
 using CatFight.Util;
 
@@ -49,17 +47,6 @@ namespace CatFight.Stages.Arena
         [SerializeField]
         private FighterSpawn[] _spawnPoints;
 
-// TODO: move this stuff to the fighter manager
-        [SerializeField]
-        private Fighter _fighterPrefab;
-
-        [SerializeField]
-        [ReadOnly]
-        private GameObject _fighterContainer;
-
-        private readonly List<Fighter> _fighters = new List<Fighter>();
-// END
-
 #region Unity Lifecycle
         protected override void Start()
         {
@@ -68,18 +55,9 @@ namespace CatFight.Stages.Arena
             _countdownText.text = _countdownSeconds.ToString();
             _timerText.text = _fightTimeSeconds.ToString();
 
-            _fighterContainer = new GameObject("Fighters");
-            InitFighters();
+            FighterManager.Instance.InitFighters(_spawnPoints);
 
             StartCountdown();
-        }
-
-        protected override void OnDestroy()
-        {
-            Destroy(_fighterContainer);
-            _fighterContainer = null;
-
-            base.OnDestroy();
         }
 
         private void Update()
@@ -100,27 +78,6 @@ namespace CatFight.Stages.Arena
         {
             GameStageManager.Instance.LoadLobby();
         }
-
-#region Fighters
-        private void InitFighters()
-        {
-            // TODO: clear out the _fighterContainer children
-
-            foreach(FighterSpawn spawnPoint in _spawnPoints) {
-                Fighter fighter = SpawnFighter(spawnPoint);
-                _fighters.Add(fighter);
-
-                fighter.Initialize(spawnPoint.TeamId, DataManager.Instance.GameData.Fighter);
-            }
-        }
-
-        private Fighter SpawnFighter(FighterSpawn spawnPoint)
-        {
-            Fighter fighter = Instantiate(_fighterPrefab, _fighterContainer.transform);
-            fighter.transform.position = spawnPoint.transform.position;
-            return fighter;
-        }
-#endregion
 
 #region Countdown
         private void StartCountdown()

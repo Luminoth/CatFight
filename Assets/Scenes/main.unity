@@ -512,6 +512,10 @@ MonoBehaviour:
     type: 2}
   _gameStageManagerPrefab: {fileID: 114210468909480640, guid: 28548829a1e1acc43b6c546c1a14e8e7,
     type: 2}
+  _fighterManagerPrefab: {fileID: 114222648363077520, guid: 3854a91f717a5fa4ca87a0053c58925d,
+    type: 2}
+  _managersObject: {fileID: 0}
+  _isAirConsoleReady: 0
 --- !u!4 &1392004620
 Transform:
   m_ObjectHideFlags: 0

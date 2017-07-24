@@ -22,6 +22,9 @@ namespace CatFight.Loading
 
         [SerializeField]
         private GameStageManager _gameStageManagerPrefab;
+
+        [SerializeField]
+        private FighterManager _fighterManagerPrefab;
 #endregion
 
         [SerializeField]
@@ -88,7 +91,7 @@ namespace CatFight.Loading
 
             DataManager.CreateFromPrefab(_dataManagerPrefab.gameObject, _managersObject);
             GameStageManager.CreateFromPrefab(_gameStageManagerPrefab.gameObject, _managersObject);
-            FighterManager.Create(_managersObject); // TODO: this will most likely need to come from a prefab
+            FighterManager.CreateFromPrefab(_fighterManagerPrefab.gameObject, _managersObject);
             PlayerManager.Create(_managersObject);
         }
 

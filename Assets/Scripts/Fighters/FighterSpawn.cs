@@ -3,7 +3,7 @@ using CatFight.Util;
 
 using UnityEngine;
 
-namespace CatFight.Stages.Arena
+namespace CatFight.Fighters
 {
     public sealed class FighterSpawn : MonoBehavior
     {
