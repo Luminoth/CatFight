@@ -192,14 +192,14 @@ App.prototype.startGame = function(msg) {
 
 App.prototype.confirmStaging = function(msg) {
 
-    isConfirmed = !isConfirmed;
+    app.isConfirmed = !app.isConfirmed;
 
-    app.debugLog("Confirming staging", isConfirmed);
+    app.debugLog("Confirming staging", app.isConfirmed);
     app.sendMessageToScreen({
         "type": MessageType.ConfirmStaging,
-        "isConfirmed": isConfirmed
+        "isConfirmed": app.isConfirmed
     });
-    $("#button-confirm-text").html(isConfirmed ? "Unconfirm" : "Confirm");
+    $("#button-confirm-text").html(app.isConfirmed ? "Unconfirm" : "Confirm");
 }
 
 App.prototype.selectSchematicSlot = function(slotId) {
