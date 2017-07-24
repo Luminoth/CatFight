@@ -1,55 +1,90 @@
 {
     "version": 1,
-    "schematic": {
-        "maxFilledSlots": 3,
-        "slots": [
-            {
-                "id": 1,
-                "name": "Head",
-                "type": "armor"
-            },
-            {
-                "id": 2,
-                "name": "Left Weapon",
-                "type": "weapon"
-            },
-            {
-                "id": 3,
-                "name": "Right Weapon",
-                "type": "weapon"
-            },
-            {
-                "id": 4,
-                "name": "Left Side",
-                "type": "armor"
-            },
-            {
-                "id": 5,
-                "name": "Right Side",
-                "type": "armor"
-            },
-            {
-                "id": 6,
-                "name": "Tail",
-                "type": "armor"
-            },
-            {
-                "id": 7,
-                "name": "Core",
-                "type": "core"
-            }
-        ]
+    "fighter": {
+        "maxHealth": 100,
+        "moveSpeed": 10,
+        "schematic": {
+            "maxFilledSlots": 3,
+            "slots": [
+                {
+                    "id": 1,
+                    "name": "Head",
+                    "type": "brain"
+                },
+                {
+                    "id": 2,
+                    "name": "Left Weapon",
+                    "type": "weapon"
+                },
+                {
+                    "id": 3,
+                    "name": "Right Weapon",
+                    "type": "weapon"
+                },
+                {
+                    "id": 4,
+                    "name": "Left Side",
+                    "type": "armor"
+                },
+                {
+                    "id": 5,
+                    "name": "Right Side",
+                    "type": "armor"
+                },
+                {
+                    "id": 6,
+                    "name": "Special",
+                    "type": "special"
+                }
+            ]
+        }
     },
+    "brains": [
+        {
+            "id": 1,
+            "name": "Aggressive",
+            "type": "aggressive"
+        },
+        {
+            "id": 2,
+            "name": "Defensive",
+            "type": "defensive"
+        }
+    ],
     "weapons": [
         {
             "id": 1,
-            "name": "Test Weapon"
+            "name": "Machine Gun",
+            "type": "machinegun"
+        },
+        {
+            "id": 2,
+            "name": "Laser",
+            "type": "laser"
         }
     ],
     "armor": [
         {
             "id": 1,
-            "name": "Test Armor"
+            "name": "Bullet Armor",
+            "type": "machinegun"
+        },
+        {
+            "id": 2,
+            "name": "Laser Armor",
+            "type": "laser"
+        }
+    ],
+    "specials": [
+        {
+            "id": 1,
+            "name": "Missiles",
+            "type": "missiles"
+        },
+        {
+            "id": 2,
+            "name": "Chaff",
+            "type": "chaff"
         }
     ]
 }

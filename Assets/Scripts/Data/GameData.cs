@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
+using CatFight.Util;
+
 using UnityEngine;
 
 namespace CatFight.Data
@@ -18,41 +20,84 @@ namespace CatFight.Data
 
         public int Version => version;
 
+        public bool IsValid => CurrentVersion == version;
+
+        [SerializeField]
+        private FighterData fighter;
+
+        public FighterData Fighter => fighter;
+
+#region Items
+        private readonly Dictionary<string, Dictionary<int, ItemData>> _items = new Dictionary<string, Dictionary<int, ItemData>>
+        {
+            { ItemData.ItemTypeBrain, new Dictionary<int, ItemData>() },
+            { ItemData.ItemTypeArmor, new Dictionary<int, ItemData>() },
+            { ItemData.ItemTypeWeapon, new Dictionary<int, ItemData>() },
+            { ItemData.ItemTypeSpecial, new Dictionary<int, ItemData>() },
+        };
+
+        [SerializeField]
+        private BrainData[] brains = new BrainData[0];
+
         [SerializeField]
         private WeaponData[] weapons = new WeaponData[0];
-
-        private readonly Dictionary<int, WeaponData> _weaponData = new Dictionary<int, WeaponData>();
 
         [SerializeField]
         private ArmorData[] armor = new ArmorData[0];
 
-        private readonly Dictionary<int, ArmorData> _armorData = new Dictionary<int, ArmorData>();
-
-        public SchematicData schematic = new SchematicData();
-
-        public bool IsValid => CurrentVersion == version;
+        [SerializeField]
+        private SpecialData[] specials = new SpecialData[0];
+#endregion
 
         public void Process()
         {
             Debug.Log("Processing game data...");
 
+            foreach(BrainData brainData in brains) {
+                brainData.Process();
+                _items[ItemData.ItemTypeBrain].Add(brainData.Id, brainData);
+            }
+
             foreach(WeaponData weaponData in weapons) {
                 weaponData.Process();
-                _weaponData.Add(weaponData.Id, weaponData);
+                _items[ItemData.ItemTypeWeapon].Add(weaponData.Id, weaponData);
             }
 
             foreach(ArmorData armorData in armor) {
                 armorData.Process();
-                _armorData.Add(armorData.Id, armorData);
+                _items[ItemData.ItemTypeArmor].Add(armorData.Id, armorData);
             }
 
-            schematic.Process();
+            foreach(SpecialData specialData in specials) {
+                specialData.Process();
+                _items[ItemData.ItemTypeSpecial].Add(specialData.Id, specialData);
+            }
+
+
+            Fighter.SchematicData.Process();
+        }
+
+        public ItemData GetItem(string itemType, int itemId)
+        {
+            Dictionary<int, ItemData> itemDatas = _items.GetOrDefault(itemType);
+            return itemDatas?.GetOrDefault(itemId);
         }
 
         public void DebugDump()
         {
             StringBuilder builder = new StringBuilder();
             builder.AppendLine("Game Data:");
+
+            builder.AppendLine($"Version: {version} ({CurrentVersion}), valid: {IsValid}");
+
+            builder.AppendLine($"Fighter: {fighter}");
+
+            builder.AppendLine($"Items:");
+
+            builder.AppendLine($"Brains {brains.Length}:");
+            foreach(BrainData brainData in brains) {
+                builder.AppendLine(brainData.ToString());
+            }
 
             builder.AppendLine($"Weapons {weapons.Length}:");
             foreach(WeaponData weaponData in weapons) {
@@ -64,7 +109,10 @@ namespace CatFight.Data
                 builder.AppendLine(armorData.ToString());
             }
 
-            builder.AppendLine(schematic.ToString());
+            builder.AppendLine($"Specials {specials.Length}:");
+            foreach(SpecialData specialData in specials) {
+                builder.AppendLine(specialData.ToString());
+            }
 
             Debug.Log(builder.ToString());
         }

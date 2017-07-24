@@ -8,6 +8,7 @@ using CatFight.Data;
 using CatFight.Util;
 
 using UnityEngine;
+using static CatFight.Players.Player;
 
 namespace CatFight.Players
 {
@@ -17,19 +18,25 @@ namespace CatFight.Players
 
         public IReadOnlyDictionary<int, Player> Players => _players;
 
+#if UNITY_EDITOR
+        [SerializeField]
+        [ReadOnly]
+        private Player[] _debugPlayers;
+#endif
+
         private readonly Dictionary<int, Player> _connectedPlayers = new Dictionary<int, Player>();
 
         private readonly Dictionary<int, Player> _disconnectedPlayers = new Dictionary<int, Player>();
 
-        private readonly Dictionary<PlayerTeam.TeamIds, List<Player>> _teams = new Dictionary<PlayerTeam.TeamIds, List<Player>>();
+        private readonly Dictionary<Player.TeamIds, List<Player>> _teams = new Dictionary<Player.TeamIds, List<Player>>();
 
         private Player _masterPlayer;
 
 #region  Unity Lifecycle
         private void Awake()
         {
-            foreach(PlayerTeam.TeamIds teamId in Enum.GetValues(typeof(PlayerTeam.TeamIds))) {
-                if(PlayerTeam.TeamIds.None == teamId) {
+            foreach(Player.TeamIds teamId in Enum.GetValues(typeof(Player.TeamIds))) {
+                if(Player.TeamIds.None == teamId) {
                     continue;
                 }
                 _teams.Add(teamId, new List<Player>());
@@ -46,11 +53,15 @@ namespace CatFight.Players
                 return;
             }
 
-            Player player = new Player(deviceId, DataManager.Instance.GameData.schematic)
+            Player player = new Player(deviceId, DataManager.Instance.GameData.Fighter.SchematicData)
             {
                 IsConnected = true
             };
             _players.Add(deviceId, player);
+
+#if UNITY_EDITOR
+            _debugPlayers = _players.Values.ToArray();
+#endif
 
             _connectedPlayers.Add(deviceId, player);
 
@@ -60,8 +71,8 @@ namespace CatFight.Players
 
         private bool ReconnectPlayer(int deviceId)
         {
-            Player player;
-            if(!_disconnectedPlayers.TryGetValue(deviceId, out player)) {
+            Player player = _disconnectedPlayers.GetOrDefault(deviceId);
+            if(null == player) {
                 return false;
             }
 
@@ -69,6 +80,8 @@ namespace CatFight.Players
 
             _disconnectedPlayers.Remove(deviceId);
             _connectedPlayers.Add(deviceId, player);
+
+            player.IsConnected = true;
 
             // update the player's master status
             if(player.IsMasterPlayer && null != _masterPlayer && player != _masterPlayer) {
@@ -82,14 +95,16 @@ namespace CatFight.Players
 
         public void DisconnectPlayer(int deviceId)
         {
-            Player player;
-            if(!_connectedPlayers.TryGetValue(deviceId, out player)) {
+            Player player = _connectedPlayers.GetOrDefault(deviceId);
+            if(null == player) {
                 Debug.LogError($"Disconnecting unknown player {deviceId} (already disconnected: {_disconnectedPlayers.ContainsKey(deviceId)})!");
                 return;
             }
 
             _disconnectedPlayers.Add(deviceId, player);
             _connectedPlayers.Remove(deviceId);
+
+            player.IsConnected = false;
 
             if(player == _masterPlayer) {
                 _masterPlayer = null;
@@ -99,8 +114,8 @@ namespace CatFight.Players
 
         public void ConfirmPlayerSchematic(int deviceId, bool isConfirmed)
         {
-            Player player;
-            if(!_connectedPlayers.TryGetValue(deviceId, out player)) {
+            Player player = _connectedPlayers.GetOrDefault(deviceId);
+            if(null == player) {
                 Debug.LogError($"Cannot confirm non-connected player {deviceId} schematic!");
                 return;
             }
@@ -108,17 +123,17 @@ namespace CatFight.Players
             player.Schematic.IsConfirmed = isConfirmed;
         }
 
-        public PlayerTeam.TeamIds GetPlayerTeam(int deviceId)
+        public TeamIds GetPlayerTeam(int deviceId)
         {
             Player player;
 
             if (!_connectedPlayers.TryGetValue(deviceId, out player))
             {
                 Debug.LogError($"Cannot confirm non-connected player {deviceId} Team ID retunring none!");
-                return PlayerTeam.TeamIds.None;
+                return TeamIds.None;
             }
 
-            return player.Team.Id;
+            return player.TeamId;
         }
 
         public bool AreAllPlayersReady()
@@ -133,7 +148,7 @@ namespace CatFight.Players
 
         private void SetPlayerTeam(Player player)
         {
-            PlayerTeam.TeamIds smallestTeamId = PlayerTeam.TeamIds.TeamA;
+            Player.TeamIds smallestTeamId = Player.TeamIds.TeamA;
             List<Player> smallestTeam = null;
 
             foreach(var kvp in _teams) {
@@ -144,20 +159,20 @@ namespace CatFight.Players
             }
 
             if(null != smallestTeam) {
-                player.Team.Id = smallestTeamId;
+                player.SetTeam(smallestTeamId);
                 smallestTeam.Add(player);
             }
         }
 
-        public IReadOnlyCollection<Player> GetTeam(PlayerTeam.TeamIds teamId)
+        public IReadOnlyCollection<Player> GetTeam(Player.TeamIds teamId)
         {
             return _teams[teamId];
         }
 
-        public void BroadcastToTeam(PlayerTeam.TeamIds teamId, Message message, int exceptDeviceId=-1)
+        public void BroadcastToTeam(Player.TeamIds teamId, Message message, int exceptDeviceId=-1)
         {
-            List<Player> players;
-            if(!_teams.TryGetValue(teamId, out players)) {
+            List<Player> players = _teams.GetOrDefault(teamId);
+            if(null == players) {
                 Debug.LogError($"Unable to broadcast message to non-existant team {teamId}!");
                 return;
             }

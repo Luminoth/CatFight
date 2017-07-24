@@ -6,17 +6,17 @@ using CatFight.Players.Schematics;
 namespace CatFight.Fighters.Loadouts
 {
     [Serializable]
-    public sealed class WeaponLoadoutSlot : LoadoutSlot
+    public sealed class BrainLoadoutSlot : LoadoutSlot
     {
-        public WeaponLoadoutSlot(SchematicSlotData slotData)
+        public BrainLoadoutSlot(SchematicSlotData slotData)
             : base(slotData)
         {
         }
 
         public override void Process(SchematicSlot schematicSlot)
         {
-            WeaponSchematicSlot weaponSlot = (WeaponSchematicSlot)schematicSlot;
-            if(null == weaponSlot.Item) {
+            BrainSchematicSlot brainSlot = (BrainSchematicSlot)schematicSlot;
+            if(null == brainSlot.Item) {
                 return;
             }
         }

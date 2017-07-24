@@ -7,12 +7,12 @@ using JetBrains.Annotations;
 namespace CatFight.Players.Schematics
 {
     [Serializable]
-    public sealed class ArmorSchematicSlot : SchematicSlot
+    public sealed class SpecialSchematicSlot : SchematicSlot
     {
         [CanBeNull]
-        public ArmorData ArmorItem => (ArmorData)Item;
+        public SpecialData SpecialItem => (SpecialData)Item;
 
-        public ArmorSchematicSlot(SchematicSlotData slotData)
+        public SpecialSchematicSlot(SchematicSlotData slotData)
             : base(slotData)
         {
         }

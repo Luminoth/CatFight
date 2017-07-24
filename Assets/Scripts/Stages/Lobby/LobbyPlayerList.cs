@@ -24,8 +24,8 @@ namespace CatFight.Stages.Lobby
                 return false;
             }
 
-            Player player;
-            if(!PlayerManager.Instance.Players.TryGetValue(deviceId, out player)) {
+            Player player = PlayerManager.Instance.Players.GetOrDefault(deviceId);
+            if(null == player) {
                 Debug.LogError($"Cannot add non-existant player {deviceId}");
                 return false;
             }
@@ -41,22 +41,14 @@ namespace CatFight.Stages.Lobby
 
         public void ReconnectPlayer(int deviceId)
         {
-            LobbyPlayer lobbyPlayer;
-            if(!_players.TryGetValue(deviceId, out lobbyPlayer)) {
-                Debug.LogError($"Unable to reconnect non-existant player {deviceId}!");
-                return;
-            }
-            lobbyPlayer.SetConnected(true);
+            LobbyPlayer lobbyPlayer = _players.GetOrDefault(deviceId);
+            lobbyPlayer?.SetConnected(true);
         }
 
         public void DisconnectPlayer(int deviceId)
         {
-            LobbyPlayer lobbyPlayer;
-            if(!_players.TryGetValue(deviceId, out lobbyPlayer)) {
-                Debug.LogError($"Unable to disconnect non-existant player {deviceId}!");
-                return;
-            }
-            lobbyPlayer.SetConnected(false);
+            LobbyPlayer lobbyPlayer = _players.GetOrDefault(deviceId);
+            lobbyPlayer?.SetConnected(false);
         }
     }
 }

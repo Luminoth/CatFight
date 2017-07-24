@@ -1,4 +1,5 @@
 ﻿using CatFight.AirConsole.Messages;
+using CatFight.Data;
 using CatFight.Fighters.Loadouts;
 using CatFight.Players;
 using CatFight.Util;
@@ -21,18 +22,27 @@ namespace CatFight.Fighters
 
         [SerializeField]
         [ReadOnly]
-        private PlayerTeam.TeamIds _teamId;
+        private Player.TeamIds _teamId;
 
-        public PlayerTeam.TeamIds TeamId => _teamId;
+        public Player.TeamIds TeamId => _teamId;
 
+        [SerializeField]
+        [ReadOnly]
         private Loadout _loadout;
 
-        public void Initialize(PlayerTeam.TeamIds teamId)
+        [SerializeField]
+        [ReadOnly]
+        private FighterStats _stats;
+
+        public void Initialize(Player.TeamIds teamId, FighterData fighterData)
         {
             _teamId = teamId;
 
             _loadout = new Loadout(this);
             _loadout.BuildLoadout();
+
+            _stats = new FighterStats(this, fighterData);
+            _stats.Compile(_loadout);
         }
 
         public void Input(SetInputMessage InputData)

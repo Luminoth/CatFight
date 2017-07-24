@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using CatFight.AirConsole;
+using CatFight.Data;
 using CatFight.Fighters;
 using CatFight.Util;
 
@@ -51,6 +52,7 @@ namespace CatFight.Stages.Arena
         [SerializeField]
         private FighterSpawn[] _spawnPoints;
 
+// TODO: move this stuff to the fighter manager
         [SerializeField]
         private Fighter _fighterPrefab;
 
@@ -59,6 +61,7 @@ namespace CatFight.Stages.Arena
         private GameObject _fighterContainer;
 
         private readonly List<Fighter> _fighters = new List<Fighter>();
+// END
 
 #region Unity Lifecycle
         protected override void Start()
@@ -122,7 +125,7 @@ namespace CatFight.Stages.Arena
                 Fighter fighter = SpawnFighter(spawnPoint);
                 _fighters.Add(fighter);
 
-                fighter.Initialize(spawnPoint.TeamId);
+                fighter.Initialize(spawnPoint.TeamId, DataManager.Instance.GameData.Fighter);
             }
         }
 
@@ -193,7 +196,7 @@ namespace CatFight.Stages.Arena
                     //Need to convert data to a betting input class
                     for (int i = 0; _fighters.Count > i ; i++)
                     {
-                        if(_fighters[i].TeamId == player.Team.Id)
+                        if(_fighters[i].TeamId == player.TeamId)
                         {
                             _fighters[i].Input(setSlotMessage);
                             break;

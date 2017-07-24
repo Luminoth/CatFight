@@ -24,24 +24,27 @@ var MessageType = Object.freeze({
     ControllerAction: 6
 });
 
-var templateScript;
-
-var airconsole;
-var viewManager;
-
-var isMasterPlayer = false;
-var isConfirmed = false;
-var playerName;
-var playerTeamName;
-
 function App() {
 
     app = this;
 
-    // compile content template and set it with the initial values
-    // so that the airconsole scripts don't choke on missing ids
-    var template = $("#content-template").html();
-    app.templateScript = Handlebars.compile(template);
+    var templateScript;
+
+    var airconsole;
+    var viewManager;
+
+    var isMasterPlayer = false;
+    var isConfirmed = false;
+    var playerName = "Guest";
+    var playerTeamName = "Unaffiliated";
+
+    var playerSlots = [];
+    var filledSlots = 0;
+    var teamSlots = [];
+
+    var gameData = {};
+
+    app._initHandlebars()
 
     // init AirConsole
     app.airconsole = new AirConsole({ "orientation": "landscape" });
@@ -57,15 +60,21 @@ function App() {
 
         // load game data
         app.debugLog("Requesting game data...");
-        var gameData = {};
         loadJSON("/data/GameData.json", function(response) {
             if(!response.version || CurrentGameDataVersion != response.version) {
                 app.debugLog("Invalid game data version. Got " + response.version + ", expected " + CurrentGameDataVersion);
                 return;
             }
 
-            gameData = response;
-            app.debugLog("Received game data version " + gameData.version);
+            app.gameData = response;
+            app.debugLog("Received game data", app.gameData.version);
+
+            // init the slots to 0 (cleared)
+            app.playerSlots = new Array(app.gameData.fighter.schematic.slots.length).fill(0);
+            app.filledSlots = 0;
+            app.teamSlots = new Array(app.gameData.fighter.schematic.slots.length).fill({});
+
+            app.updateContent();
         });
     }
 
@@ -81,10 +90,10 @@ function App() {
                 app.airconsole.setCustomDeviceStateProperty("teamData", data);
                 break;
             case MessageType.SetSlot:
-app.debugLog("TODO: handle set slot message");
+                app._setTeamSlot(data.slotId, data.itemId);
                 break;
             case MessageType.ClearSlot:
-app.debugLog("TODO: handle set slot message");
+                app._clearTeamSlot(data.slotId, data.itemId);
                 break;
             default:
                 alert("Invalid message type: " + messageType);
@@ -112,13 +121,31 @@ App.prototype.debugLog = function() {
     return window.console && console.log && Function.apply.call(console.log, console, args);
 }
 
+App.prototype._initHandlebars = function() {
+
+    // register helpers
+    Handlebars.registerHelper('ifEq', function(a, b, opts) {
+        if(a == b) {
+            return opts.fn(this);
+        } else {
+            return opts.inverse(this);
+        }
+    });
+
+    // compile content template and set it with the initial values
+    // so that the airconsole scripts don't choke on missing ids
+    var template = $("#content-template").html();
+    app.templateScript = Handlebars.compile(template);
+}
+
 App.prototype.updateContent = function() {
 
     app.debugLog("Updating content...");
     var compiledHtml = app.templateScript({
         "playerName": app.playerName,
         "playerTeamName": app.playerTeamName,
-        "isMasterPlayer": app.isMasterPlayer
+        "isMasterPlayer": app.isMasterPlayer,
+        "gameData": app.gameData
     });
     $("#content-placeholder").html(compiledHtml);
 
@@ -213,7 +240,7 @@ App.prototype.checkForMasterPlayer = function(data) {
 
     var wasMasterPlayer = app.isMasterPlayer;
     app.isMasterPlayer = data.masterPlayer === app.airconsole.getDeviceId();
-    if(wasMasterPlayer != isMasterPlayer) {
+    if(wasMasterPlayer != app.isMasterPlayer) {
         app.updateContent();
     }
 }
@@ -230,7 +257,7 @@ App.prototype.confirmStaging = function(msg) {
 
     isConfirmed = !isConfirmed;
 
-    app.debugLog("Confirming staging: ", isConfirmed);
+    app.debugLog("Confirming staging", isConfirmed);
     app.sendMessageToScreen({
         "type": MessageType.ConfirmStaging,
         "isConfirmed": isConfirmed
@@ -246,6 +273,90 @@ App.prototype.controlleraction = function (msg, buttonType, state, fireType) {
         "buttonState": state,
         "fireType" : fireType
     });
+}
+
+App.prototype.selectSchematicSlot = function(slotId) {
+
+    var value = $("#slot_" + slotId).val();
+    if(value) {
+        app._setSlot(slotId, parseInt(value));
+    } else {
+        app._clearSlot(slotId);
+    }
+}
+
+App.prototype._enableSchematicSlots = function() {
+
+    var disable = app.filledSlots >= app.gameData.fighter.schematic.maxFilledSlots;
+    app.gameData.fighter.schematic.slots.forEach(function(slot) {
+        var slotSelector = $("#slot_" + slot.id);
+        if(app.playerSlots[slot.id - 1] == 0) {
+            $("#slot_" + slot.id).prop("disabled", disable);
+        }
+    });
+}
+
+App.prototype._setSlot = function(slotId, itemId) {
+
+    app.debugLog("Setting slot", slotId, itemId, app.filledSlots);
+    app.sendMessageToScreen({
+        "type": MessageType.SetSlot,
+        "slotId": slotId,
+        "itemId": itemId
+    });
+
+    var idx = slotId - 1;
+    if(app.playerSlots[idx] == 0) {
+        ++app.filledSlots;
+    }
+    app.playerSlots[idx] = itemId;
+
+    app._enableSchematicSlots();
+}
+
+App.prototype._setTeamSlot = function(slotId, itemId) {
+
+    var slotIdx = slotId - 1;
+    var itemIdx = itemId - 1;
+
+    var slot = app.teamSlots[slotIdx];
+    if(!(itemIdx in slot)) {
+        slot[itemIdx] = 0;
+    }
+
+    app.debugLog("Setting team slot", slotId, itemId, slot[itemIdx]);
+    ++slot[itemIdx];
+}
+
+App.prototype._clearSlot = function(slotId) {
+
+    app.debugLog("Clearing slot", slotId, app.filledSlots);
+    app.sendMessageToScreen({
+        "type": MessageType.ClearSlot,
+        "slotId": slotId
+    });
+
+    var idx = slotId - 1;
+    if(app.playerSlots[idx] != 0) {
+        --app.filledSlots;
+    }
+    app.playerSlots[idx] = 0;
+
+    app._enableSchematicSlots();
+}
+
+App.prototype._clearTeamSlot = function(slotId, itemId) {
+
+    var slotIdx = slotId - 1;
+    var itemIdx = itemId - 1;
+
+    var slot = app.teamSlots[slotIdx];
+    if(!(itemId in slot)) {
+        slot[itemIdx] = 1;
+    }
+
+    app.debugLog("Clearing team slot", slotId, itemId, slot[itemIdx]);
+    --slot[itemIdx];
 }
 
 App.prototype.sendMessageToScreen = function(msg) {

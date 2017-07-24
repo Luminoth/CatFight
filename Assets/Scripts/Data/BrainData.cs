@@ -5,7 +5,7 @@ using UnityEngine;
 namespace CatFight.Data
 {
     [Serializable]
-    public sealed class WeaponData : ItemData
+    public sealed class BrainData : ItemData
     {
         [SerializeField]
         private string type = string.Empty;
@@ -18,7 +18,7 @@ namespace CatFight.Data
 
         public override string ToString()
         {
-            return $"Weapon({Id}: {Name} - {Type})";
+            return $"Brain({Id}: {Name} - {Type})";
         }
     }
 }

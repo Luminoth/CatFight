@@ -3,6 +3,7 @@
 using CatFight.AirConsole;
 using CatFight.AirConsole.Messages;
 using CatFight.Players;
+using CatFight.Util;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -88,22 +89,14 @@ namespace CatFight.Stages.Lobby
 
         private void ReconnectPlayer(int deviceId)
         {
-            LobbyPlayerList playerList;
-            if(!_playerListMapping.TryGetValue(deviceId, out playerList)) {
-                Debug.LogError($"Unable to reconnect non-existant player {deviceId}!");
-                return;
-            }
-            playerList.ReconnectPlayer(deviceId);
+            LobbyPlayerList playerList = _playerListMapping.GetOrDefault(deviceId);
+            playerList?.ReconnectPlayer(deviceId);
         }
 
         private void DisconnectPlayer(int deviceId)
         {
-            LobbyPlayerList playerList;
-            if(!_playerListMapping.TryGetValue(deviceId, out playerList)) {
-                Debug.LogError($"Unable to disconnect non-existant player {deviceId}!");
-                return;
-            }
-            playerList.DisconnectPlayer(deviceId);
+            LobbyPlayerList playerList = _playerListMapping.GetOrDefault(deviceId);
+            playerList?.DisconnectPlayer(deviceId);
         }
 
         private void StartGame()
