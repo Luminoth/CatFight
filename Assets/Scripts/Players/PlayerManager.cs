@@ -8,7 +8,6 @@ using CatFight.Data;
 using CatFight.Util;
 
 using UnityEngine;
-using static CatFight.Players.Player;
 
 namespace CatFight.Players
 {
@@ -121,19 +120,6 @@ namespace CatFight.Players
             }
 
             player.Schematic.IsConfirmed = isConfirmed;
-        }
-
-        public TeamIds GetPlayerTeam(int deviceId)
-        {
-            Player player;
-
-            if (!_connectedPlayers.TryGetValue(deviceId, out player))
-            {
-                Debug.LogError($"Cannot confirm non-connected player {deviceId} Team ID retunring none!");
-                return TeamIds.None;
-            }
-
-            return player.TeamId;
         }
 
         public bool AreAllPlayersReady()

@@ -29,8 +29,6 @@ namespace CatFight.AirConsole.Messages
                     return new SetSlotMessage(data);
                 case Message.MessageType.ClearSlot:
                     return new ClearSlotMessage(data);
-                case Message.MessageType.ControllerAction:
-                    return new SetInputMessage(data);
                 default:
                     Debug.LogError($"Unsupported message type: {messageType}");
                     return null;
@@ -53,7 +51,6 @@ namespace CatFight.AirConsole.Messages
             SetTeam,
             SetSlot,
             ClearSlot,
-            ControllerAction
         }
 
         public abstract MessageType type { get; }
