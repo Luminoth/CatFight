@@ -60,6 +60,11 @@ namespace CatFight.Stages.Arena
             StartCountdown();
         }
 
+        protected override void OnDestroy()
+        {
+            FighterManager.Instance.DestroyFighters();
+        }
+
         private void Update()
         {
             if(_isRoundOver) {
