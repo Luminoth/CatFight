@@ -1,9 +1,12 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+
+using UnityEngine;
 
 namespace CatFight.Items.Armor
 {
     public static class ArmorFactory
     {
+        [CanBeNull]
         public static Armor Create(string type)
         {
             switch(type)

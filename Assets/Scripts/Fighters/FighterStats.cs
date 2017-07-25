@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using CatFight.Data;
 using CatFight.Fighters.Loadouts;
-using CatFight.Items.Brains;
+using CatFight.Items.Specials;
 using CatFight.Items.Weapons;
 using CatFight.Util;
 
@@ -20,29 +20,21 @@ namespace CatFight.Fighters
 
         public float CurrentHealth { get { return _currentHealth; } private set { _currentHealth = value < 0.0f ? 0.0f : value; } }
 
-/*
-        [SerializeField]
-        [ReadOnly]
-        private float _armorReduction;
-
-        public float ArmorReduction { get { return _armorReduction; } private set { _armorReduction = Mathf.Clamp01(value); } }
-
-        [SerializeField]
-        [ReadOnly]
-        private float _moveModifier = 1.0f;
-
-        public float MoveModifier { get { return _moveModifier; } private set { _moveModifier = value < 0.0f ? 0.0f : value; } }
-*/
-
         public bool IsDead => CurrentHealth <= 0.0f;
 
+// TODO: armor
+
+// TODO: debug serialize fields
+
         private readonly List<Weapon> _weapons = new List<Weapon>();
+
+        private readonly Dictionary<string, Special> _specials = new Dictionary<string, Special>();
+
+        public float MoveSpeed => _fighterData.MoveSpeed;
 
         private readonly FighterData _fighterData;
 
         private readonly Fighter _fighter;
-
-        public float MoveSpeed => _fighterData.MoveSpeed /** MoveModifier*/;
 
         public FighterStats(Fighter fighter, FighterData fighterData)
         {
@@ -72,11 +64,19 @@ namespace CatFight.Fighters
                     break;
                 case SchematicSlotData.SchematicSlotTypeArmor:
                     ArmorLoadoutSlot armorSlot = (ArmorLoadoutSlot)slot;
-                    /*ArmorReduction = armorSlot.CalculateNewArmorReduction(ArmorReduction);
-                    MoveModifier = armorSlot.CalculateNewMoveModifier(MoveModifier);*/
+// TODO
                     break;
                 case SchematicSlotData.SchematicSlotTypeSpecial:
                     SpecialLoadoutSlot specialSlot = (SpecialLoadoutSlot)slot;
+                    foreach(var specialKvp in specialSlot.Specials) {
+                        Special special = _specials.GetOrDefault(specialKvp.Key);
+                        if(null == special) {
+                            special = SpecialFactory.Create(specialKvp.Key, specialKvp.Value);
+                            _specials.Add(specialKvp.Key, special);
+                        } else {
+                            special.IncreaseTotalUses(specialKvp.Value);
+                        }
+                    }
                     break;
                 }
             }
@@ -86,6 +86,20 @@ namespace CatFight.Fighters
         {
             //float reducedAmount = amount - (amount * ArmorReduction);
             //CurrentHealth -= reducedAmount;
+        }
+
+        public void FireWeapon(int idx)
+        {
+            if(idx < 0 || idx >= _weapons.Count) {
+                return;
+            }
+            _weapons[idx].Fire();
+        }
+
+        public void UseSpecial(string type)
+        {
+            Special special = _specials.GetOrDefault(type);
+            special?.Use();
         }
     }
 }

@@ -92,7 +92,7 @@ namespace CatFight.Data
 
             builder.AppendLine($"Fighter: {fighter}");
 
-            builder.AppendLine($"Items:");
+            builder.AppendLine("Items:");
 
             builder.AppendLine($"Brains {brains.Length}:");
             foreach(BrainData brainData in brains) {

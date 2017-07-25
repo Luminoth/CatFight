@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+
+using UnityEngine;
 
 namespace CatFight.Items.Brains
 {
@@ -13,6 +15,7 @@ namespace CatFight.Items.Brains
             BrainType = type;
         }
 
+        [CanBeNull]
         public FsmTemplate LoadBrain()
         {
             return Resources.Load<FsmTemplate>(ResourcePath + "/" + BrainType);

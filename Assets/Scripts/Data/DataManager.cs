@@ -20,7 +20,6 @@ namespace CatFight.Data
         public bool Load()
         {
             Debug.Log("Loading game data...");
-            //Debug.Log(GameDataFile.text);
 
 // TODO: show an error dialog
             GameData = JsonUtility.FromJson<GameData>(GameDataFile.text);

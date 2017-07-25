@@ -157,7 +157,7 @@ namespace CatFight.Players
 
         public void BroadcastToTeam(Player.TeamIds teamId, Message message, int exceptDeviceId=-1)
         {
-            List<Player> players = _teams.GetOrDefault(teamId);
+            var players = _teams.GetOrDefault(teamId);
             if(null == players) {
                 Debug.LogError($"Unable to broadcast message to non-existant team {teamId}!");
                 return;

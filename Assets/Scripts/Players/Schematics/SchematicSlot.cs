@@ -12,6 +12,7 @@ namespace CatFight.Players.Schematics
 {
     public static class SchematicSlotFactory
     {
+        [CanBeNull]
         public static SchematicSlot Create(SchematicSlotData slotData)
         {
             switch(slotData.Type)
