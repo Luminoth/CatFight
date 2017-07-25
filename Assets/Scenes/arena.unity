@@ -291,6 +291,7 @@ GameObject:
   m_Component:
   - component: {fileID: 154456557}
   - component: {fileID: 154456558}
+  - component: {fileID: 154456559}
   m_Layer: 0
   m_Name: AreanBorder-NW
   m_TagString: Untagged
@@ -336,6 +337,26 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 38, y: 1}
   m_EdgeRadius: 0
+--- !u!50 &154456559
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 154456556}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &220064540
 GameObject:
   m_ObjectHideFlags: 0
@@ -345,6 +366,7 @@ GameObject:
   m_Component:
   - component: {fileID: 220064541}
   - component: {fileID: 220064542}
+  - component: {fileID: 220064543}
   m_Layer: 0
   m_Name: AreanBorder-NE
   m_TagString: Untagged
@@ -390,6 +412,26 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 38, y: 1}
   m_EdgeRadius: 0
+--- !u!50 &220064543
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 220064540}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &275690705
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,6 +499,7 @@ GameObject:
   m_Component:
   - component: {fileID: 286611899}
   - component: {fileID: 286611900}
+  - component: {fileID: 286611901}
   m_Layer: 0
   m_Name: AreanBorder-SW
   m_TagString: Untagged
@@ -502,6 +545,26 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 38, y: 1}
   m_EdgeRadius: 0
+--- !u!50 &286611901
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 286611898}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1001 &390550021
 Prefab:
   m_ObjectHideFlags: 0
@@ -1100,6 +1163,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1811048128}
   - component: {fileID: 1811048129}
+  - component: {fileID: 1811048130}
   m_Layer: 0
   m_Name: AreanBorder-SE
   m_TagString: Untagged
@@ -1145,6 +1209,26 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 38, y: 1}
   m_EdgeRadius: 0
+--- !u!50 &1811048130
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1811048127}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &1914783893
 GameObject:
   m_ObjectHideFlags: 0
