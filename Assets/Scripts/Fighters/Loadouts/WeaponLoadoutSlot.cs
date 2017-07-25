@@ -6,6 +6,8 @@ using CatFight.Items.Weapons;
 using CatFight.Players.Schematics;
 using CatFight.Util;
 
+using JetBrains.Annotations;
+
 namespace CatFight.Fighters.Loadouts
 {
     [Serializable]
@@ -13,6 +15,7 @@ namespace CatFight.Fighters.Loadouts
     {
         private readonly Dictionary<string, int> _weaponTypeVotes = new Dictionary<string, int>();
 
+        [CanBeNull]
         public Weapon Weapon { get; private set; }
 
         public WeaponLoadoutSlot(SchematicSlotData slotData)
@@ -23,7 +26,7 @@ namespace CatFight.Fighters.Loadouts
         public override void Process(SchematicSlot schematicSlot)
         {
             WeaponSchematicSlot weaponSlot = (WeaponSchematicSlot)schematicSlot;
-            if(null == weaponSlot.Item || null == weaponSlot.WeaponItem) {
+            if(null == weaponSlot.WeaponItem) {
                 return;
             }
 
@@ -34,7 +37,7 @@ namespace CatFight.Fighters.Loadouts
         public override void Complete()
         {
             string winnerType = VoteHelper.GetWinner(_weaponTypeVotes);
-            if(null == winnerType) {
+            if(string.IsNullOrWhiteSpace(winnerType)) {
                 return;
             }
 

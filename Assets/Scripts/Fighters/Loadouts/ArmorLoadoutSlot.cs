@@ -49,7 +49,7 @@ namespace CatFight.Fighters.Loadouts
         public override void Process(SchematicSlot schematicSlot)
         {
             ArmorSchematicSlot armorSlot = (ArmorSchematicSlot)schematicSlot;
-            if(null == armorSlot.Item || null == armorSlot.ArmorItem) {
+            if(null == armorSlot.ArmorItem) {
                 return;
             }
 

@@ -16,7 +16,7 @@ namespace CatFight.Fighters.Loadouts
         public override void Process(SchematicSlot schematicSlot)
         {
             SpecialSchematicSlot specialSlot = (SpecialSchematicSlot)schematicSlot;
-            if(null == specialSlot.Item) {
+            if(null == specialSlot.SpecialItem) {
                 return;
             }
         }

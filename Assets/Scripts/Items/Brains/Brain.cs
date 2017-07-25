@@ -1,10 +1,21 @@
-﻿namespace CatFight.Items.Brains
-{
-    public abstract class Armor : Item
-    {
-        public const string BrainTypeAggressive = "aggressive";
-        public const string BrainTypeDefensive = "defensive";
+﻿using UnityEngine;
 
-        public abstract string BrainType { get; }
+namespace CatFight.Items.Brains
+{
+    public class Brain : Item
+    {
+        private const string ResourcePath = "brains";
+
+        public string BrainType { get; }
+
+        public Brain(string type)
+        {
+            BrainType = type;
+        }
+
+        public FsmTemplate LoadBrain()
+        {
+            return Resources.Load<FsmTemplate>(ResourcePath + "/" + BrainType);
+        }
     }
 }

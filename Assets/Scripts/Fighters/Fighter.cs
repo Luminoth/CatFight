@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace CatFight.Fighters
 {
+    [RequireComponent(typeof(PlayMakerFSM))]
     public sealed class Fighter : MonoBehavior
     {
         [SerializeField]
@@ -23,6 +24,15 @@ namespace CatFight.Fighters
         [ReadOnly]
         private FighterStats _stats;
 
+        private PlayMakerFSM _fsm;
+
+#region Unity Lifecycle
+        private void Awake()
+        {
+            _fsm = GetComponent<PlayMakerFSM>();
+        }
+#endregion
+
         public void Initialize(Player.TeamIds teamId, FighterData fighterData)
         {
             _teamId = teamId;
@@ -31,7 +41,7 @@ namespace CatFight.Fighters
             _loadout.BuildLoadout();
 
             _stats = new FighterStats(this, fighterData);
-            _stats.Compile(_loadout);
+            _stats.Compile(_loadout, _fsm);
         }
     }
 }

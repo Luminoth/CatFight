@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using CatFight.Data;
 using CatFight.Fighters.Loadouts;
+using CatFight.Items.Brains;
 using CatFight.Items.Weapons;
 using CatFight.Util;
 
@@ -51,17 +52,23 @@ namespace CatFight.Fighters
             CurrentHealth = _fighterData.MaxHealth;
         }
 
-        public void Compile(Loadout loadout)
+        public void Compile(Loadout loadout, PlayMakerFSM fsm)
         {
             foreach(var kvp in loadout.Slots) {
                 LoadoutSlot slot = kvp.Value;
                 switch(slot.SlotData.Type)
                 {
                 case SchematicSlotData.SchematicSlotTypeBrain:
+                    BrainLoadoutSlot brainSlot = (BrainLoadoutSlot)slot;
+                    if(null != brainSlot.Brain) {
+                        fsm.SetFsmTemplate(brainSlot.Brain.LoadBrain());
+                    }
                     break;
                 case SchematicSlotData.SchematicSlotTypeWeapon:
                     WeaponLoadoutSlot weaponSlot = (WeaponLoadoutSlot)slot;
-                    _weapons.Add(weaponSlot.Weapon);
+                    if(null != weaponSlot.Weapon) {
+                        _weapons.Add(weaponSlot.Weapon);
+                    }
                     break;
                 case SchematicSlotData.SchematicSlotTypeArmor:
                     ArmorLoadoutSlot armorSlot = (ArmorLoadoutSlot)slot;
@@ -69,6 +76,7 @@ namespace CatFight.Fighters
                     MoveModifier = armorSlot.CalculateNewMoveModifier(MoveModifier);*/
                     break;
                 case SchematicSlotData.SchematicSlotTypeSpecial:
+                    SpecialLoadoutSlot specialSlot = (SpecialLoadoutSlot)slot;
                     break;
                 }
             }

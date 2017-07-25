@@ -62,7 +62,9 @@ namespace CatFight.Stages.Arena
 
         protected override void OnDestroy()
         {
-            FighterManager.Instance.DestroyFighters();
+            if(FighterManager.HasInstance) {
+                FighterManager.Instance.DestroyFighters();
+            }
         }
 
         private void Update()
