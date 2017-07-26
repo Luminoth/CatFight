@@ -50,7 +50,7 @@ namespace CatFight.Fighters
 #region Weapons
         private readonly List<Weapon> _weapons = new List<Weapon>();
 
-        public int WeaponCount => _weapons.Count;
+        public IReadOnlyCollection<Weapon> Weapons => _weapons;
 #endregion
 
 #region Specials
@@ -175,7 +175,7 @@ namespace CatFight.Fighters
             builder.AppendLine($"Health: {CurrentHealth} / {DataManager.Instance.GameData.Fighter.MaxHealth} ({IsDead})");
             builder.AppendLine(Brain?.ToString());
             builder.AppendLine(Armor.ToString());
-            builder.AppendLine($"Weapons ({WeaponCount}):");
+            builder.AppendLine($"Weapons:");
             foreach(Weapon weapon in _weapons) {
                 builder.AppendLine(weapon.ToString());
             }
