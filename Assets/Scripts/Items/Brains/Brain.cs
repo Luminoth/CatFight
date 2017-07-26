@@ -28,5 +28,10 @@ namespace CatFight.Items.Brains
         {
             return Resources.Load<FsmTemplate>(ResourcePath + "/" + BrainType);
         }
+
+        public override string ToString()
+        {
+            return $"Brain: {BrainType}";
+        }
     }
 }

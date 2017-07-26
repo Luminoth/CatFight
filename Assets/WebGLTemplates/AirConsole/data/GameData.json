@@ -3,6 +3,7 @@
     "fighter": {
         "maxHealth": 100,
         "moveSpeed": 10,
+        "armorReductionCapPercent": 45,
         "schematic": {
             "maxFilledSlots": 3,
             "slots": [
@@ -55,24 +56,28 @@
         {
             "id": 1,
             "name": "Machine Gun",
-            "type": "machinegun"
+            "type": "machinegun",
+            "damage": 10
         },
         {
             "id": 2,
             "name": "Laser",
-            "type": "laser"
+            "type": "laser",
+            "damage": 50
         }
     ],
     "armor": [
         {
             "id": 1,
             "name": "Bullet Armor",
-            "type": "machinegun"
+            "type": "machinegun",
+            "reductionPercent": 25
         },
         {
             "id": 2,
             "name": "Laser Armor",
-            "type": "laser"
+            "type": "laser",
+            "reductionPercent": 25
         }
     ],
     "specials": [

@@ -20,9 +20,13 @@ namespace CatFight.Fighters
         [ReadOnly]
         private Loadout _loadout;
 
+        public Loadout Loadout => _loadout;
+
         [SerializeField]
         [ReadOnly]
         private FighterStats _stats;
+
+        public FighterStats Stats => _stats;
 
         private PlayMakerFSM _fsm;
 
@@ -30,6 +34,9 @@ namespace CatFight.Fighters
         private void Awake()
         {
             _fsm = GetComponent<PlayMakerFSM>();
+
+            _loadout = new Loadout(this);
+            _stats = new FighterStats(this);
         }
 #endregion
 
@@ -37,11 +44,11 @@ namespace CatFight.Fighters
         {
             _teamId = teamId;
 
-            _loadout = new Loadout(this);
-            _loadout.BuildLoadout();
+            _loadout.Initialize();
+            Debug.Log(Loadout);
 
-            _stats = new FighterStats(this, fighterData);
-            _stats.Compile(_loadout, _fsm);
+            _stats.Initialize(_loadout, _fsm);
+            Debug.Log(Stats);
         }
     }
 }

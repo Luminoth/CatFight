@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 using CatFight.Players;
 using CatFight.Players.Schematics;
@@ -30,7 +31,7 @@ namespace CatFight.Fighters.Loadouts
             _fighter = fighter;
         }
 
-        public void BuildLoadout()
+        public void Initialize()
         {
             Debug.Log($"Building loadout for team {_fighter.TeamId}'s fighter...");
 
@@ -59,6 +60,16 @@ namespace CatFight.Fighters.Loadouts
             foreach(var kvp in _slots) {
                 kvp.Value.Complete();
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine("Loadout:");
+            foreach(var kvp in Slots) {
+                builder.AppendLine($"Slot {kvp.Key}: {kvp.Value}");
+            }
+            return builder.ToString();
         }
     }
 }

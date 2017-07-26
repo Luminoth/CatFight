@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 using CatFight.Util;
 
@@ -19,6 +20,8 @@ namespace CatFight.Items.Armor
             { ArmorTypeLaser, 0 }
         };
 
+        public IReadOnlyDictionary<string, int> DamageReductionPercents => _damageReductionPercents;
+
         public void IncreaseStrength(string type, int strength, int damageReductionPercent, int maxReductionPercent)
         {
             if(!_damageReductionPercents.ContainsKey(type)) {
@@ -36,6 +39,16 @@ namespace CatFight.Items.Armor
         public float GetDamageReduction(string type)
         {
             return _damageReductionPercents.GetOrDefault(type) / 100.0f;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine("Armor:");
+            foreach(var kvp in DamageReductionPercents) {
+                builder.AppendLine($"{kvp.Key}: {kvp.Value}");
+            }
+            return builder.ToString();
         }
     }
 }
