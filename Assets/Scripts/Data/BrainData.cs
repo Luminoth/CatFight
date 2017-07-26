@@ -12,10 +12,6 @@ namespace CatFight.Data
 
         public string Type => type;
 
-        public override void Process()
-        {
-        }
-
         public override string ToString()
         {
             return $"Brain({Id}: {Name} - {Type})";

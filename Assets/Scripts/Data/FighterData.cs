@@ -6,7 +6,7 @@ using UnityEngine;
 namespace CatFight.Data
 {
     [Serializable]
-    public sealed class FighterData
+    public sealed class FighterData : IData
     {
         [SerializeField]
         private int maxHealth;

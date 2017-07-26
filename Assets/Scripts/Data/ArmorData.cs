@@ -12,13 +12,14 @@ namespace CatFight.Data
 
         public string Type => type;
 
-        public override void Process()
-        {
-        }
+        [SerializeField]
+        private int reductionPercent = 0;
+
+        public int ReductionPercent => reductionPercent;
 
         public override string ToString()
         {
-            return $"Armor({Id}: {Name} - {Type})";
+            return $"Armor({Id}: {Name} - {Type} {ReductionPercent})";
         }
     }
 }

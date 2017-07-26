@@ -12,13 +12,14 @@ namespace CatFight.Data
 
         public string Type => type;
 
-        public override void Process()
-        {
-        }
+        [SerializeField]
+        private int damage = 1;
+
+        public int Damage => damage;
 
         public override string ToString()
         {
-            return $"Weapon({Id}: {Name} - {Type})";
+            return $"Weapon({Id}: {Name} - {Type}, {Damage})";
         }
     }
 }

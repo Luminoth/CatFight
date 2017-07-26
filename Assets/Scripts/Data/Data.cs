@@ -6,7 +6,6 @@ namespace CatFight.Data
 {
     public interface IData
     {
-        void Process();
     }
 
     [Serializable]
@@ -21,7 +20,5 @@ namespace CatFight.Data
         private string name = string.Empty;
 
         public string Name => name;
-
-        public abstract void Process();
     }
 }

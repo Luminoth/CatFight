@@ -54,25 +54,20 @@ namespace CatFight.Data
             Debug.Log("Processing game data...");
 
             foreach(BrainData brainData in brains) {
-                brainData.Process();
                 _items[ItemData.ItemTypeBrain].Add(brainData.Id, brainData);
             }
 
             foreach(WeaponData weaponData in weapons) {
-                weaponData.Process();
                 _items[ItemData.ItemTypeWeapon].Add(weaponData.Id, weaponData);
             }
 
             foreach(ArmorData armorData in armor) {
-                armorData.Process();
                 _items[ItemData.ItemTypeArmor].Add(armorData.Id, armorData);
             }
 
             foreach(SpecialData specialData in specials) {
-                specialData.Process();
                 _items[ItemData.ItemTypeSpecial].Add(specialData.Id, specialData);
             }
-
 
             Fighter.SchematicData.Process();
         }

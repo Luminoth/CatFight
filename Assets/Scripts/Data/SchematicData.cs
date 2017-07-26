@@ -19,10 +19,6 @@ namespace CatFight.Data
 
         public string Type => type;
 
-        public override void Process()
-        {
-        }
-
         public override string ToString()
         {
             return $"Slot({Id}: {Name} - {Type})";
@@ -47,7 +43,6 @@ namespace CatFight.Data
         public void Process()
         {
             foreach(SchematicSlotData slotData in slots) {
-                slotData.Process();
                 _slotData.Add(slotData.Id, slotData);
             }
         }
