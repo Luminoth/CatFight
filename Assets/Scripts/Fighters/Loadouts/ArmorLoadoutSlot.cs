@@ -10,7 +10,9 @@ namespace CatFight.Fighters.Loadouts
     [Serializable]
     public sealed class ArmorLoadoutSlot : LoadoutSlot
     {
-        private readonly Dictionary<string, int> _armorTypeVotes = new Dictionary<string, int>();
+        private readonly Dictionary<int, int> _armorTypeVotes = new Dictionary<int, int>();
+
+        public IReadOnlyDictionary<int, int> ArmorTypeVotes => _armorTypeVotes;
 
         public ArmorLoadoutSlot(SchematicSlotData slotData)
             : base(slotData)
@@ -24,13 +26,12 @@ namespace CatFight.Fighters.Loadouts
                 return;
             }
 
-            int currentCount = _armorTypeVotes.GetOrDefault(armorSlot.ArmorItem.Type);
-            _armorTypeVotes[armorSlot.ArmorItem.Type] = currentCount + 1;
+            int currentCount = _armorTypeVotes.GetOrDefault(armorSlot.ArmorItem.Id);
+            _armorTypeVotes[armorSlot.ArmorItem.Id] = currentCount + 1;
         }
 
         public override void Complete()
         {
-// TODO: armor is a combination of anti-stuff at vote-strength
         }
     }
 }

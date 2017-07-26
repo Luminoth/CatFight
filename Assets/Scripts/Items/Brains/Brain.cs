@@ -1,4 +1,5 @@
 ﻿using System;
+using CatFight.Util;
 
 using JetBrains.Annotations;
 
@@ -7,11 +8,12 @@ using UnityEngine;
 namespace CatFight.Items.Brains
 {
     [Serializable]
-    public class Brain : Item
+    public sealed class Brain : Item
     {
         private const string ResourcePath = "brains";
 
         [SerializeField]
+        [ReadOnly]
         private string _brainType;
 
         public string BrainType { get { return _brainType; } private set { _brainType = value; } }

@@ -13,7 +13,7 @@ namespace CatFight.Fighters.Loadouts
     [Serializable]
     public sealed class WeaponLoadoutSlot : LoadoutSlot
     {
-        private readonly Dictionary<string, int> _weaponTypeVotes = new Dictionary<string, int>();
+        private readonly Dictionary<int, int> _weaponTypeVotes = new Dictionary<int, int>();
 
         [CanBeNull]
         public Weapon Weapon { get; private set; }
@@ -30,18 +30,19 @@ namespace CatFight.Fighters.Loadouts
                 return;
             }
 
-            int currentCount = _weaponTypeVotes.GetOrDefault(weaponSlot.WeaponItem.Type);
-            _weaponTypeVotes[weaponSlot.WeaponItem.Type] = currentCount + 1;
+            int currentCount = _weaponTypeVotes.GetOrDefault(weaponSlot.WeaponItem.Id);
+            _weaponTypeVotes[weaponSlot.WeaponItem.Id] = currentCount + 1;
         }
 
         public override void Complete()
         {
-            string winnerType = VoteHelper.GetWinner(_weaponTypeVotes);
-            if(string.IsNullOrWhiteSpace(winnerType)) {
+            int winnerType = VoteHelper.GetWinner(_weaponTypeVotes);
+            WeaponData weaponData = DataManager.Instance.GameData.GetItem(ItemData.ItemTypeWeapon, winnerType) as WeaponData;
+            if(null == weaponData) {
                 return;
             }
 
-            Weapon = WeaponFactory.Create(winnerType);
+            Weapon = WeaponFactory.Create(weaponData.Type);
             Weapon?.SetStrength(_weaponTypeVotes[winnerType]);
         }
     }

@@ -13,7 +13,7 @@ namespace CatFight.Fighters.Loadouts
     [Serializable]
     public sealed class BrainLoadoutSlot : LoadoutSlot
     {
-        private readonly Dictionary<string, int> _brainTypeVotes = new Dictionary<string, int>();
+        private readonly Dictionary<int, int> _brainTypeVotes = new Dictionary<int, int>();
 
         [CanBeNull]
         public Brain Brain { get; private set; }
@@ -30,18 +30,19 @@ namespace CatFight.Fighters.Loadouts
                 return;
             }
 
-            int currentCount = _brainTypeVotes.GetOrDefault(brainSlot.BrainItem.Type);
-            _brainTypeVotes[brainSlot.BrainItem.Type] = currentCount + 1;
+            int currentCount = _brainTypeVotes.GetOrDefault(brainSlot.BrainItem.Id);
+            _brainTypeVotes[brainSlot.BrainItem.Id] = currentCount + 1;
         }
 
         public override void Complete()
         {
-            string winnerType = VoteHelper.GetWinner(_brainTypeVotes);
-            if(string.IsNullOrWhiteSpace(winnerType)) {
+            int winnerType = VoteHelper.GetWinner(_brainTypeVotes);
+            BrainData brainData = DataManager.Instance.GameData.GetItem(ItemData.ItemTypeBrain, winnerType) as BrainData;
+            if(null == brainData) {
                 return;
             }
 
-            Brain = new Brain(winnerType);
+            Brain = new Brain(brainData.Type);
         }
     }
 }

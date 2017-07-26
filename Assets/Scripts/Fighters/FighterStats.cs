@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using CatFight.Data;
 using CatFight.Fighters.Loadouts;
+using CatFight.Items.Armor;
 using CatFight.Items.Specials;
 using CatFight.Items.Weapons;
 using CatFight.Util;
@@ -14,6 +15,7 @@ namespace CatFight.Fighters
     [Serializable]
     public sealed class FighterStats
     {
+#region Health
         [SerializeField]
         [ReadOnly]
         private float _currentHealth = 100.0f;
@@ -21,16 +23,27 @@ namespace CatFight.Fighters
         public float CurrentHealth { get { return _currentHealth; } private set { _currentHealth = value < 0.0f ? 0.0f : value; } }
 
         public bool IsDead => CurrentHealth <= 0.0f;
+#endregion
 
-// TODO: armor
+#region Armor
+        [SerializeField]
+        [ReadOnly]
+        private readonly Armor _armor = new Armor();
+#endregion
 
-// TODO: debug serialize fields
-
+#region Weapons
         private readonly List<Weapon> _weapons = new List<Weapon>();
 
-        private readonly Dictionary<string, Special> _specials = new Dictionary<string, Special>();
+        public int WeaponCount => _weapons.Count;
+#endregion
 
+#region Specials
+        private readonly Dictionary<int, Special> _specials = new Dictionary<int, Special>();
+#endregion
+
+#region Movement
         public float MoveSpeed => _fighterData.MoveSpeed;
+#endregion
 
         private readonly FighterData _fighterData;
 
@@ -51,41 +64,72 @@ namespace CatFight.Fighters
                 switch(slot.SlotData.Type)
                 {
                 case SchematicSlotData.SchematicSlotTypeBrain:
-                    BrainLoadoutSlot brainSlot = (BrainLoadoutSlot)slot;
-                    if(null != brainSlot.Brain) {
-                        fsm.SetFsmTemplate(brainSlot.Brain.LoadBrain());
-                    }
+                    SetBrain((BrainLoadoutSlot)slot, fsm);
                     break;
                 case SchematicSlotData.SchematicSlotTypeWeapon:
-                    WeaponLoadoutSlot weaponSlot = (WeaponLoadoutSlot)slot;
-                    if(null != weaponSlot.Weapon) {
-                        _weapons.Add(weaponSlot.Weapon);
-                    }
+                    AddWeapon((WeaponLoadoutSlot)slot);
                     break;
                 case SchematicSlotData.SchematicSlotTypeArmor:
-                    ArmorLoadoutSlot armorSlot = (ArmorLoadoutSlot)slot;
-// TODO
+                    IncreaseArmorStrength((ArmorLoadoutSlot)slot);
                     break;
                 case SchematicSlotData.SchematicSlotTypeSpecial:
-                    SpecialLoadoutSlot specialSlot = (SpecialLoadoutSlot)slot;
-                    foreach(var specialKvp in specialSlot.Specials) {
-                        Special special = _specials.GetOrDefault(specialKvp.Key);
-                        if(null == special) {
-                            special = SpecialFactory.Create(specialKvp.Key, specialKvp.Value);
-                            _specials.Add(specialKvp.Key, special);
-                        } else {
-                            special.IncreaseTotalUses(specialKvp.Value);
-                        }
-                    }
+                    IncreaseSpecialUses((SpecialLoadoutSlot)slot);
+                    break;
+                default:
+                    Debug.LogError($"Invalid loadout slot type {slot.SlotData.Type}!");
                     break;
                 }
             }
         }
 
-        public void Damage(float amount)
+        private void SetBrain(BrainLoadoutSlot brainSlot, PlayMakerFSM fsm)
         {
-            //float reducedAmount = amount - (amount * ArmorReduction);
-            //CurrentHealth -= reducedAmount;
+            if(null != brainSlot.Brain) {
+                fsm.SetFsmTemplate(brainSlot.Brain.LoadBrain());
+            }
+        }
+
+        private void AddWeapon(WeaponLoadoutSlot weaponSlot)
+        {
+            if(null != weaponSlot.Weapon) {
+                _weapons.Add(weaponSlot.Weapon);
+            }
+        }
+
+        private void IncreaseArmorStrength(ArmorLoadoutSlot armorSlot)
+        {
+            foreach(var kvp in armorSlot.ArmorTypeVotes) {
+                ArmorData armorData = DataManager.Instance.GameData.GetItem(ItemData.ItemTypeArmor, kvp.Key) as ArmorData;
+                if(null == armorData) {
+                    continue;
+                }
+
+                _armor.IncreaseStrength(armorData.Type, kvp.Value, armorData.ReductionPercent, DataManager.Instance.GameData.Fighter.ArmorReductionCapPercent);
+            }
+        }
+
+        private void IncreaseSpecialUses(SpecialLoadoutSlot specialSlot)
+        {
+            foreach(var kvp in specialSlot.Specials) {
+                Special special = _specials.GetOrDefault(kvp.Key);
+                if(null == special) {
+                    SpecialData specialData = DataManager.Instance.GameData.GetItem(ItemData.ItemTypeSpecial, kvp.Key) as SpecialData;
+                    if(null == specialData) {
+                        continue;
+                    }
+
+                    special = SpecialFactory.Create(specialData.Type, kvp.Value);
+                    _specials.Add(kvp.Key, special);
+                } else {
+                    special.IncreaseTotalUses(kvp.Value);
+                }
+            }
+        }
+
+        public void Damage(int amount, string type)
+        {
+            float reducedAmount = amount - (amount * _armor.GetDamageReduction(type));
+            CurrentHealth -= reducedAmount;
         }
 
         public void FireWeapon(int idx)
@@ -96,9 +140,9 @@ namespace CatFight.Fighters
             _weapons[idx].Fire();
         }
 
-        public void UseSpecial(string type)
+        public void UseSpecial(int id)
         {
-            Special special = _specials.GetOrDefault(type);
+            Special special = _specials.GetOrDefault(id);
             special?.Use();
         }
     }

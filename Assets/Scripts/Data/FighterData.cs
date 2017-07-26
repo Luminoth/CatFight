@@ -19,6 +19,11 @@ namespace CatFight.Data
         public int MoveSpeed => moveSpeed;
 
         [SerializeField]
+        private int armorReductionCapPercent = 50;
+
+        public int ArmorReductionCapPercent => armorReductionCapPercent;
+
+        [SerializeField]
         private SchematicData schematic = new SchematicData();
 
         public SchematicData SchematicData => schematic;

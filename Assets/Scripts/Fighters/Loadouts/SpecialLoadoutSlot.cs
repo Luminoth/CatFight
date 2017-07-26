@@ -10,9 +10,9 @@ namespace CatFight.Fighters.Loadouts
     [Serializable]
     public sealed class SpecialLoadoutSlot : LoadoutSlot
     {
-        private readonly Dictionary<string, int> _specialTypeVotes = new Dictionary<string, int>();
+        private readonly Dictionary<int, int> _specialTypeVotes = new Dictionary<int, int>();
 
-        public IReadOnlyDictionary<string, int> Specials => _specialTypeVotes;
+        public IReadOnlyDictionary<int, int> Specials => _specialTypeVotes;
 
         public SpecialLoadoutSlot(SchematicSlotData slotData)
             : base(slotData)
@@ -26,8 +26,8 @@ namespace CatFight.Fighters.Loadouts
                 return;
             }
 
-            int currentCount = _specialTypeVotes.GetOrDefault(specialSlot.SpecialItem.Type);
-            _specialTypeVotes[specialSlot.SpecialItem.Type] = currentCount + 1;
+            int currentCount = _specialTypeVotes.GetOrDefault(specialSlot.SpecialItem.Id);
+            _specialTypeVotes[specialSlot.SpecialItem.Id] = currentCount + 1;
         }
 
         public override void Complete()

@@ -3,6 +3,7 @@
     "fighter": {
         "maxHealth": 100,
         "moveSpeed": 10,
+        "armorReductionCapPercent": 45,
         "schematic": {
             "maxFilledSlots": 3,
             "slots": [

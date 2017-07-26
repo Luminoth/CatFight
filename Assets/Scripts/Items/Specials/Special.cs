@@ -1,5 +1,7 @@
 ﻿using System;
 
+using CatFight.Util;
+
 using JetBrains.Annotations;
 
 using UnityEngine;
@@ -33,11 +35,13 @@ namespace CatFight.Items.Specials
         public abstract string SpecialType { get; }
 
         [SerializeField]
+        [ReadOnly]
         private int _totalUses;
 
         public int TotalUses { get { return _totalUses; } private set { _totalUses = value; } }
 
         [SerializeField]
+        [ReadOnly]
         private int _remainingUses;
 
         public int RemainingUses { get { return _remainingUses; } private set { _remainingUses = value; } }

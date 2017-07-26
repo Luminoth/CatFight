@@ -4,6 +4,8 @@ using System.Text;
 
 using CatFight.Util;
 
+using JetBrains.Annotations;
+
 using UnityEngine;
 
 namespace CatFight.Data
@@ -72,6 +74,13 @@ namespace CatFight.Data
             Fighter.SchematicData.Process();
         }
 
+        [CanBeNull]
+        public IReadOnlyDictionary<int, ItemData> GetItems(string itemType)
+        {
+            return _items.GetOrDefault(itemType);
+        }
+
+        [CanBeNull]
         public ItemData GetItem(string itemType, int itemId)
         {
             Dictionary<int, ItemData> itemDatas = _items.GetOrDefault(itemType);
