@@ -1,5 +1,8 @@
-﻿namespace CatFight.Items.Weapons
+﻿using System;
+
+namespace CatFight.Items.Weapons
 {
+    [Serializable]
     public sealed class MachineGun : Weapon
     {
         public override string WeaponType => WeaponTypeMachineGun;

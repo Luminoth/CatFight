@@ -1,14 +1,20 @@
-﻿using JetBrains.Annotations;
+﻿using System;
+
+using JetBrains.Annotations;
 
 using UnityEngine;
 
 namespace CatFight.Items.Brains
 {
+    [Serializable]
     public class Brain : Item
     {
         private const string ResourcePath = "brains";
 
-        public string BrainType { get; }
+        [SerializeField]
+        private string _brainType;
+
+        public string BrainType { get { return _brainType; } private set { _brainType = value; } }
 
         public Brain(string type)
         {

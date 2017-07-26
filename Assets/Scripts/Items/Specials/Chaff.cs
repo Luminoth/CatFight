@@ -1,5 +1,8 @@
-﻿namespace CatFight.Items.Specials
+﻿using System;
+
+namespace CatFight.Items.Specials
 {
+    [Serializable]
     public sealed class Chaff : Special
     {
         public override string SpecialType => SpecialTypeChaff;

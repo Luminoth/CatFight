@@ -1,4 +1,6 @@
-﻿using JetBrains.Annotations;
+﻿using System;
+
+using JetBrains.Annotations;
 
 using UnityEngine;
 
@@ -22,6 +24,7 @@ namespace CatFight.Items.Specials
         }
     }
 
+    [Serializable]
     public abstract class Special : Item
     {
         public const string SpecialTypeMissiles = "missiles";
@@ -29,9 +32,15 @@ namespace CatFight.Items.Specials
 
         public abstract string SpecialType { get; }
 
-        public int TotalUses { get; private set; }
+        [SerializeField]
+        private int _totalUses;
 
-        public int RemainingUses { get; private set; }
+        public int TotalUses { get { return _totalUses; } private set { _totalUses = value; } }
+
+        [SerializeField]
+        private int _remainingUses;
+
+        public int RemainingUses { get { return _remainingUses; } private set { _remainingUses = value; } }
 
         public void IncreaseTotalUses(int amount, bool increaseRemaining=true)
         {

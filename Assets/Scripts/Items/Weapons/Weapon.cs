@@ -1,4 +1,6 @@
-﻿using JetBrains.Annotations;
+﻿using System;
+
+using JetBrains.Annotations;
 
 using UnityEngine;
 
@@ -22,6 +24,7 @@ namespace CatFight.Items.Weapons
         }
     }
 
+    [Serializable]
     public abstract class Weapon : Item
     {
         public const string WeaponTypeMachineGun = "machinegun";
