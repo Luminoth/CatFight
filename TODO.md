@@ -1,8 +1,6 @@
 SHANE
 ==========
 
-ITEMS SHOULD BE SERIALIZABLE
-ARMOR ITEMS
 DO STUFF WHEN WEAPONS AND SPECIALS ARE USED
     SPECIALS NEED CONTROLLER HOOKUP
 
@@ -12,17 +10,7 @@ and then the game doesn't have to do any extra broadcast work when receiving the
 
 *SLOTS NEED TO BE NON-ABSTRACT IN ORDER TO SERIALIZE IN THE EDITOR
 
-
 Fighter needs concrete set of actions - Move, Attack - which do stuff based on equipped items
-
-
-
-
-
-
-armor is stacking per-type damage reduction
-
-
 
 
 TIEN
