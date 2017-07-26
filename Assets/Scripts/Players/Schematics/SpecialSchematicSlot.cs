@@ -1,6 +1,7 @@
 ﻿using System;
 
 using CatFight.Data;
+using CatFight.Util;
 
 using JetBrains.Annotations;
 
@@ -10,7 +11,7 @@ namespace CatFight.Players.Schematics
     public sealed class SpecialSchematicSlot : SchematicSlot
     {
         [CanBeNull]
-        public SpecialData SpecialItem => Item as SpecialData;
+        public SpecialData.SpecialDataEntry SpecialItem => DataManager.Instance.GameData.Specials.Entries.GetOrDefault(ItemId);
 
         public SpecialSchematicSlot(SchematicSlotData slotData)
             : base(slotData)

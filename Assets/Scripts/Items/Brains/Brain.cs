@@ -1,4 +1,6 @@
 ﻿using System;
+
+using CatFight.Data;
 using CatFight.Util;
 
 using JetBrains.Annotations;
@@ -10,15 +12,15 @@ namespace CatFight.Items.Brains
     [Serializable]
     public sealed class Brain : Item
     {
-        private const string ResourcePath = "brains";
+        private const string ResourcePath = "Brains";
 
         [SerializeField]
         [ReadOnly]
-        private string _brainType;
+        private BrainData.BrainType _brainType;
 
-        public string BrainType { get { return _brainType; } private set { _brainType = value; } }
+        public BrainData.BrainType BrainType { get { return _brainType; } private set { _brainType = value; } }
 
-        public Brain(string type)
+        public Brain(BrainData.BrainType type)
         {
             BrainType = type;
         }

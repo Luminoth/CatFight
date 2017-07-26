@@ -1,8 +1,7 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 using CatFight.Data;
+using CatFight.Util;
 
 using JetBrains.Annotations;
 
@@ -17,13 +16,13 @@ namespace CatFight.Players.Schematics
         {
             switch(slotData.Type)
             {
-            case SchematicSlotData.SchematicSlotTypeBrain:
+            case SchematicSlotData.SlotType.Brain:
                 return new BrainSchematicSlot(slotData);
-            case SchematicSlotData.SchematicSlotTypeWeapon:
+            case SchematicSlotData.SlotType.Weapon:
                 return new WeaponSchematicSlot(slotData);
-            case SchematicSlotData.SchematicSlotTypeArmor:
+            case SchematicSlotData.SlotType.Armor:
                 return new ArmorSchematicSlot(slotData);
-            case SchematicSlotData.SchematicSlotTypeSpecial:
+            case SchematicSlotData.SlotType.Special:
                 return new SpecialSchematicSlot(slotData);
             default:
                 Debug.LogError($"Invalid schematic slot type {slotData.Type}!");
@@ -33,49 +32,25 @@ namespace CatFight.Players.Schematics
     }
 
     [Serializable]
-    public abstract class SchematicSlot : INotifyPropertyChanged
+    public abstract class SchematicSlot
     {
-#region Events
-        public event PropertyChangedEventHandler PropertyChanged;
-#endregion
-
         [SerializeField]
-        [Util.ReadOnly]
+        [ReadOnly]
         private SchematicSlotData _slotData;
 
         public SchematicSlotData SlotData { get { return _slotData; } private set { _slotData = value; } }
 
         [SerializeField]
-        [Util.ReadOnly]
+        [ReadOnly]
         private int _itemId;
 
-        public int ItemId
-        {
-            get { return _itemId; }
-
-            set
-            {
-                _itemId = value;
-                Item = DataManager.Instance.GameData.GetItem(SlotData.Type, ItemId);
-
-                OnPropertyChanged();
-            }
-        }
-
-        [CanBeNull]
-        public ItemData Item { get; private set; }
+        public int ItemId { get { return _itemId; } set { _itemId = value; } }
 
         public bool IsFilled => ItemId > 0;
 
         protected SchematicSlot(SchematicSlotData slotData)
         {
             SlotData = slotData;
-        }
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

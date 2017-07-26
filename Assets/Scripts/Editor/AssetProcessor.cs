@@ -13,7 +13,7 @@ namespace CatFight.Editor
     [InitializeOnLoad]
     public static class AssetProcessor
     {
-        private const string GameDataFile = "Assets/Resources/GameData.json";
+        private const string GameDataResourcePath = "Data/GameData";
 
         private static bool _isPlaying;
 
@@ -29,13 +29,14 @@ namespace CatFight.Editor
             CopyControllerResources();
         }
 
+        [MenuItem("Cat Fight/Data/Copy Controller Resources")]
         private static void CopyControllerResources()
         {
-            string src = Path.Combine(Directory.GetCurrentDirectory(), GameDataFile);
             string dest = Path.Combine(Directory.GetCurrentDirectory(), "Assets" + Settings.WEBTEMPLATE_PATH + "/data/GameData.json");
+            GameData gameData = Resources.Load<GameData>(GameDataResourcePath);
 
-            Debug.Log($"Copying game data from {src} to {dest}...");
-            File.Copy(src, dest, true);
+            Debug.Log($"Copying game data to {dest}...");
+            File.WriteAllText(dest, gameData.ToJson());
         }
 
 #region Event Handlers

@@ -1,90 +1,57 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
-
-using CatFight.Util;
-
-using JetBrains.Annotations;
-
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace CatFight.Data
 {
-    // TODO: it would be cool if we had a set of ScriptableObjects
-    // to define the data, and then we could export that to JSON for the controller
+    [CreateAssetMenu(fileName="GameData", menuName="Cat Fight/Data/Game Data")]
     [Serializable]
-    public sealed class GameData : IData
+    public sealed class GameData : ScriptableObject
     {
+        // TODO: this sucks
+#region Version
         public const int CurrentVersion = 1;
 
         [SerializeField]
-        private int version = CurrentVersion;
+        private int _version = 1;
 
-        public int Version => version;
+        public int Version => _version;
 
-        public bool IsValid => CurrentVersion == version;
-
-        [SerializeField]
-        private FighterData fighter;
-
-        public FighterData Fighter => fighter;
-
-#region Items
-        private readonly Dictionary<string, Dictionary<int, ItemData>> _items = new Dictionary<string, Dictionary<int, ItemData>>
-        {
-            { ItemData.ItemTypeBrain, new Dictionary<int, ItemData>() },
-            { ItemData.ItemTypeArmor, new Dictionary<int, ItemData>() },
-            { ItemData.ItemTypeWeapon, new Dictionary<int, ItemData>() },
-            { ItemData.ItemTypeSpecial, new Dictionary<int, ItemData>() },
-        };
-
-        [SerializeField]
-        private BrainData[] brains = new BrainData[0];
-
-        [SerializeField]
-        private WeaponData[] weapons = new WeaponData[0];
-
-        [SerializeField]
-        private ArmorData[] armor = new ArmorData[0];
-
-        [SerializeField]
-        private SpecialData[] specials = new SpecialData[0];
+        [JsonIgnore]
+        public bool IsValid => CurrentVersion == _version;
 #endregion
 
-        public void Process()
+        [SerializeField]
+        private FighterData _fighter;
+
+        public FighterData Fighter => _fighter;
+
+#region Items
+        [SerializeField]
+        private BrainData _brains;
+
+        public BrainData Brains => _brains;
+
+        [SerializeField]
+        private WeaponData _weapons;
+
+        public WeaponData Weapons => _weapons;
+
+        [SerializeField]
+        private ArmorData _armor;
+
+        public ArmorData Armor => _armor;
+
+        [SerializeField]
+        private SpecialData _specials;
+
+        public SpecialData Specials => _specials;
+#endregion
+
+        public string ToJson()
         {
-            Debug.Log("Processing game data...");
-
-            foreach(BrainData brainData in brains) {
-                _items[ItemData.ItemTypeBrain].Add(brainData.Id, brainData);
-            }
-
-            foreach(WeaponData weaponData in weapons) {
-                _items[ItemData.ItemTypeWeapon].Add(weaponData.Id, weaponData);
-            }
-
-            foreach(ArmorData armorData in armor) {
-                _items[ItemData.ItemTypeArmor].Add(armorData.Id, armorData);
-            }
-
-            foreach(SpecialData specialData in specials) {
-                _items[ItemData.ItemTypeSpecial].Add(specialData.Id, specialData);
-            }
-
-            Fighter.SchematicData.Process();
-        }
-
-        [CanBeNull]
-        public IReadOnlyDictionary<int, ItemData> GetItems(string itemType)
-        {
-            return _items.GetOrDefault(itemType);
-        }
-
-        [CanBeNull]
-        public ItemData GetItem(string itemType, int itemId)
-        {
-            Dictionary<int, ItemData> itemDatas = _items.GetOrDefault(itemType);
-            return itemDatas?.GetOrDefault(itemId);
+            return JsonConvert.SerializeObject(this);
         }
 
         public void DebugDump()
@@ -92,32 +59,33 @@ namespace CatFight.Data
             StringBuilder builder = new StringBuilder();
             builder.AppendLine("Game Data:");
 
-            builder.AppendLine($"Version: {version} ({CurrentVersion}), valid: {IsValid}");
+            builder.AppendLine($"Version: {Version} ({CurrentVersion}), valid: {IsValid}");
 
-            builder.AppendLine($"Fighter: {fighter}");
-
+            builder.AppendLine(Fighter.ToString());
+// TODO: fix this
+/*
             builder.AppendLine("Items:");
 
-            builder.AppendLine($"Brains {brains.Length}:");
-            foreach(BrainData brainData in brains) {
+            builder.AppendLine($"Brains {Brains.Count}:");
+            foreach(BrainData brainData in Brains) {
                 builder.AppendLine(brainData.ToString());
             }
 
-            builder.AppendLine($"Weapons {weapons.Length}:");
-            foreach(WeaponData weaponData in weapons) {
+            builder.AppendLine($"Weapons {Weapons.Count}:");
+            foreach(WeaponData weaponData in Weapons) {
                 builder.AppendLine(weaponData.ToString());
             }
 
-            builder.AppendLine($"Armor {armor.Length}:");
-            foreach(ArmorData armorData in armor) {
+            builder.AppendLine($"Armor {Armor.Count}:");
+            foreach(ArmorData armorData in Armor) {
                 builder.AppendLine(armorData.ToString());
             }
 
-            builder.AppendLine($"Specials {specials.Length}:");
-            foreach(SpecialData specialData in specials) {
+            builder.AppendLine($"Specials {Specials.Count}:");
+            foreach(SpecialData specialData in Specials) {
                 builder.AppendLine(specialData.ToString());
             }
-
+*/
             Debug.Log(builder.ToString());
         }
     }

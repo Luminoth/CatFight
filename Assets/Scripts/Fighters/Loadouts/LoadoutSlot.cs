@@ -14,13 +14,13 @@ namespace CatFight.Fighters.Loadouts
         {
             switch(slotData.Type)
             {
-            case SchematicSlotData.SchematicSlotTypeBrain:
+            case SchematicSlotData.SlotType.Brain:
                 return new BrainLoadoutSlot(slotData);
-            case SchematicSlotData.SchematicSlotTypeWeapon:
+            case SchematicSlotData.SlotType.Weapon:
                 return new WeaponLoadoutSlot(slotData);
-            case SchematicSlotData.SchematicSlotTypeArmor:
+            case SchematicSlotData.SlotType.Armor:
                 return new ArmorLoadoutSlot(slotData);
-            case SchematicSlotData.SchematicSlotTypeSpecial:
+            case SchematicSlotData.SlotType.Special:
                 return new SpecialLoadoutSlot(slotData);
             default:
                 Debug.LogError($"Invalid schematic slot type {slotData.Type}!");

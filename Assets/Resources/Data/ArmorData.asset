@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c45f6424637177c41b375b10c29d7193, type: 3}
+  m_Name: ArmorData
+  m_EditorClassIdentifier: 
+  _armor:
+  - _id: 1
+    _name: Bullet Armor
+    _type: 1
+    _reductionPercent: 25
+  - _id: 2
+    _name: Laser Armor
+    _type: 2
+    _reductionPercent: 25

@@ -1,5 +1,7 @@
 ﻿using System;
 
+using CatFight.Data;
+
 using JetBrains.Annotations;
 
 using UnityEngine;
@@ -9,13 +11,13 @@ namespace CatFight.Items.Weapons
     public static class WeaponFactory
     {
         [CanBeNull]
-        public static Weapon Create(string type)
+        public static Weapon Create(WeaponData.WeaponType type)
         {
             switch(type)
             {
-            case Weapon.WeaponTypeMachineGun:
+            case WeaponData.WeaponType.MachineGun:
                 return new MachineGun();
-            case Weapon.WeaponTypeLaser:
+            case WeaponData.WeaponType.Laser:
                 return new Laser();
             default:
                 Debug.LogError($"Invalid weapon type {type}!");
@@ -27,10 +29,7 @@ namespace CatFight.Items.Weapons
     [Serializable]
     public abstract class Weapon : Item
     {
-        public const string WeaponTypeMachineGun = "machinegun";
-        public const string WeaponTypeLaser = "laser";
-
-        public abstract string WeaponType { get; }
+        public abstract WeaponData.WeaponType WeaponType { get; }
 
         public abstract void SetStrength(int strength);
 

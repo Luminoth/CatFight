@@ -40,20 +40,20 @@
             Welcome to the staging area {{playerName}}!<br />
             This is where we assign weapons, armor, and core parts to our fighter.<br />
         </p>
-    {{#each gameData.fighter.schematic.slots}}
+    {{#each gameData.Fighter.Schematic.Slots}}
         <div class="form-group row">
-            <label class="col-form-label col-sm-2" for="slot_{{id}}">{{name}}</label>
+            <label class="col-form-label col-sm-2" for="slot_{{Id}}">{{Name}}</label>
             <div class="col-sm-10">
-                <select class="form-control" name="slot_{{id}}" id="slot_{{id}}" onchange="app.selectSchematicSlot({{id}})">
+                <select class="form-control" name="slot_{{Id}}" id="slot_{{Id}}" onchange="app.selectSchematicSlot({{Id}})">
                     <option value="" selected="selected">--</option>
-                {{#ifEq type "brain"}}
-                    {{#each ../gameData.brains}}<option value="{{id}}">{{name}}</option>{{/each}}
-                {{else ifEq type "armor"}}
-                    {{#each ../gameData.armor}}<option value="{{id}}">{{name}}</option>{{/each}}
-                {{else ifEq type "weapon"}}
-                    {{#each ../gameData.weapons}}<option value="{{id}}">{{name}}</option>{{/each}}
-                {{else ifEq type "special"}}
-                    {{#each ../gameData.specials}}<option value="{{id}}">{{name}}</option>{{/each}}
+                {{#ifEq Type "Brain"}}
+                    {{#each ../gameData.Brains.Brains}}<option value="{{Id}}">{{Name}}</option>{{/each}}
+                {{else ifEq Type "Armor"}}
+                    {{#each ../gameData.Armor.Armor}}<option value="{{Id}}">{{Name}}</option>{{/each}}
+                {{else ifEq Type "Weapon"}}
+                    {{#each ../gameData.Weapons.Weapons}}<option value="{{Id}}">{{Name}}</option>{{/each}}
+                {{else ifEq Type "Special"}}
+                    {{#each ../gameData.Specials.Specials}}<option value="{{Id}}">{{Name}}</option>{{/each}}
                 {{/ifEq}}
                 </select>
             </div>

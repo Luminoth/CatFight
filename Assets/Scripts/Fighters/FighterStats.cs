@@ -74,6 +74,7 @@ namespace CatFight.Fighters
         public void Initialize(Loadout loadout, PlayMakerFSM fsm)
         {
             CurrentHealth = DataManager.Instance.GameData.Fighter.MaxHealth;
+
             _brain = null;
             _armor = new Armor();
             _weapons.Clear();
@@ -83,16 +84,16 @@ namespace CatFight.Fighters
                 LoadoutSlot slot = kvp.Value;
                 switch(slot.SlotData.Type)
                 {
-                case SchematicSlotData.SchematicSlotTypeBrain:
+                case SchematicSlotData.SlotType.Brain:
                     SetBrain((BrainLoadoutSlot)slot, fsm);
                     break;
-                case SchematicSlotData.SchematicSlotTypeWeapon:
+                case SchematicSlotData.SlotType.Weapon:
                     AddWeapon((WeaponLoadoutSlot)slot);
                     break;
-                case SchematicSlotData.SchematicSlotTypeArmor:
+                case SchematicSlotData.SlotType.Armor:
                     IncreaseArmorStrength((ArmorLoadoutSlot)slot);
                     break;
-                case SchematicSlotData.SchematicSlotTypeSpecial:
+                case SchematicSlotData.SlotType.Special:
                     IncreaseSpecialUses((SpecialLoadoutSlot)slot);
                     break;
                 default:
@@ -120,7 +121,7 @@ namespace CatFight.Fighters
         private void IncreaseArmorStrength(ArmorLoadoutSlot armorSlot)
         {
             foreach(var kvp in armorSlot.ArmorTypeVotes) {
-                ArmorData armorData = DataManager.Instance.GameData.GetItem(ItemData.ItemTypeArmor, kvp.Key) as ArmorData;
+                ArmorData.ArmorDataEntry armorData = DataManager.Instance.GameData.Armor.Entries.GetOrDefault(kvp.Key);
                 if(null == armorData) {
                     continue;
                 }
@@ -134,7 +135,7 @@ namespace CatFight.Fighters
             foreach(var kvp in specialSlot.Specials) {
                 Special special = _specials.GetOrDefault(kvp.Key);
                 if(null == special) {
-                    SpecialData specialData = DataManager.Instance.GameData.GetItem(ItemData.ItemTypeSpecial, kvp.Key) as SpecialData;
+                    SpecialData.SpecialDataEntry specialData = DataManager.Instance.GameData.Specials.Entries.GetOrDefault(kvp.Key);
                     if(null == specialData) {
                         continue;
                     }
@@ -148,7 +149,7 @@ namespace CatFight.Fighters
         }
 #endregion
 
-        public void Damage(int amount, string type)
+        public void Damage(int amount, WeaponData.WeaponType type)
         {
             float reducedAmount = amount - (amount * _armor.GetDamageReduction(type));
             CurrentHealth -= reducedAmount;
@@ -175,7 +176,7 @@ namespace CatFight.Fighters
             builder.AppendLine($"Health: {CurrentHealth} / {DataManager.Instance.GameData.Fighter.MaxHealth} ({IsDead})");
             builder.AppendLine(Brain?.ToString());
             builder.AppendLine(Armor.ToString());
-            builder.AppendLine($"Weapons:");
+            builder.AppendLine("Weapons:");
             foreach(Weapon weapon in _weapons) {
                 builder.AppendLine(weapon.ToString());
             }

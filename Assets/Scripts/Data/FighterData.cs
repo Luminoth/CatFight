@@ -1,40 +1,59 @@
 ﻿using System;
 using System.Text;
 
+using CatFight.Util;
+
+using Newtonsoft.Json;
+
 using UnityEngine;
 
 namespace CatFight.Data
 {
+    [CreateAssetMenu(fileName="FighterData", menuName="Cat Fight/Data/Fighter Data")]
     [Serializable]
-    public sealed class FighterData : IData
+    public sealed class FighterData : ScriptableObject
     {
-        [SerializeField]
-        private int maxHealth;
-
-        public int MaxHealth => maxHealth;
-
-        [SerializeField]
-        private int moveSpeed;
-
-        public int MoveSpeed => moveSpeed;
+#region UNITY_EDITOR
+        [UnityEditor.MenuItem("Assets/Create/Cat Fight/Data/Items/Brain Data")]
+        private static void Create()
+        {
+            ScriptableObjectUtility.CreateAsset<FighterData>();
+        }
+#endregion
 
         [SerializeField]
-        private int armorReductionCapPercent = 50;
+        [Range(0, 500)]
+        private int _maxHealth = 100;
 
-        public int ArmorReductionCapPercent => armorReductionCapPercent;
+        [JsonIgnore]
+        public int MaxHealth => _maxHealth;
 
         [SerializeField]
-        private SchematicData schematic = new SchematicData();
+        [Range(0, 100)]
+        private int _moveSpeed = 10;
 
-        public SchematicData SchematicData => schematic;
+        [JsonIgnore]
+        public int MoveSpeed => _moveSpeed;
+
+        [SerializeField]
+        [Range(0, 100)]
+        private int _armorReductionCapPercent = 50;
+
+        [JsonIgnore]
+        public int ArmorReductionCapPercent => _armorReductionCapPercent;
+
+        [SerializeField]
+        private SchematicData _schematic = new SchematicData();
+
+        public SchematicData Schematic => _schematic;
 
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();
-            builder.AppendLine($"Fighter(maxHealth: {maxHealth}, moveSpeed: {moveSpeed})");
+            builder.AppendLine($"Fighter(maxHealth: {MaxHealth}, moveSpeed: {MoveSpeed})");
 
             builder.AppendLine("Schematics:");
-            builder.AppendLine(SchematicData.ToString());
+            builder.AppendLine(Schematic.ToString());
 
             return builder.ToString();
         }

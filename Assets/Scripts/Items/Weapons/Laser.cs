@@ -1,11 +1,13 @@
 ﻿using System;
 
+using CatFight.Data;
+
 namespace CatFight.Items.Weapons
 {
     [Serializable]
     public sealed class Laser : Weapon
     {
-        public override string WeaponType => WeaponTypeLaser;
+        public override WeaponData.WeaponType WeaponType => WeaponData.WeaponType.Laser;
 
         public override void SetStrength(int strength)
         {

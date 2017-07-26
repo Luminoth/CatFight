@@ -26,18 +26,19 @@ namespace CatFight.Fighters.Loadouts
         public override void Process(SchematicSlot schematicSlot)
         {
             BrainSchematicSlot brainSlot = (BrainSchematicSlot)schematicSlot;
-            if(null == brainSlot.BrainItem) {
+            BrainData.BrainDataEntry brainItem = brainSlot.BrainItem;
+            if(null == brainItem) {
                 return;
             }
 
-            int currentCount = _brainTypeVotes.GetOrDefault(brainSlot.BrainItem.Id);
-            _brainTypeVotes[brainSlot.BrainItem.Id] = currentCount + 1;
+            int currentCount = _brainTypeVotes.GetOrDefault(brainItem.Id);
+            _brainTypeVotes[brainItem.Id] = currentCount + 1;
         }
 
         public override void Complete()
         {
             int winnerType = VoteHelper.GetWinner(_brainTypeVotes);
-            BrainData brainData = DataManager.Instance.GameData.GetItem(ItemData.ItemTypeBrain, winnerType) as BrainData;
+            BrainData.BrainDataEntry brainData = DataManager.Instance.GameData.Brains.Entries.GetOrDefault(winnerType);
             if(null == brainData) {
                 return;
             }

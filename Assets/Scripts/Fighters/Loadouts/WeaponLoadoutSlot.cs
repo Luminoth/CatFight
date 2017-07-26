@@ -37,7 +37,7 @@ namespace CatFight.Fighters.Loadouts
         public override void Complete()
         {
             int winnerType = VoteHelper.GetWinner(_weaponTypeVotes);
-            WeaponData weaponData = DataManager.Instance.GameData.GetItem(ItemData.ItemTypeWeapon, winnerType) as WeaponData;
+            WeaponData.WeaponDataEntry weaponData = DataManager.Instance.GameData.Weapons.Entries.GetOrDefault(winnerType);
             if(null == weaponData) {
                 return;
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 
+using CatFight.Data;
 using CatFight.Util;
 
 using JetBrains.Annotations;
@@ -11,13 +12,13 @@ namespace CatFight.Items.Specials
     public static class SpecialFactory
     {
         [CanBeNull]
-        public static Special Create(string type, int uses)
+        public static Special Create(SpecialData.SpecialType type, int uses)
         {
             switch(type)
             {
-            case Special.SpecialTypeMissiles:
+            case SpecialData.SpecialType.Missiles:
                 return new Missiles(uses);
-            case Special.SpecialTypeChaff:
+            case SpecialData.SpecialType.Chaff:
                 return new Chaff(uses);
             default:
                 Debug.LogError($"Invalid special type {type}!");
@@ -29,10 +30,7 @@ namespace CatFight.Items.Specials
     [Serializable]
     public abstract class Special : Item
     {
-        public const string SpecialTypeMissiles = "missiles";
-        public const string SpecialTypeChaff = "chaff";
-
-        public abstract string SpecialType { get; }
+        public abstract SpecialData.SpecialType SpecialType { get; }
 
         [SerializeField]
         [ReadOnly]

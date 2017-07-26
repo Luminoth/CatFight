@@ -52,7 +52,7 @@ namespace CatFight.Players
                 return;
             }
 
-            Player player = new Player(deviceId, DataManager.Instance.GameData.Fighter.SchematicData)
+            Player player = new Player(deviceId, DataManager.Instance.GameData.Fighter.Schematic)
             {
                 IsConnected = true
             };

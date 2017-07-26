@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
+using CatFight.Data;
 using CatFight.Util;
 
 using UnityEngine;
@@ -11,18 +12,15 @@ namespace CatFight.Items.Armor
     [Serializable]
     public sealed class Armor : Item
     {
-        public const string ArmorTypeMachineGun = "machinegun";
-        public const string ArmorTypeLaser = "laser";
-
-        private readonly Dictionary<string, int> _damageReductionPercents = new Dictionary<string, int>
+        private readonly Dictionary<WeaponData.WeaponType, int> _damageReductionPercents = new Dictionary<WeaponData.WeaponType, int>
         {
-            { ArmorTypeMachineGun, 0 },
-            { ArmorTypeLaser, 0 }
+            { WeaponData.WeaponType.MachineGun, 0 },
+            { WeaponData.WeaponType.Laser, 0 }
         };
 
-        public IReadOnlyDictionary<string, int> DamageReductionPercents => _damageReductionPercents;
+        public IReadOnlyDictionary<WeaponData.WeaponType, int> DamageReductionPercents => _damageReductionPercents;
 
-        public void IncreaseStrength(string type, int strength, int damageReductionPercent, int maxReductionPercent)
+        public void IncreaseStrength(WeaponData.WeaponType type, int strength, int damageReductionPercent, int maxReductionPercent)
         {
             if(!_damageReductionPercents.ContainsKey(type)) {
                 return;
@@ -36,7 +34,7 @@ namespace CatFight.Items.Armor
             _damageReductionPercents[type] = reduction;
         }
 
-        public float GetDamageReduction(string type)
+        public float GetDamageReduction(WeaponData.WeaponType type)
         {
             return _damageReductionPercents.GetOrDefault(type) / 100.0f;
         }

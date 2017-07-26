@@ -22,12 +22,13 @@ namespace CatFight.Fighters.Loadouts
         public override void Process(SchematicSlot schematicSlot)
         {
             ArmorSchematicSlot armorSlot = (ArmorSchematicSlot)schematicSlot;
-            if(null == armorSlot.ArmorItem) {
+            ArmorData.ArmorDataEntry armorItem = armorSlot.ArmorItem;
+            if(null == armorItem) {
                 return;
             }
 
-            int currentCount = _armorTypeVotes.GetOrDefault(armorSlot.ArmorItem.Id);
-            _armorTypeVotes[armorSlot.ArmorItem.Id] = currentCount + 1;
+            int currentCount = _armorTypeVotes.GetOrDefault(armorItem.Id);
+            _armorTypeVotes[armorItem.Id] = currentCount + 1;
         }
 
         public override void Complete()

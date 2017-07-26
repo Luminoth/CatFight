@@ -1,23 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 using UnityEngine;
 
 namespace CatFight.Data
 {
     [Serializable]
-    public sealed class SchematicSlotData : Data
+    public sealed class SchematicSlotData
     {
-        public const string SchematicSlotTypeBrain = "brain";
-        public const string SchematicSlotTypeWeapon = "weapon";
-        public const string SchematicSlotTypeArmor = "armor";
-        public const string SchematicSlotTypeSpecial = "special";
+        public enum SlotType
+        {
+            [Description("none")]
+            None,
+
+            [Description("brain")]
+            Brain,
+
+            [Description("armor")]
+            Weapon,
+
+            [Description("armor")]
+            Armor,
+
+            [Description("special")]
+            Special
+        }
 
         [SerializeField]
-        private string type = SchematicSlotTypeWeapon;
+        private int _id;
 
-        public string Type => type;
+        public int Id => _id;
+
+        [SerializeField]
+        private string _name;
+
+        public string Name => _name;
+
+        [SerializeField]
+        private SlotType _type = SlotType.None;
+
+        [JsonConverter(typeof(StringEnumConverter))]
+        public SlotType Type => _type;
 
         public override string ToString()
         {
@@ -26,24 +54,27 @@ namespace CatFight.Data
     }
 
     [Serializable]
-    public sealed class SchematicData : IData
+    public sealed class SchematicData
     {
         [SerializeField]
-        private int maxFilledSlots = 1;
+        private int _maxFilledSlots = 1;
 
-        public int MaxFilledSlots => maxFilledSlots;
+        public int MaxFilledSlots => _maxFilledSlots;
 
         [SerializeField]
-        private SchematicSlotData[] slots = new SchematicSlotData[0];
+        private SchematicSlotData[] _slots;
 
-        public IReadOnlyCollection<SchematicSlotData> Slots => slots;
+        public IReadOnlyCollection<SchematicSlotData> Slots => _slots;
 
-        private readonly Dictionary<int, SchematicSlotData> _slotData = new Dictionary<int, SchematicSlotData>();
+        private readonly Dictionary<int, SchematicSlotData> _entries = new Dictionary<int, SchematicSlotData>();
 
-        public void Process()
+        [JsonIgnore]
+        public IReadOnlyDictionary<int, SchematicSlotData> Entries => _entries;
+
+        private void Awake()
         {
-            foreach(SchematicSlotData slotData in slots) {
-                _slotData.Add(slotData.Id, slotData);
+            foreach(SchematicSlotData entry in Slots) {
+                _entries.Add(entry.Id, entry);
             }
         }
 
@@ -53,7 +84,7 @@ namespace CatFight.Data
             builder.AppendLine($"Max filled schematic slots: {MaxFilledSlots}");
 
             builder.AppendLine("Schematic Slots:");
-            foreach(SchematicSlotData slotData in slots) {
+            foreach(SchematicSlotData slotData in Slots) {
                 builder.AppendLine(slotData.ToString());
             }
 

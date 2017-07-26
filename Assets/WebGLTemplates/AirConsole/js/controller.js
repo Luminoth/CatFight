@@ -60,18 +60,18 @@ function App() {
         // load game data
         app.debugLog("Requesting game data...");
         loadJSON("/data/GameData.json", function(response) {
-            if(!response.version || CurrentGameDataVersion != response.version) {
-                app.debugLog("Invalid game data version. Got " + response.version + ", expected " + CurrentGameDataVersion);
+            app.debugLog("Received game data response", response);
+
+            if(!response.Version || CurrentGameDataVersion != response.Version) {
+                app.debugLog("Invalid game data version. Got " + response.Version + ", expected " + CurrentGameDataVersion);
                 return;
             }
-
             app.gameData = response;
-            app.debugLog("Received game data", app.gameData.version);
 
             // init the slots to 0 (cleared)
-            app.playerSlots = new Array(app.gameData.fighter.schematic.slots.length).fill(0);
+            app.playerSlots = new Array(app.gameData.Fighter.Schematic.Slots.length).fill(0);
             app.filledSlots = 0;
-            app.teamSlots = new Array(app.gameData.fighter.schematic.slots.length).fill({});
+            app.teamSlots = new Array(app.gameData.Fighter.Schematic.Slots.length).fill({});
 
             app.updateContent();
         });
@@ -163,6 +163,16 @@ App.prototype.updateContent = function() {
         } 
     });
 
+    var buttonUseMissiles = new Button("button-missiles", {
+        "down": function() {
+        }
+    });
+
+    var buttonUseChaff = new Button("button-chaff", {
+        "down": function() {
+        }
+    });
+
     // view manager must reset views
     if(app.viewManager) {
         app.viewManager.setupViews();
@@ -214,11 +224,11 @@ App.prototype.selectSchematicSlot = function(slotId) {
 
 App.prototype._enableSchematicSlots = function() {
 
-    var disable = app.filledSlots >= app.gameData.fighter.schematic.maxFilledSlots;
-    app.gameData.fighter.schematic.slots.forEach(function(slot) {
-        var slotSelector = $("#slot_" + slot.id);
-        if(app.playerSlots[slot.id - 1] == 0) {
-            $("#slot_" + slot.id).prop("disabled", disable);
+    var disable = app.filledSlots >= app.gameData.Fighter.Schematic.MaxFilledSlots;
+    app.gameData.Fighter.Schematic.Slots.forEach(function(slot) {
+        var slotSelector = $("#slot_" + slot.Id);
+        if(app.playerSlots[slot.Id - 1] == 0) {
+            $("#slot_" + slot.Id).prop("disabled", disable);
         }
     });
 }

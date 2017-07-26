@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6bce0a4d9cc45f4098d2b9783a85a59, type: 3}
+  m_Name: FighterData
+  m_EditorClassIdentifier: 
+  _maxHealth: 100
+  _moveSpeed: 10
+  _armorReductionCapPercent: 50
+  _schematic:
+    _maxFilledSlots: 3
+    _slots:
+    - _id: 1
+      _name: Brain
+      _type: 1
+    - _id: 2
+      _name: Left Weapon
+      _type: 2
+    - _id: 3
+      _name: Right Weapon
+      _type: 2
+    - _id: 4
+      _name: Left Side
+      _type: 3
+    - _id: 5
+      _name: Right Side
+      _type: 3
+    - _id: 6
+      _name: Special
+      _type: 4

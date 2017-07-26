@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306c7bc275514429b23c06e2d3a8312b, type: 3}
+  m_Name: GameData
+  m_EditorClassIdentifier: 
+  _version: 1
+  _fighter: {fileID: 11400000, guid: 31b8c10aeb6c12f47aa66c7ed9cb330d, type: 2}
+  _brains: {fileID: 11400000, guid: ad4a21d145f02f24c9dd26fffc8e6aa8, type: 2}
+  _weapons: {fileID: 11400000, guid: 2aabc4f5d1ece7945b16f57440f441e4, type: 2}
+  _armor: {fileID: 11400000, guid: f7feae4b64d12654585f217b5439e064, type: 2}
+  _specials: {fileID: 11400000, guid: 7bc171b76930b7d4eb0e8382544ea038, type: 2}

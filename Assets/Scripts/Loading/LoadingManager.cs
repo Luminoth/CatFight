@@ -60,13 +60,6 @@ namespace CatFight.Loading
             CreateManagers();
             yield return null;
 
-            _loadingScreen.Progress.Percent = 0.25f;
-            _loadingScreen.ProgressText = "Loading game data...";
-            yield return null;
-
-            DataManager.Instance.Load();
-            yield return null;
-
             _loadingScreen.Progress.Percent = 0.5f;
             _loadingScreen.ProgressText = "Waiting for AirConsole...";
             yield return null;
