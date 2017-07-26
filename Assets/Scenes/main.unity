@@ -508,6 +508,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _loadingScreen: {fileID: 2115943449}
+  _objectPoolManagerPrefab: {fileID: 114243479524077878, guid: a41e9e386ce439c48a1e9af980b9bd68,
+    type: 2}
   _dataManagerPrefab: {fileID: 114745768721090524, guid: 3bd2352c3ec4f7f40a46df323741ffd1,
     type: 2}
   _gameStageManagerPrefab: {fileID: 114210468909480640, guid: 28548829a1e1acc43b6c546c1a14e8e7,

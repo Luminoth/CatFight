@@ -53,7 +53,7 @@ namespace CatFight.Data
         [JsonIgnore]
         public IReadOnlyDictionary<int, ArmorDataEntry> Entries => _entries;
 
-        private void Awake()
+        public void Initialize()
         {
             foreach(ArmorDataEntry entry in Armor) {
                 _entries.Add(entry.Id, entry);

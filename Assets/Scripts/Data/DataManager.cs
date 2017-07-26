@@ -12,8 +12,9 @@ namespace CatFight.Data
         public GameData GameData => _gameData;
 
 #region Unity Lifecycle
-        private void Awake()
+        private void Start()
         {
+            GameData.Initialize();
             GameData.DebugDump();
         }
 #endregion

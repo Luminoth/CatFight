@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Text;
+
 using Newtonsoft.Json;
+
 using UnityEngine;
 
 namespace CatFight.Data
@@ -48,6 +50,14 @@ namespace CatFight.Data
 
         public SpecialData Specials => _specials;
 #endregion
+
+        public void Initialize()
+        {
+            Brains.Initialize();
+            Weapons.Initialize();
+            Armor.Initialize();
+            Specials.Initialize();
+        }
 
         public string ToJson()
         {

@@ -60,7 +60,7 @@ namespace CatFight.Data
         [JsonIgnore]
         public IReadOnlyDictionary<int, BrainDataEntry> Entries => _entries;
 
-        private void Awake()
+        public void Initialize()
         {
             foreach(BrainDataEntry entry in Brains) {
                 _entries.Add(entry.Id, entry);

@@ -1,6 +1,8 @@
 ﻿using System;
 
 using CatFight.Data;
+using CatFight.Util;
+using CatFight.Util.ObjectPool;
 
 namespace CatFight.Items.Weapons
 {
@@ -16,7 +18,14 @@ UnityEngine.Debug.LogError("TODO: set machinegun strength");
 
         public override void Fire()
         {
-UnityEngine.Debug.LogError("TODO: fire machinegun");
+            PooledObject pooledObject = ObjectPoolManager.Instance.GetPooledObject(WeaponType.GetDescription());
+            Bullet bullet = pooledObject?.GetComponent<Bullet>();
+            if(null == bullet) {
+                return;
+            }
+
+            //bullet.Damage = damage;
+// TODO: other stuff
         }
     }
 }

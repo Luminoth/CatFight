@@ -6,6 +6,7 @@ using CatFight.Fighters;
 using CatFight.Players;
 using CatFight.Stages;
 using CatFight.Util;
+using CatFight.Util.ObjectPool;
 
 using UnityEngine;
 
@@ -17,6 +18,9 @@ namespace CatFight.Loading
         private LoadingScreen _loadingScreen;
 
 #region Manager Prefabs
+        [SerializeField]
+        private ObjectPoolManager _objectPoolManagerPrefab;
+
         [SerializeField]
         private DataManager _dataManagerPrefab;
 
@@ -82,6 +86,7 @@ namespace CatFight.Loading
         {
             _managersObject = new GameObject("Managers");
 
+            ObjectPoolManager.CreateFromPrefab(_objectPoolManagerPrefab.gameObject, _managersObject);
             DataManager.CreateFromPrefab(_dataManagerPrefab.gameObject, _managersObject);
             GameStageManager.CreateFromPrefab(_gameStageManagerPrefab.gameObject, _managersObject);
             FighterManager.CreateFromPrefab(_fighterManagerPrefab.gameObject, _managersObject);

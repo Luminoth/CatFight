@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 
+using CatFight.Items.Weapons;
 using CatFight.Util;
+using CatFight.Util.ObjectPool;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -51,6 +53,18 @@ namespace CatFight.Data
             [JsonIgnore]
             public int Damage => _damage;
 
+            [SerializeField]
+            private Ammo _ammoPrefab;
+
+            [JsonIgnore]
+            public Ammo AmmoPrefab => _ammoPrefab;
+
+            [SerializeField]
+            private int _poolSize;
+
+            [JsonIgnore]
+            public int PoolSize => _poolSize;
+
             public override string ToString()
             {
                 return $"Weapon({Id}: {Name} - {Type}, {Damage})";
@@ -67,10 +81,15 @@ namespace CatFight.Data
         [JsonIgnore]
         public IReadOnlyDictionary<int, WeaponDataEntry> Entries => _entries;
 
-        private void Awake()
+        public void Initialize()
         {
             foreach(WeaponDataEntry entry in Weapons) {
                 _entries.Add(entry.Id, entry);
+
+                PooledObject pooledObject = entry.AmmoPrefab?.GetComponent<PooledObject>();
+                if(null != pooledObject) {
+                    ObjectPoolManager.Instance.InitializePool(entry.Type.GetDescription(), pooledObject, entry.PoolSize);
+                }
             }
         }
     }
