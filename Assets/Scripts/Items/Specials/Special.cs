@@ -44,7 +44,22 @@ namespace CatFight.Items.Specials
 
         public int RemainingUses { get { return _remainingUses; } private set { _remainingUses = value; } }
 
+#region Cooldown
+        public DateTime _cooldownEndTime = DateTime.Now;
+
+        public bool IsOnCooldown => _cooldownEndTime > DateTime.Now;
+#endregion
+
         private readonly SpecialData.SpecialDataEntry _specialData;
+
+        public TimeSpan GetCooldownRemaining()
+        {
+            DateTime now = DateTime.Now;
+            if(_cooldownEndTime < now) {
+                return TimeSpan.Zero;
+            }
+            return _cooldownEndTime - now;
+        }
 
         public void IncreaseTotalUses(int amount, bool increaseRemaining=true)
         {
@@ -56,13 +71,15 @@ namespace CatFight.Items.Specials
 
         public void Use()
         {
-            if(RemainingUses <= 0) {
+            if(RemainingUses <= 0 || IsOnCooldown) {
                 return;
             }
 
             DoUse();
 
             --RemainingUses;
+
+            _cooldownEndTime = DateTime.Now.AddSeconds(_specialData.CooldownSeconds);
         }
 
         protected abstract void DoUse();

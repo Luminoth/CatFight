@@ -44,6 +44,12 @@ namespace CatFight.Data
             [JsonConverter(typeof(StringEnumConverter))]
             public SpecialType Type => _type;
 
+            [SerializeField]
+            [Range(0, 60)]
+            private int _cooldownSeconds;
+
+            public int CooldownSeconds => _cooldownSeconds;
+
             public override string ToString()
             {
                 return $"Special({Id}: {Name} - {Type})";

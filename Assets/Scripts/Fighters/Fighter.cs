@@ -38,6 +38,25 @@ namespace CatFight.Fighters
             _loadout = new Loadout(this);
             _stats = new FighterStats(this);
         }
+
+        private void Update()
+        {
+#if UNITY_EDITOR
+            if(Input.GetKeyDown(KeyCode.Space)) {
+                Stats.FireAllWeapons();
+            }
+
+            // NOTE: assumes missiles are special 1
+            if(Input.GetKeyDown(KeyCode.X)) {
+                Stats.UseSpecial(1);
+            }
+
+            // NOTE: assumes chaffs are special 2
+            if(Input.GetKeyDown(KeyCode.C)) {
+                Stats.UseSpecial(2);
+            }
+#endif
+        }
 #endregion
 
         public void Initialize(Player.TeamIds teamId, FighterData fighterData)

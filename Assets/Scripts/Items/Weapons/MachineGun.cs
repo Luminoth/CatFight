@@ -27,6 +27,7 @@ UnityEngine.Debug.LogError("TODO: set machinegun strength");
                 return;
             }
 
+UnityEngine.Debug.LogError("TODO: fire machinegun");
             //bullet.Damage = damage;
 // TODO: other stuff
         }

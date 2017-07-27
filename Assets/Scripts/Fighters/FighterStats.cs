@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 using CatFight.Data;
@@ -157,10 +158,17 @@ namespace CatFight.Fighters
 
         public void FireWeapon(int idx)
         {
-            if(idx < 0 || idx >= _weapons.Count) {
+            if(idx < 0 || idx >= Weapons.Count) {
                 return;
             }
-            _weapons[idx].Fire();
+            Weapons.ElementAt(idx).Fire();
+        }
+
+        public void FireAllWeapons()
+        {
+            for(int i=0; i<_weapons.Count; ++i) {
+                FireWeapon(i);
+            }
         }
 
         public void UseSpecial(int id)

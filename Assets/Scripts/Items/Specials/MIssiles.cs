@@ -14,7 +14,7 @@ namespace CatFight.Items.Specials
 
         protected override void DoUse()
         {
-// TODO
+UnityEngine.Debug.LogError("TODO: use missiles");
         }
     }
 }

@@ -31,9 +31,11 @@ namespace CatFight.Items.Weapons
     {
         public WeaponData.WeaponType WeaponType => _weaponData.Type;
 
+#region Cooldown
         public DateTime _cooldownEndTime = DateTime.Now;
 
         public bool IsOnCooldown => _cooldownEndTime > DateTime.Now;
+#endregion
 
         private readonly WeaponData.WeaponDataEntry _weaponData;
 
