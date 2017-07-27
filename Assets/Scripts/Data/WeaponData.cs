@@ -54,6 +54,12 @@ namespace CatFight.Data
             public int Damage => _damage;
 
             [SerializeField]
+            [Range(0, 60)]
+            private int _cooldownSeconds;
+
+            public int CooldownSeconds => _cooldownSeconds;
+
+            [SerializeField]
             private Ammo _ammoPrefab;
 
             [JsonIgnore]

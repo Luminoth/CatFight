@@ -11,16 +11,16 @@ namespace CatFight.Items.Weapons
     public static class WeaponFactory
     {
         [CanBeNull]
-        public static Weapon Create(WeaponData.WeaponType type)
+        public static Weapon Create(WeaponData.WeaponDataEntry weaponData)
         {
-            switch(type)
+            switch(weaponData.Type)
             {
             case WeaponData.WeaponType.MachineGun:
-                return new MachineGun();
+                return new MachineGun(weaponData);
             case WeaponData.WeaponType.Laser:
-                return new Laser();
+                return new Laser(weaponData);
             default:
-                Debug.LogError($"Invalid weapon type {type}!");
+                Debug.LogError($"Invalid weapon type {weaponData.Type}!");
                 return null;
             }
         }
@@ -29,10 +29,41 @@ namespace CatFight.Items.Weapons
     [Serializable]
     public abstract class Weapon : Item
     {
-        public abstract WeaponData.WeaponType WeaponType { get; }
+        public WeaponData.WeaponType WeaponType => _weaponData.Type;
+
+        public DateTime _cooldownEndTime = DateTime.Now;
+
+        public bool IsOnCooldown => _cooldownEndTime > DateTime.Now;
+
+        private readonly WeaponData.WeaponDataEntry _weaponData;
+
+        public TimeSpan GetCooldownRemaining()
+        {
+            DateTime now = DateTime.Now;
+            if(_cooldownEndTime < now) {
+                return TimeSpan.Zero;
+            }
+            return _cooldownEndTime - now;
+        }
 
         public abstract void SetStrength(int strength);
 
-        public abstract void Fire();
+        public void Fire()
+        {
+            if(IsOnCooldown) {
+                return;
+            }
+
+            DoFire();
+
+            _cooldownEndTime = DateTime.Now.AddSeconds(_weaponData.CooldownSeconds);
+        }
+
+        protected abstract void DoFire();
+
+        protected Weapon(WeaponData.WeaponDataEntry weaponData)
+        {
+            _weaponData = weaponData;
+        }
     }
 }

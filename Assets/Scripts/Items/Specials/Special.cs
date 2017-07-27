@@ -12,16 +12,16 @@ namespace CatFight.Items.Specials
     public static class SpecialFactory
     {
         [CanBeNull]
-        public static Special Create(SpecialData.SpecialType type, int uses)
+        public static Special Create(SpecialData.SpecialDataEntry specialData, int uses)
         {
-            switch(type)
+            switch(specialData.Type)
             {
             case SpecialData.SpecialType.Missiles:
-                return new Missiles(uses);
+                return new Missiles(specialData, uses);
             case SpecialData.SpecialType.Chaff:
-                return new Chaff(uses);
+                return new Chaff(specialData, uses);
             default:
-                Debug.LogError($"Invalid special type {type}!");
+                Debug.LogError($"Invalid special type {specialData.Type}!");
                 return null;
             }
         }
@@ -30,7 +30,7 @@ namespace CatFight.Items.Specials
     [Serializable]
     public abstract class Special : Item
     {
-        public abstract SpecialData.SpecialType SpecialType { get; }
+        public SpecialData.SpecialType SpecialType => _specialData.Type;
 
         [SerializeField]
         [ReadOnly]
@@ -43,6 +43,8 @@ namespace CatFight.Items.Specials
         private int _remainingUses;
 
         public int RemainingUses { get { return _remainingUses; } private set { _remainingUses = value; } }
+
+        private readonly SpecialData.SpecialDataEntry _specialData;
 
         public void IncreaseTotalUses(int amount, bool increaseRemaining=true)
         {
@@ -65,8 +67,9 @@ namespace CatFight.Items.Specials
 
         protected abstract void DoUse();
 
-        protected Special(int totalUses)
+        protected Special(SpecialData.SpecialDataEntry specialData, int totalUses)
         {
+            _specialData = specialData;
             TotalUses = totalUses;
             RemainingUses = TotalUses;
         }

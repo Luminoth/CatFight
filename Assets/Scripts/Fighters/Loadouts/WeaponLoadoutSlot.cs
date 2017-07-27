@@ -42,7 +42,7 @@ namespace CatFight.Fighters.Loadouts
                 return;
             }
 
-            Weapon = WeaponFactory.Create(weaponData.Type);
+            Weapon = WeaponFactory.Create(weaponData);
             Weapon?.SetStrength(_weaponTypeVotes[winnerType]);
         }
     }

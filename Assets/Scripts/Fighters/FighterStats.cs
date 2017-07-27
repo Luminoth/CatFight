@@ -140,7 +140,7 @@ namespace CatFight.Fighters
                         continue;
                     }
 
-                    special = SpecialFactory.Create(specialData.Type, kvp.Value);
+                    special = SpecialFactory.Create(specialData, kvp.Value);
                     _specials.Add(kvp.Key, special);
                 } else {
                     special.IncreaseTotalUses(kvp.Value);

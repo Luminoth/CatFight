@@ -7,10 +7,8 @@ namespace CatFight.Items.Specials
     [Serializable]
     public sealed class Missiles : Special
     {
-        public override SpecialData.SpecialType SpecialType => SpecialData.SpecialType.Missiles;
-
-        public Missiles(int totalUses)
-            : base(totalUses)
+        public Missiles(SpecialData.SpecialDataEntry specialData, int totalUses)
+            : base(specialData, totalUses)
         {
         }
 

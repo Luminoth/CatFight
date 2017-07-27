@@ -7,10 +7,8 @@ namespace CatFight.Items.Specials
     [Serializable]
     public sealed class Chaff : Special
     {
-        public override SpecialData.SpecialType SpecialType => SpecialData.SpecialType.Chaff;
-
-        public Chaff(int totalUses)
-            : base(totalUses)
+        public Chaff(SpecialData.SpecialDataEntry specialData, int totalUses)
+            : base(specialData, totalUses)
         {
         }
 

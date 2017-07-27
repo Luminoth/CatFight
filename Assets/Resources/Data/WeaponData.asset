@@ -16,6 +16,7 @@ MonoBehaviour:
     _name: Machine Gun
     _type: 1
     _damage: 10
+    _cooldownSeconds: 1
     _ammoPrefab: {fileID: 114326165080585160, guid: 7285aca0ab53bdb44bd033de8684cc2d,
       type: 2}
     _poolSize: 25
@@ -23,5 +24,6 @@ MonoBehaviour:
     _name: Laser
     _type: 2
     _damage: 50
+    _cooldownSeconds: 5
     _ammoPrefab: {fileID: 0}
     _poolSize: 0
