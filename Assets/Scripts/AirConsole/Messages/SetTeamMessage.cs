@@ -7,6 +7,8 @@ using Newtonsoft.Json.Linq;
 
 namespace CatFight.AirConsole.Messages
 {
+// TODO: this should be a custom state variable for the screen
+// and then controllers can figure out their team by looking through that state
     [Serializable]
     public sealed class SetTeamMessage : Message
     {

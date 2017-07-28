@@ -44,6 +44,7 @@
         <div class="form-group row">
             <label class="col-form-label col-sm-2" for="slot_{{Id}}">{{Name}}</label>
             <div class="col-sm-10">
+                <!-- TODO: this loses the currently selected value when we update the UI -->
                 <select class="form-control" name="slot_{{Id}}" id="slot_{{Id}}" onchange="app.selectSchematicSlot({{Id}})">
                     <option value="" selected="selected">--</option>
                 {{#ifCond Type '==' "Brain"}}
@@ -76,6 +77,7 @@
             Missiles Remaining: {{app.missilesRemaining}}<br />
             Chaff Remaining: {{app.chaffRemaining}}<br />
         </p>
+{{#if app.isGameStarted}}
     {{#ifCond app.missilesRemaining '>' 0}}
         <div id="button-missiles" class="button-300-150 left">
             <div id="button-missiles-text" class="button-text">Missiles</div>
@@ -86,6 +88,7 @@
             <div id="button-chaff-text" class="button-text">Chaff</div>
         </div>
     {{/ifCond}}
+{{/if}}
     </div>
 </script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

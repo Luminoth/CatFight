@@ -14,13 +14,20 @@ function loadJSON(filename, callback) {
 
 const CurrentGameDataVersion = 1;
 
+// NOTE: must match the values from Unity
 var MessageType = Object.freeze({
     None: 0,
-    StartGame: 1,
-    ConfirmStaging: 2,
-    SetTeam: 3,
+    SetTeam: 1,
+    StartGame: 2,
+    ConfirmStaging: 3,
     SetSlot: 4,
-    ClearSlot: 5
+    ClearSlot: 5,
+    UseSpecial: 6
+});
+
+var SpecialType = Object.freeze({
+    Missiles: "Missiles",
+    Chaff: "Chaff"
 });
 
 function App() {
@@ -35,11 +42,14 @@ function App() {
     var isMasterPlayer = false;
     var isConfirmed = false;
     var playerName = "Guest";
+    var playerTeamId = "None";
     var playerTeamName = "Unaffiliated";
 
     var playerSlots = [];
     var filledSlots = 0;
     var teamSlots = [];
+
+    var isGameStarted = false;
 
     var missilesRemaining = 0;
     var chaffRemaining = 0;
@@ -82,6 +92,7 @@ function App() {
         var messageType = data.type;
         switch(messageType) {
             case MessageType.SetTeam:
+                app.playerTeamId = data.teamId;
                 app.playerTeamName = data.teamName;
                 app.updateContent();
                 app.airconsole.setCustomDeviceStateProperty("teamData", data);
@@ -92,7 +103,6 @@ function App() {
             case MessageType.ClearSlot:
                 app._clearTeamSlot(data.slotId, data.itemId);
                 break;
-            // TODO: handle the message that tells us how many specials we have left
             default:
                 alert("Invalid message type: " + messageType);
                 break;
@@ -103,6 +113,7 @@ function App() {
 
         app.debugLog("onCustomDeviceStateChange", deviceId, data);
         app.checkForMasterPlayer(data);
+        app.updateGameState(data);
 
         app.viewManager.onViewChange(data, function(viewId) {
             app.debugLog("onViewChange", viewId);
@@ -165,9 +176,11 @@ App.prototype.reset = function() {
 
     app.isConfirmed = false;
 
-    app.playerSlots = new Array(app.gameData.Fighter.Schematic.Slots.length).fill(0);
+    if(app.gameData && app.gameData.Fighter) {
+        app.playerSlots = new Array(app.gameData.Fighter.Schematic.Slots.length).fill(0);
+        app.teamSlots = new Array(app.gameData.Fighter.Schematic.Slots.length).fill({});
+    }
     app.filledSlots = 0;
-    app.teamSlots = new Array(app.gameData.Fighter.Schematic.Slots.length).fill({});
 
     app.missilesRemaining = 0;
     app.chaffRemaining = 0;
@@ -198,20 +211,22 @@ App.prototype.updateContent = function() {
         } 
     });
 
-    if(app.missilesRemaining > 0) {
-        var buttonUseMissiles = new Button("button-missiles", {
-            "down": function() {
-                app.fireMissiles();
-            }
-        });
-    }
+    if(app.isGameStarted) {
+        if(app.missilesRemaining > 0) {
+            var buttonUseMissiles = new Button("button-missiles", {
+                "down": function() {
+                    app.fireMissiles();
+                }
+            });
+        }
 
-    if(app.chaffRemaining > 0) {
-        var buttonUseChaff = new Button("button-chaff", {
-            "down": function() {
-                app.launchChaff();
-            }
-        });
+        if(app.chaffRemaining > 0) {
+            var buttonUseChaff = new Button("button-chaff", {
+                "down": function() {
+                    app.launchChaff();
+                }
+            });
+        }
     }
 
     // view manager must reset views
@@ -231,6 +246,22 @@ App.prototype.checkForMasterPlayer = function(data) {
     if(wasMasterPlayer != app.isMasterPlayer) {
         app.updateContent();
     }
+}
+
+App.prototype.updateGameState = function(data) {
+
+    if(!data.gameState) {
+        return;
+    }
+
+    app.isGameStarted = data.gameState.isGameStarted;
+
+    app.debugLog("Getting fighter state", app.playerTeamId);
+    var fighterState = data.gameState.fighterState[app.playerTeamId];
+    app.missilesRemaining = fighterState.specialsRemaining[SpecialType.Missiles];
+    app.chaffRemaining = fighterState.specialsRemaining[SpecialType.Chaff];
+
+    app.updateContent();
 }
 
 App.prototype.startGame = function(msg) { 
@@ -340,7 +371,7 @@ App.prototype._clearTeamSlot = function(slotId, itemId) {
 
 App.prototype.fireMissiles = function() {
 
-    app._useSpecial();
+    app._useSpecial(SpecialType.Missiles);
 
     --app.missilesRemaining;
     app.updateContent();
@@ -348,15 +379,23 @@ App.prototype.fireMissiles = function() {
 
 App.prototype.launchChaff = function() {
 
-    app._useSpecial();
+    app._useSpecial(SpecialType.Chaff);
 
     --app.chaffRemaining;
     app.updateContent();
 }
 
-App.prototype._useSpecial = function() {
+App.prototype._useSpecial = function(specialType) {
 
-    // TODO: send the message
+    if(!app.isGameStarted) {
+        return;
+    }
+
+    app.debugLog("Using special", specialType);
+    app.sendMessageToScreen({
+        "type": MessageType.UseSpecial,
+        "specialType": specialType
+    });
 }
 
 App.prototype.sendMessageToScreen = function(msg) {

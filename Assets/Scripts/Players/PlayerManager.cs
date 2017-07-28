@@ -7,6 +7,8 @@ using CatFight.AirConsole.Messages;
 using CatFight.Data;
 using CatFight.Util;
 
+using JetBrains.Annotations;
+
 using UnityEngine;
 
 namespace CatFight.Players
@@ -109,6 +111,12 @@ namespace CatFight.Players
                 _masterPlayer = null;
                 FindNewMasterPlayer();
             }
+        }
+
+        [CanBeNull]
+        public Player GetPlayer(int deviceId)
+        {
+            return Players.GetOrDefault(deviceId);
         }
 
         public void ResetPlayers()

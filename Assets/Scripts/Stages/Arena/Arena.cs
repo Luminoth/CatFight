@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 
 using CatFight.AirConsole;
+using CatFight.AirConsole.Messages;
 using CatFight.Data;
 using CatFight.Fighters;
 using CatFight.Players;
@@ -13,6 +15,8 @@ namespace CatFight.Stages.Arena
 {
     public sealed class Arena : Stage
     {
+        private const string GameStateKey = "gameState";
+
         public new static Arena Instance => (Arena)Stage.Instance;
 
 #region Countdown
@@ -75,11 +79,15 @@ namespace CatFight.Stages.Arena
 
             FighterManager.Instance.InitFighters(_spawnPoints);
 
+            StartCoroutine(UpdateControllers());
+
             StartCountdown();
         }
 
         protected override void OnDestroy()
         {
+            StopAllCoroutines();
+
             if(FighterManager.HasInstance) {
                 FighterManager.Instance.Cleanup();
             }
@@ -102,6 +110,15 @@ namespace CatFight.Stages.Arena
             UpdateFighters();
         }
 #endregion
+
+        private IEnumerator UpdateControllers()
+        {
+            while(true) {
+                yield return new WaitForSeconds(1.0f);
+
+                AirConsoleManager.Instance.SetCustomDeviceStateProperty(GameStateKey, new GameState());
+            }
+        }
 
         private void UpdateFighters()
         {
@@ -175,11 +192,31 @@ namespace CatFight.Stages.Arena
         }
 #endregion
 
+        private void UseSpecial(int deviceId, SpecialData.SpecialType specialType)
+        {
+            Player player = PlayerManager.Instance.GetPlayer(deviceId);
+            if(null == player) {
+                Debug.LogError($"No such player {deviceId}!");
+                return;
+            }
+
+            Fighter fighter = FighterManager.Instance.GetFighter(player.TeamId);
+            if(null == fighter) {
+                Debug.LogError($"No fighter for team {player.TeamId}!");
+                return;
+            }
+            fighter.Stats.UseSpecial(specialType);
+        }
+
 #region Event Handlers
         protected override void MessageEventHandler(object sender, MessageEventArgs evt)
         {
             switch(evt.Message.type)
             {
+            case Message.MessageType.UseSpecial:
+                UseSpecialMessage useSpecialMessage = (UseSpecialMessage)evt.Message;
+                UseSpecial(evt.From, useSpecialMessage.SpecialType);
+                break;
             default:
                 Debug.LogWarning($"Ignoring unexpected message type {evt.Message.type} from {evt.From}");
                 break;

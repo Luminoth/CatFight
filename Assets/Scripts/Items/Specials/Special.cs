@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using CatFight.Data;
 using CatFight.Util;
@@ -23,6 +24,13 @@ namespace CatFight.Items.Specials
             default:
                 Debug.LogError($"Invalid special type {specialData.Type}!");
                 return null;
+            }
+        }
+
+        public static void Init(IDictionary<SpecialData.SpecialType, Special> specials)
+        {
+            foreach(SpecialData.SpecialDataEntry specialData in DataManager.Instance.GameData.Specials.Specials) {
+                specials.Add(specialData.Type, Create(specialData, 0));
             }
         }
     }

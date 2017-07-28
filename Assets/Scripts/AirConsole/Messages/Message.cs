@@ -29,6 +29,8 @@ namespace CatFight.AirConsole.Messages
                     return new SetSlotMessage(data);
                 case Message.MessageType.ClearSlot:
                     return new ClearSlotMessage(data);
+                case Message.MessageType.UseSpecial:
+                    return new UseSpecialMessage(data);
                 default:
                     Debug.LogError($"Unsupported message type: {messageType}");
                     return null;
@@ -46,11 +48,20 @@ namespace CatFight.AirConsole.Messages
         public enum MessageType
         {
             None = 0,
-            StartGame,
-            ConfirmStaging,
+
+            // unstaged
             SetTeam,
+
+            // lobby
+            StartGame,
+
+            // staging
+            ConfirmStaging,
             SetSlot,
             ClearSlot,
+
+            // arena
+            UseSpecial
         }
 
         public abstract MessageType type { get; }

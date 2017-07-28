@@ -83,7 +83,9 @@ namespace CatFight.Fighters
             _brain = null;
             _armor = new Armor();
             _weapons.Clear();
+
             _specials.Clear();
+            SpecialFactory.Init(_specials);
 
             foreach(var kvp in loadout.Slots) {
                 LoadoutSlot slot = kvp.Value;

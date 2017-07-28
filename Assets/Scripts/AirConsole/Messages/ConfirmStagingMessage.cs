@@ -4,6 +4,8 @@ using Newtonsoft.Json.Linq;
 
 namespace CatFight.AirConsole.Messages
 {
+// TODO: this should be a custom state value for the controller
+// (and that property should reset to false when the staging view comes up)
     [Serializable]
     public sealed class ConfirmStagingMessage : Message
     {

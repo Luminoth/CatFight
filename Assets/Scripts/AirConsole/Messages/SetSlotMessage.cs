@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 
 namespace CatFight.AirConsole.Messages
 {
+// TODO: this should be a custom state variable for the controller
     [Serializable]
     public sealed class SetSlotMessage : Message
     {

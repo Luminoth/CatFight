@@ -5,6 +5,7 @@ using Newtonsoft.Json.Linq;
 
 namespace CatFight.AirConsole.Messages
 {
+// TODO: this should be a customn state value in the controller
     [Serializable]
     public sealed class ClearSlotMessage : Message
     {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 
 using CatFight.Data;
@@ -25,18 +24,13 @@ namespace CatFight.Fighters
 
         private readonly Dictionary<Player.TeamIds, Fighter> _fighters = new Dictionary<Player.TeamIds, Fighter>();
 
+        public IReadOnlyDictionary<Player.TeamIds, Fighter> Fighters => _fighters;
+
 #region Unity Lifecycle
         private void Awake()
         {
             AmmoContainer = new GameObject("Ammo");
             _fighterContainer = new GameObject("Fighters");
-        }
-
-        protected override void OnDestroy()
-        {
-            Cleanup();
-
-            base.OnDestroy();
         }
 #endregion
 
