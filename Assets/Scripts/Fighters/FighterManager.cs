@@ -67,8 +67,10 @@ namespace CatFight.Fighters
 
         private void DestroyFighters()
         {
-            if(null == _fighterContainer) {
-                return;
+            // TODO: make this a Transform extension
+            for(int i=0; i<_fighterContainer.transform.childCount; ++i) {
+                Transform child = _fighterContainer.transform.GetChild(i);
+                Destroy(child.gameObject);
             }
 
             _fighters.Clear();
