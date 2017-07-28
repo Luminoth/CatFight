@@ -61,6 +61,11 @@ namespace CatFight.Players
             Schematic = new Schematic(this, schematicData);
         }
 
+        public void Reset()
+        {
+            Schematic.Reset();
+        }
+
         public void SetTeam(TeamIds teamId)
         {
             TeamId = teamId;

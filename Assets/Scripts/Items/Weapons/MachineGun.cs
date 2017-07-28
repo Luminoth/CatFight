@@ -16,7 +16,7 @@ namespace CatFight.Items.Weapons
 
         protected override void DoFire(Fighter fighter)
         {
-            PooledObject pooledObject = ObjectPoolManager.Instance.GetPooledObject(Data.WeaponData.GetAmmoPool(WeaponType));
+            PooledObject pooledObject = ObjectPoolManager.Instance.GetPooledObject(Data.WeaponData.GetAmmoPool(WeaponType), FighterManager.Instance.AmmoContainer.transform);
             Bullet bullet = pooledObject?.GetComponent<Bullet>();
             if(null == bullet) {
                 return;

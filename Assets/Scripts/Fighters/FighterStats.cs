@@ -9,6 +9,7 @@ using CatFight.Items.Armor;
 using CatFight.Items.Brains;
 using CatFight.Items.Specials;
 using CatFight.Items.Weapons;
+using CatFight.Stages;
 using CatFight.Util;
 
 using JetBrains.Annotations;
@@ -155,6 +156,10 @@ namespace CatFight.Fighters
 
         public void Damage(int amount, WeaponData.WeaponType type)
         {
+            if(!GameStageManager.Instance.IsGameStarted) {
+                return;
+            }
+
             float reducedAmount = amount - (amount * _armor.GetDamageReduction(type));
             if(reducedAmount < MinimumDamage) {
                 reducedAmount = MinimumDamage;
@@ -164,7 +169,7 @@ namespace CatFight.Fighters
 
         public void FireWeapon(int idx)
         {
-            if(idx < 0 || idx >= Weapons.Count) {
+            if(!GameStageManager.Instance.IsGameStarted || idx < 0 || idx >= Weapons.Count) {
                 return;
             }
             Weapons.ElementAt(idx).Fire(_fighter);
@@ -179,6 +184,10 @@ namespace CatFight.Fighters
 
         public void UseSpecial(SpecialData.SpecialType type)
         {
+            if(!GameStageManager.Instance.IsGameStarted) {
+                return;
+            }
+
             Special special = _specials.GetOrDefault(type);
             special?.Use();
         }

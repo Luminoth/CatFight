@@ -23,10 +23,18 @@ namespace CatFight.Stages
 
         private readonly List<string> _loadedScenes = new List<string>();
 
+        [SerializeField]
+        [ReadOnly]
+        private bool _isGameStarted;
+
+        public bool IsGameStarted { get { return _isGameStarted; } set { _isGameStarted = value; } }
+
 // TODO: show a loading screen during stage swaps
 
         public void LoadLobby(Action callback=null)
         {
+            IsGameStarted = false;
+
             UnloadScenes();
 
             StartCoroutine(LoadSceneRoutine(_lobbySceneName, () => {
@@ -38,6 +46,8 @@ namespace CatFight.Stages
 
         public void LoadStaging(Action callback=null)
         {
+            IsGameStarted = false;
+
             UnloadScenes();
 
             StartCoroutine(LoadSceneRoutine(_stagingSceneName, () => {
@@ -49,6 +59,8 @@ namespace CatFight.Stages
 
         public void LoadArena(Action callback=null)
         {
+            IsGameStarted = false;
+
             UnloadScenes();
 
             StartCoroutine(LoadSceneRoutine(_arenaSceneName, () => {

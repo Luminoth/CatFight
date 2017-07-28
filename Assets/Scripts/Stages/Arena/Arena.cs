@@ -81,8 +81,10 @@ namespace CatFight.Stages.Arena
         protected override void OnDestroy()
         {
             if(FighterManager.HasInstance) {
-                FighterManager.Instance.DestroyFighters();
+                FighterManager.Instance.Cleanup();
             }
+
+            base.OnDestroy();
         }
 
         private void Update()
@@ -125,6 +127,7 @@ namespace CatFight.Stages.Arena
         private void EndRound()
         {
             _isRoundOver = true;
+            GameStageManager.Instance.IsGameStarted = false;
 
             GameStageManager.Instance.LoadLobby();
         }
@@ -152,6 +155,8 @@ namespace CatFight.Stages.Arena
 #region Timer
         private void StartTimer()
         {
+            GameStageManager.Instance.IsGameStarted = true;
+
             _timerStart = DateTime.Now;
             _actualFightTimeSeconds = _fightTimeSeconds;
         }

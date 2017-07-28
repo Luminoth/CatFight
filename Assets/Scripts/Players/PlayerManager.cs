@@ -111,6 +111,13 @@ namespace CatFight.Players
             }
         }
 
+        public void ResetPlayers()
+        {
+            foreach(var kvp in _players) {
+                kvp.Value.Reset();
+            }
+        }
+
         public void ConfirmPlayerSchematic(int deviceId, bool isConfirmed)
         {
             Player player = _connectedPlayers.GetOrDefault(deviceId);

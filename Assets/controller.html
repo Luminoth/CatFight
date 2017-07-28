@@ -21,15 +21,15 @@
 <script id="content-template" type="text/x-handlebars-template">
     <div id="loading" class="view default-view view-container">
         <p>
-            The game is loading! One moment, please...
+            The game is loading! One moment, please...<br />
         </p>
     </div>
     <div id="lobby" class="view view-container">
         <p>
-            Welcome to the lobby {{playerName}}! You're on team {{playerTeamName}}!<br />
+            Welcome to the lobby {{app.playerName}}! You're on team {{app.playerTeamName}}!<br />
             This is where we gather and wait for the master player to start the game.<br />
         </p>
-    {{#if isMasterPlayer}}
+    {{#if app.isMasterPlayer}}
         <div id="button-start" class="button-300-150 center">
             <div class="button-text">Start</div>
         </div>
@@ -37,43 +37,55 @@
     </div>
     <div id="staging" class="view view-container">
         <p>
-            Welcome to the staging area {{playerName}}!<br />
+            Welcome to the staging area {{app.playerName}}!<br />
             This is where we assign weapons, armor, and core parts to our fighter.<br />
         </p>
-    {{#each gameData.Fighter.Schematic.Slots}}
+    {{#each app.gameData.Fighter.Schematic.Slots}}
         <div class="form-group row">
             <label class="col-form-label col-sm-2" for="slot_{{Id}}">{{Name}}</label>
             <div class="col-sm-10">
                 <select class="form-control" name="slot_{{Id}}" id="slot_{{Id}}" onchange="app.selectSchematicSlot({{Id}})">
                     <option value="" selected="selected">--</option>
-                {{#ifEq Type "Brain"}}
-                    {{#each ../gameData.Brains.Brains}}<option value="{{Id}}">{{Name}}</option>{{/each}}
-                {{else ifEq Type "Armor"}}
-                    {{#each ../gameData.Armor.Armor}}<option value="{{Id}}">{{Name}}</option>{{/each}}
-                {{else ifEq Type "Weapon"}}
-                    {{#each ../gameData.Weapons.Weapons}}<option value="{{Id}}">{{Name}}</option>{{/each}}
-                {{else ifEq Type "Special"}}
-                    {{#each ../gameData.Specials.Specials}}<option value="{{Id}}">{{Name}}</option>{{/each}}
-                {{/ifEq}}
+                {{#ifCond Type '==' "Brain"}}
+                    {{#each ../app.gameData.Brains.Brains}}<option value="{{Id}}">{{Name}}</option>{{/each}}
+                {{else ifCond Type '==' "Armor"}}
+                    {{#each ../app.gameData.Armor.Armor}}<option value="{{Id}}">{{Name}}</option>{{/each}}
+                {{else ifCond Type '==' "Weapon"}}
+                    {{#each ../app.gameData.Weapons.Weapons}}<option value="{{Id}}">{{Name}}</option>{{/each}}
+                {{else ifCond Type '==' "Special"}}
+                    {{#each ../app.gameData.Specials.Specials}}<option value="{{Id}}">{{Name}}</option>{{/each}}
+                {{/ifCond}}
                 </select>
             </div>
         </div>
     {{/each}}
         <div id="button-confirm" class="button-300-150 center">
+        {{#if app.isConfirmed}}
+            <div id="button-confirm-text" class="button-text">Unconfirm</div>
+        {{else}}
             <div id="button-confirm-text" class="button-text">Confirm</div>
+        {{/if}}
         </div>
     </div>
     <div id="arena" class="view view-container">
         <p>
-            Welcome to the arena {{playerName}}!<br />
-            This is where we watch our fighter compete against the other team's fighter!
+            Welcome to the arena {{app.playerName}}!<br />
+            This is where we watch our fighter compete against the other team's fighter!<br />
         </p>
+        <p>
+            Missiles Remaining: {{app.missilesRemaining}}<br />
+            Chaff Remaining: {{app.chaffRemaining}}<br />
+        </p>
+    {{#ifCond app.missilesRemaining '>' 0}}
         <div id="button-missiles" class="button-300-150 left">
             <div id="button-missiles-text" class="button-text">Missiles</div>
         </div>
+    {{/ifCond}}
+    {{#ifCond app.chaffRemaining '>' 0}}
         <div id="button-chaff" class="button-300-150 right">
             <div id="button-chaff-text" class="button-text">Chaff</div>
         </div>
+    {{/ifCond}}
     </div>
 </script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

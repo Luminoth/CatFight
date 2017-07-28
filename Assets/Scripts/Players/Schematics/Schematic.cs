@@ -55,6 +55,16 @@ namespace CatFight.Players.Schematics
 #endif
         }
 
+        public void Reset()
+        {
+            IsConfirmed = false;
+            _filledSlotCount = 0;
+
+            foreach(var kvp in Slots) {
+                kvp.Value.Clear();
+            }
+        }
+
         public bool SetSlot(int slotId, int itemId)
         {
             if(_filledSlotCount >= SchematicData.MaxFilledSlots) {
@@ -82,7 +92,7 @@ namespace CatFight.Players.Schematics
         {
 // TODO: error check
             int itemId = _slots[slotId].ItemId;
-            _slots[slotId].ItemId = 0;
+            _slots[slotId].Clear();
             --_filledSlotCount;
 
             PlayerManager.Instance.BroadcastToTeam(_player.TeamId, new ClearSlotMessage

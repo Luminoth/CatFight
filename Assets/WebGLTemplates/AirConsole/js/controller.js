@@ -41,6 +41,9 @@ function App() {
     var filledSlots = 0;
     var teamSlots = [];
 
+    var missilesRemaining = 0;
+    var chaffRemaining = 0;
+
     var gameData = {};
 
     app._initHandlebars()
@@ -68,12 +71,7 @@ function App() {
             }
             app.gameData = response;
 
-            // init the slots to 0 (cleared)
-            app.playerSlots = new Array(app.gameData.Fighter.Schematic.Slots.length).fill(0);
-            app.filledSlots = 0;
-            app.teamSlots = new Array(app.gameData.Fighter.Schematic.Slots.length).fill({});
-
-            app.updateContent();
+            app.reset();
         });
     }
 
@@ -94,6 +92,7 @@ function App() {
             case MessageType.ClearSlot:
                 app._clearTeamSlot(data.slotId, data.itemId);
                 break;
+            // TODO: handle the message that tells us how many specials we have left
             default:
                 alert("Invalid message type: " + messageType);
                 break;
@@ -107,6 +106,10 @@ function App() {
 
         app.viewManager.onViewChange(data, function(viewId) {
             app.debugLog("onViewChange", viewId);
+
+            if(viewId == "lobby") {
+                app.reset();
+            }
         });
     };
 }
@@ -123,11 +126,32 @@ App.prototype.debugLog = function() {
 App.prototype._initHandlebars = function() {
 
     // register helpers
-    Handlebars.registerHelper('ifEq', function(a, b, opts) {
-        if(a == b) {
-            return opts.fn(this);
-        } else {
-            return opts.inverse(this);
+
+    // https://stackoverflow.com/questions/8853396/logical-operator-in-a-handlebars-js-if-conditional
+    Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
+        switch(operator) {
+            case '==':
+                return (v1 == v2) ? options.fn(this) : options.inverse(this);
+            case '===':
+                return (v1 === v2) ? options.fn(this) : options.inverse(this);
+            case '!=':
+                return (v1 != v2) ? options.fn(this) : options.inverse(this);
+            case '!==':
+                return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+            case '<':
+                return (v1 < v2) ? options.fn(this) : options.inverse(this);
+            case '<=':
+                return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+            case '>':
+                return (v1 > v2) ? options.fn(this) : options.inverse(this);
+            case '>=':
+                return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+            case '&&':
+                return (v1 && v2) ? options.fn(this) : options.inverse(this);
+            case '||':
+                return (v1 || v2) ? options.fn(this) : options.inverse(this);
+            default:
+                return options.inverse(this);
         }
     });
 
@@ -137,14 +161,25 @@ App.prototype._initHandlebars = function() {
     app.templateScript = Handlebars.compile(template);
 }
 
+App.prototype.reset = function() {
+
+    app.isConfirmed = false;
+
+    app.playerSlots = new Array(app.gameData.Fighter.Schematic.Slots.length).fill(0);
+    app.filledSlots = 0;
+    app.teamSlots = new Array(app.gameData.Fighter.Schematic.Slots.length).fill({});
+
+    app.missilesRemaining = 0;
+    app.chaffRemaining = 0;
+
+    app.updateContent();
+}
+
 App.prototype.updateContent = function() {
 
     app.debugLog("Updating content...");
     var compiledHtml = app.templateScript({
-        "playerName": app.playerName,
-        "playerTeamName": app.playerTeamName,
-        "isMasterPlayer": app.isMasterPlayer,
-        "gameData": app.gameData
+        "app": app
     });
     $("#content-placeholder").html(compiledHtml);
 
@@ -163,15 +198,21 @@ App.prototype.updateContent = function() {
         } 
     });
 
-    var buttonUseMissiles = new Button("button-missiles", {
-        "down": function() {
-        }
-    });
+    if(app.missilesRemaining > 0) {
+        var buttonUseMissiles = new Button("button-missiles", {
+            "down": function() {
+                app.fireMissiles();
+            }
+        });
+    }
 
-    var buttonUseChaff = new Button("button-chaff", {
-        "down": function() {
-        }
-    });
+    if(app.chaffRemaining > 0) {
+        var buttonUseChaff = new Button("button-chaff", {
+            "down": function() {
+                app.launchChaff();
+            }
+        });
+    }
 
     // view manager must reset views
     if(app.viewManager) {
@@ -209,7 +250,8 @@ App.prototype.confirmStaging = function(msg) {
         "type": MessageType.ConfirmStaging,
         "isConfirmed": app.isConfirmed
     });
-    $("#button-confirm-text").html(app.isConfirmed ? "Unconfirm" : "Confirm");
+
+    app.updateContent();
 }
 
 App.prototype.selectSchematicSlot = function(slotId) {
@@ -294,6 +336,27 @@ App.prototype._clearTeamSlot = function(slotId, itemId) {
 
     app.debugLog("Clearing team slot", slotId, itemId, slot[itemIdx]);
     --slot[itemIdx];
+}
+
+App.prototype.fireMissiles = function() {
+
+    app._useSpecial();
+
+    --app.missilesRemaining;
+    app.updateContent();
+}
+
+App.prototype.launchChaff = function() {
+
+    app._useSpecial();
+
+    --app.chaffRemaining;
+    app.updateContent();
+}
+
+App.prototype._useSpecial = function() {
+
+    // TODO: send the message
 }
 
 App.prototype.sendMessageToScreen = function(msg) {

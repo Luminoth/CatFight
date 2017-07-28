@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 using CatFight.Data;
@@ -18,16 +19,22 @@ namespace CatFight.Fighters
         [SerializeField]
         private Fighter _fighterPrefab;
 
-        [SerializeField]
-        [ReadOnly]
         private GameObject _fighterContainer;
+
+        public GameObject AmmoContainer { get; private set; }
 
         private readonly Dictionary<Player.TeamIds, Fighter> _fighters = new Dictionary<Player.TeamIds, Fighter>();
 
 #region Unity Lifecycle
+        private void Awake()
+        {
+            AmmoContainer = new GameObject("Ammo");
+            _fighterContainer = new GameObject("Fighters");
+        }
+
         protected override void OnDestroy()
         {
-            DestroyFighters();
+            Cleanup();
 
             base.OnDestroy();
         }
@@ -35,11 +42,6 @@ namespace CatFight.Fighters
 
         public void InitFighters(IReadOnlyCollection<FighterSpawn> spawnPoints)
         {
-            if(null != _fighterContainer) {
-                return;
-            }
-            _fighterContainer = new GameObject("Fighters");
-
             foreach(FighterSpawn spawnPoint in spawnPoints) {
                 Fighter fighter = SpawnFighter(spawnPoint);
                 _fighters.Add(spawnPoint.TeamId, fighter);
@@ -48,16 +50,34 @@ namespace CatFight.Fighters
             }
         }
 
-        public void DestroyFighters()
+        public void Cleanup()
+        {
+            RecycleAmmo();
+            DestroyFighters();
+
+// TODO: we can do this when RecycleAmmo actually works
+            //StopAllCoroutines();
+        }
+
+        private void RecycleAmmo()
+        {
+// TODO: this isn't working for some reason
+            for(int i=0; i<AmmoContainer.transform.childCount; ++i) {
+                Transform child = AmmoContainer.transform.GetChild(i);
+                PooledObject pooledObject = child.GetComponent<PooledObject>();
+                if(null != pooledObject) {
+                    pooledObject.Recycle();
+                }
+            }
+        }
+
+        private void DestroyFighters()
         {
             if(null == _fighterContainer) {
                 return;
             }
 
-            Destroy(_fighterContainer);
-            _fighterContainer = null;
-
-// TODO: need to make sure we clean up un-recycled pool objects here as well
+            _fighters.Clear();
         }
 
         [CanBeNull]
@@ -83,7 +103,7 @@ namespace CatFight.Fighters
 
         public void SpawnImpact(WeaponData.WeaponType weaponType, Impact impactPrefab, Vector3 position, Quaternion rotation)
         {
-            PooledObject pooledObject = ObjectPoolManager.Instance.GetPooledObject(WeaponData.GetImpactPool(weaponType));
+            PooledObject pooledObject = ObjectPoolManager.Instance.GetPooledObject(WeaponData.GetImpactPool(weaponType), AmmoContainer.transform);
             Impact impact = pooledObject?.GetComponent<Impact>();
             if(null == impact) {
                 return;

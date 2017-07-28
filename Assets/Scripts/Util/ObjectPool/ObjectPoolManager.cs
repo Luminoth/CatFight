@@ -43,7 +43,7 @@ namespace CatFight.Util.ObjectPool
             }
 
             [CanBeNull]
-            public PooledObject GetPooledObject(bool activate=true)
+            public PooledObject GetPooledObject(Transform parent=null, bool activate=true)
             {
                 if(!_pooledObjects.Any()) {
                     if(!AllowExpand) {
@@ -53,7 +53,7 @@ namespace CatFight.Util.ObjectPool
                 }
 
                 PooledObject pooledObject = _pooledObjects.Dequeue();
-                pooledObject.transform.SetParent(null);
+                pooledObject.transform.SetParent(parent);
                 pooledObject.gameObject.SetActive(activate);
 
                 return pooledObject;
@@ -104,10 +104,10 @@ namespace CatFight.Util.ObjectPool
         }
 
         [CanBeNull]
-        public PooledObject GetPooledObject(string poolTag, bool activate=true)
+        public PooledObject GetPooledObject(string poolTag, Transform parent=null, bool activate=true)
         {
             ObjectPool pool = _objectPools.GetOrDefault(poolTag);
-            return pool?.GetPooledObject(activate);
+            return pool?.GetPooledObject(parent, activate);
         }
 
         public void Recycle(PooledObject pooledObject)

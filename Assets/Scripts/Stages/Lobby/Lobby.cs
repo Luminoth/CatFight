@@ -33,6 +33,8 @@ namespace CatFight.Stages.Lobby
         {
             base.Start();
 
+            PlayerManager.Instance.ResetPlayers();
+
             _playerCountText.text = "0";
 
             AirConsoleManager.Instance.ConnectEvent += ConnectEventHandler;

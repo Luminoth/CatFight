@@ -48,6 +48,11 @@ namespace CatFight.Players.Schematics
 
         public bool IsFilled => ItemId > 0;
 
+        public void Clear()
+        {
+            ItemId = 0;
+        }
+
         protected SchematicSlot(SchematicSlotData slotData)
         {
             SlotData = slotData;
