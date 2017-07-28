@@ -1,10 +1,13 @@
 SHANE
 ==========
 
-OBJECT POOLING
+SPECIAL CONTROLLER HOOKUP
 
-DO STUFF WHEN WEAPONS AND SPECIALS ARE USED
-    SPECIALS NEED CONTROLLER HOOKUP
+SPECIAL ANIMATIONS
+
+FighterManager should parent and cleanup all of the pooled objects fighters spawn (ammo, impacts, specials, etc)
+
+******* Controller needs to reset all of its state when going back to the Lobby screen
 
 Instead of having Set/Clear slot messages, controllers should set that information
 in their custom device state so that they get it back when they reconnect

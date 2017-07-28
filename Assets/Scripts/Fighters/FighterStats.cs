@@ -20,6 +20,9 @@ namespace CatFight.Fighters
     [Serializable]
     public sealed class FighterStats
     {
+// TODO: this should be configurable on a prefab somewhere
+        private const int MinimumDamage = 1;
+
 #region Health
         [SerializeField]
         [ReadOnly]
@@ -153,6 +156,9 @@ namespace CatFight.Fighters
         public void Damage(int amount, WeaponData.WeaponType type)
         {
             float reducedAmount = amount - (amount * _armor.GetDamageReduction(type));
+            if(reducedAmount < MinimumDamage) {
+                reducedAmount = MinimumDamage;
+            }
             CurrentHealth -= reducedAmount;
         }
 

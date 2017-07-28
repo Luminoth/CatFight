@@ -43,7 +43,7 @@ namespace CatFight.Util.ObjectPool
             }
 
             [CanBeNull]
-            public PooledObject GetPooledObject(bool activate)
+            public PooledObject GetPooledObject(bool activate=true)
             {
                 if(!_pooledObjects.Any()) {
                     if(!AllowExpand) {
@@ -104,7 +104,7 @@ namespace CatFight.Util.ObjectPool
         }
 
         [CanBeNull]
-        public PooledObject GetPooledObject(string poolTag, bool activate)
+        public PooledObject GetPooledObject(string poolTag, bool activate=true)
         {
             ObjectPool pool = _objectPools.GetOrDefault(poolTag);
             return pool?.GetPooledObject(activate);

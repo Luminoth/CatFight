@@ -25,6 +25,17 @@ namespace CatFight.Data
         }
 #endregion
 
+// TODO: these should be extensions of WeaponType
+        public static string GetAmmoPool(WeaponType weaponType)
+        {
+            return weaponType.GetDescription() + "-ammo";
+        }
+
+        public static string GetImpactPool(WeaponType weaponType)
+        {
+            return weaponType.GetDescription() + "-impact";
+        }
+
         public enum WeaponType
         {
             [Description("none")]
@@ -91,11 +102,29 @@ namespace CatFight.Data
         {
             foreach(WeaponDataEntry entry in Weapons) {
                 _entries.Add(entry.Id, entry);
-
-                PooledObject pooledObject = entry.AmmoPrefab?.GetComponent<PooledObject>();
-                if(null != pooledObject) {
-                    ObjectPoolManager.Instance.InitializePool(entry.Type.GetDescription(), pooledObject, entry.PoolSize);
+                if(null != entry.AmmoPrefab) {
+                    PoolAmmo(entry.Type, entry.AmmoPrefab, entry.PoolSize);
                 }
+            }
+        }
+
+        private void PoolAmmo(WeaponType weaponType, Ammo ammo, int poolSize)
+        {
+            PooledObject pooledObject = ammo.GetComponent<PooledObject>();
+            if(null != pooledObject) {
+                ObjectPoolManager.Instance.InitializePool(GetAmmoPool(weaponType), pooledObject, poolSize);
+            }
+
+            if(null != ammo.ImpactPrefab) {
+                PoolImpact(weaponType, ammo.ImpactPrefab, poolSize);
+            }
+        }
+
+        private void PoolImpact(WeaponType weaponType, Impact impact, int poolSize)
+        {
+            PooledObject pooledObject = impact.GetComponent<PooledObject>();
+            if(null != pooledObject) {
+                ObjectPoolManager.Instance.InitializePool(GetImpactPool(weaponType), pooledObject, poolSize);
             }
         }
     }

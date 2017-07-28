@@ -38,9 +38,9 @@ GameObject:
   - component: {fileID: 114588840105015234}
   - component: {fileID: 61484845804958782}
   - component: {fileID: 50311015097894686}
-  - component: {fileID: 114326165080585160}
+  - component: {fileID: 114107721551708184}
   m_Layer: 10
-  m_Name: Bullet
+  m_Name: Laser
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -118,7 +118,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.6, y: 0.3}
   m_EdgeRadius: 0
---- !u!114 &114326165080585160
+--- !u!114 &114107721551708184
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -126,12 +126,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1623985384425366}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7549bb58ff907a840b43142c214abcfa, type: 3}
+  m_Script: {fileID: 11500000, guid: eaf6d66cdb654dc46b53fcad0de020a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _impactPrefab: {fileID: 114131900251678248, guid: 292233d64f231bb4ab2a5b15e99988b9,
+  _impactPrefab: {fileID: 114425225418390706, guid: 2e91671d1c2cd8b4f9fb938e43240318,
     type: 2}
-  _velocity: 25
+  _velocity: 40
 --- !u!114 &114588840105015234
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -175,7 +175,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 0cf4966802e10ca43941d00a41722bff, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fa69c2505b6ee6646b0a90784c9bd33c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

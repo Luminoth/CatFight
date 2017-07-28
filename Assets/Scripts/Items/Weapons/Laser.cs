@@ -2,6 +2,7 @@
 
 using CatFight.Data;
 using CatFight.Fighters;
+using CatFight.Util.ObjectPool;
 
 namespace CatFight.Items.Weapons
 {
@@ -13,14 +14,15 @@ namespace CatFight.Items.Weapons
         {
         }
 
-        public override void SetStrength(int strength)
-        {
-UnityEngine.Debug.LogError("TODO: set laser strength");
-        }
-
         protected override void DoFire(Fighter fighter)
         {
-UnityEngine.Debug.LogError("TODO: fire laser");
+            PooledObject pooledObject = ObjectPoolManager.Instance.GetPooledObject(Data.WeaponData.GetAmmoPool(WeaponType));
+            LaserShot laserShot = pooledObject?.GetComponent<LaserShot>();
+            if(null == laserShot) {
+                return;
+            }
+
+            laserShot.Initialize(fighter, WeaponType, Damage);
         }
     }
 }

@@ -25,6 +25,8 @@ namespace CatFight.Items.Brains
             BrainType = type;
         }
 
+// TODO: instead of loading from resources like this
+// we can just hook the FSM to the data serialized object
         [CanBeNull]
         public FsmTemplate LoadBrain()
         {

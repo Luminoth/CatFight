@@ -43,7 +43,9 @@ namespace CatFight.Fighters.Loadouts
             }
 
             Weapon = WeaponFactory.Create(weaponData);
-            Weapon?.SetStrength(_weaponTypeVotes[winnerType]);
+            if(null != Weapon) {
+                Weapon.Strength = _weaponTypeVotes[winnerType];
+            }
         }
     }
 }

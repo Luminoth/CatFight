@@ -15,6 +15,11 @@ namespace CatFight.Items.Weapons
 
         public int Damage { get; private set; }
 
+        [SerializeField]
+        private Impact _impactPrefab;
+
+        public Impact ImpactPrefab => _impactPrefab;
+
         private int _defaultLayer;
 
         private Collider2D _collider;
@@ -70,10 +75,12 @@ namespace CatFight.Items.Weapons
 
         protected virtual void OnFighterCollision()
         {
+            FighterManager.Instance.SpawnImpact(WeaponType, ImpactPrefab, transform.position, transform.rotation);
         }
 
         protected virtual void OnArenaCollision()
         {
+            FighterManager.Instance.SpawnImpact(WeaponType, ImpactPrefab, transform.position, transform.rotation);
         }
     }
 }

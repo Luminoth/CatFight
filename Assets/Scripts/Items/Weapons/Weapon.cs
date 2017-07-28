@@ -42,6 +42,17 @@ namespace CatFight.Items.Weapons
 
         public WeaponData.WeaponDataEntry WeaponData => _weaponData;
 
+        private int _strength;
+
+        public int Strength
+        {
+            get { return _strength; }
+
+            set { _strength = value < 1 ? 1 : value; }
+        }
+
+        public int Damage => WeaponData.Damage + Strength;
+
         public TimeSpan GetCooldownRemaining()
         {
             DateTime now = DateTime.Now;
@@ -50,8 +61,6 @@ namespace CatFight.Items.Weapons
             }
             return _cooldownEndTime - now;
         }
-
-        public abstract void SetStrength(int strength);
 
         public void Fire(Fighter fighter)
         {
