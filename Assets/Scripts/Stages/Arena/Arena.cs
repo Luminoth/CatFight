@@ -1,7 +1,9 @@
 ﻿using System;
 
 using CatFight.AirConsole;
+using CatFight.Data;
 using CatFight.Fighters;
+using CatFight.Players;
 using CatFight.Util;
 
 using UnityEngine;
@@ -34,6 +36,22 @@ namespace CatFight.Stages.Arena
         private Text _timerText;
 
         private DateTime _timerStart;
+#endregion
+
+#region Team A
+        [SerializeField]
+        private Text _teamAMissilesRemaining;
+
+        [SerializeField]
+        private Text _teamAChaffRemaining;
+#endregion
+
+#region Team B
+        [SerializeField]
+        private Text _teamBMissilesRemaining;
+
+        [SerializeField]
+        private Text _teamBChaffRemaining;
 #endregion
 
         [SerializeField]
@@ -78,11 +96,36 @@ namespace CatFight.Stages.Arena
             } else {
                 UpdateTimer();
             }
+
+            UpdateFighters();
         }
 #endregion
 
+        private void UpdateFighters()
+        {
+            Fighter fighterA = FighterManager.Instance.GetFighter(Player.TeamIds.TeamA);
+            if(null != fighterA) {
+                _teamAMissilesRemaining.text = fighterA.Stats.GetSpecialRemaining(SpecialData.SpecialType.Missiles).ToString();
+                _teamAChaffRemaining.text = fighterA.Stats.GetSpecialRemaining(SpecialData.SpecialType.Chaff).ToString();
+                if(fighterA.Stats.IsDead) {
+                    EndRound();
+                }
+            }
+
+            Fighter fighterB = FighterManager.Instance.GetFighter(Player.TeamIds.TeamB);
+            if(null != fighterB) {
+                _teamBMissilesRemaining.text = fighterB.Stats.GetSpecialRemaining(SpecialData.SpecialType.Missiles).ToString();
+                _teamBChaffRemaining.text = fighterB.Stats.GetSpecialRemaining(SpecialData.SpecialType.Chaff).ToString();
+                if(fighterB.Stats.IsDead) {
+                    EndRound();
+                }
+            }
+        }
+
         private void EndRound()
         {
+            _isRoundOver = true;
+
             GameStageManager.Instance.LoadLobby();
         }
 

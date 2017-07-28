@@ -61,7 +61,7 @@ namespace CatFight.Items.Weapons
 
             DoFire(fighter);
 
-            _cooldownEndTime = DateTime.Now.AddSeconds(_weaponData.CooldownSeconds);
+            _cooldownEndTime = DateTime.Now.AddMilliseconds(_weaponData.CooldownMilliseconds);
         }
 
         protected abstract void DoFire(Fighter fighter);

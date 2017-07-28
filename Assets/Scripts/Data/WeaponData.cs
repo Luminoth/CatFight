@@ -54,10 +54,10 @@ namespace CatFight.Data
             public int Damage => _damage;
 
             [SerializeField]
-            [Range(0, 60)]
-            private int _cooldownSeconds;
+            [Range(0, 60000)]
+            private int _cooldownMilliseconds;
 
-            public int CooldownSeconds => _cooldownSeconds;
+            public int CooldownMilliseconds => _cooldownMilliseconds;
 
             [SerializeField]
             private Ammo _ammoPrefab;

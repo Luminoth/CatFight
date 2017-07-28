@@ -1,4 +1,6 @@
-﻿using CatFight.Data;
+﻿using System;
+
+using CatFight.Data;
 using CatFight.Fighters;
 using CatFight.Util.ObjectPool;
 
@@ -15,19 +17,15 @@ namespace CatFight.Items.Weapons
         private Rigidbody2D _rigidBody;
 
         [SerializeField]
-        private float _velocity = 5.0f;
+        private float _velocity = 25.0f;
 
 #region Unity Lifecycle
         private void Awake()
         {
             _pooledObject = GetComponent<PooledObject>();
-            _rigidBody = GetComponent<Rigidbody2D>();
-        }
+            _pooledObject.RecycleEvent += RecycleEventHandler;
 
-        private void OnBecameInvisible()
-        {
-Debug.LogError("invisible");
-            _pooledObject.Recycle();
+            _rigidBody = GetComponent<Rigidbody2D>();
         }
 #endregion
 
@@ -35,7 +33,7 @@ Debug.LogError("invisible");
         {
             base.Initialize(fighter, weaponType, damage);
 
-            _rigidBody.velocity = transform.forward * _velocity;
+            _rigidBody.velocity = transform.right * _velocity;
         }
 
         protected override void OnFighterCollision()
@@ -44,5 +42,21 @@ Debug.LogError("invisible");
 
             _pooledObject.Recycle();
         }
+
+        protected override void OnArenaCollision()
+        {
+            base.OnArenaCollision();
+
+            _pooledObject.Recycle();
+        }
+
+#region Event Handlers
+        private void RecycleEventHandler(object sender, EventArgs evt)
+        {
+            _rigidBody.velocity = Vector2.zero;
+
+            Destroy();
+        }
+#endregion
     }
 }

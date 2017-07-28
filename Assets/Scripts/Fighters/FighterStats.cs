@@ -55,9 +55,9 @@ namespace CatFight.Fighters
 #endregion
 
 #region Specials
-        private readonly Dictionary<int, Special> _specials = new Dictionary<int, Special>();
+        private readonly Dictionary<SpecialData.SpecialType, Special> _specials = new Dictionary<SpecialData.SpecialType, Special>();
 
-        public IReadOnlyDictionary<int, Special> Specials => _specials;
+        public IReadOnlyDictionary<SpecialData.SpecialType, Special> Specials => _specials;
 #endregion
 
 #region Movement
@@ -134,15 +134,15 @@ namespace CatFight.Fighters
         private void IncreaseSpecialUses(SpecialLoadoutSlot specialSlot)
         {
             foreach(var kvp in specialSlot.Specials) {
-                Special special = _specials.GetOrDefault(kvp.Key);
-                if(null == special) {
-                    SpecialData.SpecialDataEntry specialData = DataManager.Instance.GameData.Specials.Entries.GetOrDefault(kvp.Key);
-                    if(null == specialData) {
-                        continue;
-                    }
+                SpecialData.SpecialDataEntry specialData = DataManager.Instance.GameData.Specials.Entries.GetOrDefault(kvp.Key);
+                if(null == specialData) {
+                    continue;
+                }
 
+                Special special = _specials.GetOrDefault(specialData.Type);
+                if(null == special) {
                     special = SpecialFactory.Create(specialData, kvp.Value);
-                    _specials.Add(kvp.Key, special);
+                    _specials.Add(specialData.Type, special);
                 } else {
                     special.IncreaseTotalUses(kvp.Value);
                 }
@@ -171,10 +171,16 @@ namespace CatFight.Fighters
             }
         }
 
-        public void UseSpecial(int id)
+        public void UseSpecial(SpecialData.SpecialType type)
         {
-            Special special = _specials.GetOrDefault(id);
+            Special special = _specials.GetOrDefault(type);
             special?.Use();
+        }
+
+        public int GetSpecialRemaining(SpecialData.SpecialType type)
+        {
+            Special special = _specials.GetOrDefault(type);
+            return special?.RemainingUses ?? 0;
         }
 
         public override string ToString()

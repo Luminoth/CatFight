@@ -22,12 +22,13 @@ UnityEngine.Debug.LogError("TODO: set machinegun strength");
 
         protected override void DoFire(Fighter fighter)
         {
-            PooledObject pooledObject = ObjectPoolManager.Instance.GetPooledObject(WeaponType.GetDescription(), false);
+            PooledObject pooledObject = ObjectPoolManager.Instance.GetPooledObject(WeaponType.GetDescription(), true);
             Bullet bullet = pooledObject?.GetComponent<Bullet>();
             if(null == bullet) {
                 return;
             }
 
+            bullet.Initialize(fighter, WeaponType, WeaponData.Damage);
         }
     }
 }

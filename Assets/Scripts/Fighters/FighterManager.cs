@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
 
 using CatFight.Data;
+using CatFight.Players;
 using CatFight.Util;
+
+using JetBrains.Annotations;
 
 using UnityEngine;
 
@@ -16,7 +19,7 @@ namespace CatFight.Fighters
         [ReadOnly]
         private GameObject _fighterContainer;
 
-        private readonly List<Fighter> _fighters = new List<Fighter>();
+        private readonly Dictionary<Player.TeamIds, Fighter> _fighters = new Dictionary<Player.TeamIds, Fighter>();
 
 #region Unity Lifecycle
         protected override void OnDestroy()
@@ -36,7 +39,7 @@ namespace CatFight.Fighters
 
             foreach(FighterSpawn spawnPoint in spawnPoints) {
                 Fighter fighter = SpawnFighter(spawnPoint);
-                _fighters.Add(fighter);
+                _fighters.Add(spawnPoint.TeamId, fighter);
 
                 fighter.Initialize(spawnPoint.TeamId, DataManager.Instance.GameData.Fighter);
             }
@@ -50,6 +53,12 @@ namespace CatFight.Fighters
 
             Destroy(_fighterContainer);
             _fighterContainer = null;
+        }
+
+        [CanBeNull]
+        public Fighter GetFighter(Player.TeamIds teamId)
+        {
+            return _fighters.GetOrDefault(teamId);
         }
 
         private Fighter SpawnFighter(FighterSpawn spawnPoint)

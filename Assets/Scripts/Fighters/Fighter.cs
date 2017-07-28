@@ -1,4 +1,6 @@
-﻿using CatFight.Data;
+﻿using System.Globalization;
+
+using CatFight.Data;
 using CatFight.Fighters.Loadouts;
 using CatFight.Players;
 using CatFight.Util;
@@ -8,9 +10,11 @@ using UnityEngine;
 namespace CatFight.Fighters
 {
     [RequireComponent(typeof(PlayMakerFSM))]
-    [RequireComponent(typeof(BoxCollider2D))]
     public sealed class Fighter : MonoBehavior
     {
+        [SerializeField]
+        private TextMesh _health;
+
         [SerializeField]
         [ReadOnly]
         private Player.TeamIds _teamId;
@@ -29,16 +33,11 @@ namespace CatFight.Fighters
 
         public FighterStats Stats => _stats;
 
-        private BoxCollider2D _collider;
-
-        public Collider2D Collider => _collider;
-
         private PlayMakerFSM _fsm;
 
 #region Unity Lifecycle
         private void Awake()
         {
-            _collider = GetComponent<BoxCollider2D>();
             _fsm = GetComponent<PlayMakerFSM>();
 
             _loadout = new Loadout(this);
@@ -47,19 +46,19 @@ namespace CatFight.Fighters
 
         private void Update()
         {
+            _health.text = Stats.CurrentHealth.ToString(CultureInfo.InvariantCulture);
+
 #if UNITY_EDITOR
-            if(Input.GetKeyDown(KeyCode.Space)) {
+            if(Input.GetKey(KeyCode.Space)) {
                 Stats.FireAllWeapons();
             }
 
-            // NOTE: assumes missiles are special 1
             if(Input.GetKeyDown(KeyCode.X)) {
-                Stats.UseSpecial(1);
+                Stats.UseSpecial(SpecialData.SpecialType.Missiles);
             }
 
-            // NOTE: assumes chaffs are special 2
             if(Input.GetKeyDown(KeyCode.C)) {
-                Stats.UseSpecial(2);
+                Stats.UseSpecial(SpecialData.SpecialType.Chaff);
             }
 #endif
         }

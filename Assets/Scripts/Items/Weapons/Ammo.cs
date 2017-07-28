@@ -1,5 +1,7 @@
 ﻿using CatFight.Data;
 using CatFight.Fighters;
+using CatFight.Players;
+using CatFight.Stages.Arena;
 using CatFight.Util;
 
 using UnityEngine;
@@ -9,13 +11,15 @@ namespace CatFight.Items.Weapons
     [RequireComponent(typeof(Collider2D))]
     public abstract class Ammo : MonoBehavior
     {
-        public WeaponData.WeaponType WeaponType { get; private set; }
+        public WeaponData.WeaponType WeaponType { get; private set; } = WeaponData.WeaponType.None;
 
         public int Damage { get; private set; }
 
+        private int _defaultLayer;
+
         private Collider2D _collider;
 
-        private Fighter _fighter;
+        private Player.TeamIds _teamId = Player.TeamIds.None;
 
 #region Unity Lifecycle
         private void Awake()
@@ -23,37 +27,52 @@ namespace CatFight.Items.Weapons
             _collider = GetComponent<Collider2D>();
         }
 
-        private void OnDisable()
+        private void Start()
         {
-            if(null != _fighter) {
-                Physics2D.IgnoreCollision(_collider, _fighter.Collider, false);
-            }
-            _fighter = null;
+            _defaultLayer = gameObject.layer;
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            Fighter fighter = collision.gameObject.GetComponent<Fighter>();
-            if(null != fighter && fighter != _fighter) {
+            Fighter fighter = other.GetComponent<Fighter>();
+            if(null != fighter) {
                 fighter.Stats.Damage(Damage, WeaponType);
                 OnFighterCollision();
+            } else if(null != other.GetComponent<ArenaEdge>()) {
+                OnArenaCollision();
             }
         }
 #endregion
 
         public virtual void Initialize(Fighter fighter, WeaponData.WeaponType weaponType, int damage)
         {
-            _fighter = fighter;
-            Physics2D.IgnoreCollision(_collider, _fighter.Collider);
+            _teamId = fighter.TeamId;
+            gameObject.layer = fighter.gameObject.layer;
 
             WeaponType = weaponType;
             Damage = damage;
 
-            transform.position = _fighter.transform.position;
-            transform.rotation = _fighter.transform.rotation;
+            transform.position = fighter.transform.position;
+            transform.rotation = fighter.transform.rotation;
+        }
+
+        protected void Destroy()
+        {
+            _teamId = Player.TeamIds.None;
+            gameObject.layer = _defaultLayer;
+
+            WeaponType = WeaponData.WeaponType.None;
+            Damage = 0;
+
+            transform.position = Vector3.zero;
+            transform.eulerAngles = Vector3.zero;
         }
 
         protected virtual void OnFighterCollision()
+        {
+        }
+
+        protected virtual void OnArenaCollision()
         {
         }
     }
