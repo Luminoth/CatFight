@@ -8,6 +8,7 @@ using UnityEngine;
 namespace CatFight.Fighters
 {
     [RequireComponent(typeof(PlayMakerFSM))]
+    [RequireComponent(typeof(BoxCollider2D))]
     public sealed class Fighter : MonoBehavior
     {
         [SerializeField]
@@ -28,11 +29,16 @@ namespace CatFight.Fighters
 
         public FighterStats Stats => _stats;
 
+        private BoxCollider2D _collider;
+
+        public Collider2D Collider => _collider;
+
         private PlayMakerFSM _fsm;
 
 #region Unity Lifecycle
         private void Awake()
         {
+            _collider = GetComponent<BoxCollider2D>();
             _fsm = GetComponent<PlayMakerFSM>();
 
             _loadout = new Loadout(this);
@@ -62,6 +68,9 @@ namespace CatFight.Fighters
         public void Initialize(Player.TeamIds teamId, FighterData fighterData)
         {
             _teamId = teamId;
+
+            gameObject.name = _teamId.ToString();
+            gameObject.layer = LayerMask.NameToLayer(_teamId.ToString());
 
             _loadout.Initialize();
             Debug.Log(Loadout);

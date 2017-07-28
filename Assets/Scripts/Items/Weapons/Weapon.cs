@@ -1,6 +1,7 @@
 ﻿using System;
 
 using CatFight.Data;
+using CatFight.Fighters;
 
 using JetBrains.Annotations;
 
@@ -39,6 +40,8 @@ namespace CatFight.Items.Weapons
 
         private readonly WeaponData.WeaponDataEntry _weaponData;
 
+        public WeaponData.WeaponDataEntry WeaponData => _weaponData;
+
         public TimeSpan GetCooldownRemaining()
         {
             DateTime now = DateTime.Now;
@@ -50,18 +53,18 @@ namespace CatFight.Items.Weapons
 
         public abstract void SetStrength(int strength);
 
-        public void Fire()
+        public void Fire(Fighter fighter)
         {
             if(IsOnCooldown) {
                 return;
             }
 
-            DoFire();
+            DoFire(fighter);
 
             _cooldownEndTime = DateTime.Now.AddSeconds(_weaponData.CooldownSeconds);
         }
 
-        protected abstract void DoFire();
+        protected abstract void DoFire(Fighter fighter);
 
         protected Weapon(WeaponData.WeaponDataEntry weaponData)
         {

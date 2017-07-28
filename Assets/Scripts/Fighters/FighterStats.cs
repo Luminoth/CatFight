@@ -161,7 +161,7 @@ namespace CatFight.Fighters
             if(idx < 0 || idx >= Weapons.Count) {
                 return;
             }
-            Weapons.ElementAt(idx).Fire();
+            Weapons.ElementAt(idx).Fire(_fighter);
         }
 
         public void FireAllWeapons()

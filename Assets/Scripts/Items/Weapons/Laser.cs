@@ -1,6 +1,7 @@
 ﻿using System;
 
 using CatFight.Data;
+using CatFight.Fighters;
 
 namespace CatFight.Items.Weapons
 {
@@ -17,7 +18,7 @@ namespace CatFight.Items.Weapons
 UnityEngine.Debug.LogError("TODO: set laser strength");
         }
 
-        protected override void DoFire()
+        protected override void DoFire(Fighter fighter)
         {
 UnityEngine.Debug.LogError("TODO: fire laser");
         }
