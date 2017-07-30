@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 using CatFight.Util;
@@ -20,6 +22,8 @@ namespace CatFight.Data
             ScriptableObjectUtility.CreateAsset<FighterData>();
         }
 #endregion
+
+        private const string DefaultFighterName = "Missing Name";
 
         [SerializeField]
         [Range(0, 500)]
@@ -46,6 +50,25 @@ namespace CatFight.Data
         private SchematicData _schematic = new SchematicData();
 
         public SchematicData Schematic => _schematic;
+
+        [SerializeField]
+        private string[] _fighterNames;
+
+        [JsonIgnore]
+        public IReadOnlyCollection<string> FighterNames => _fighterNames;
+
+        public void GetRandomFighterNames(IList<string> names, int count)
+        {
+// TODO: make this actually random
+            int i;
+            for(i=0; i<FighterNames.Count && i<count; ++i) {
+                names.Add(FighterNames.ElementAt(i));
+            }
+
+            for(; i<count; ++i) {
+                names.Add(DefaultFighterName);
+            }
+        }
 
         public override string ToString()
         {

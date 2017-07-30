@@ -34,27 +34,27 @@ function App() {
 
     app = this;
 
-    var templateScript;
+    app.templateScript = null;
 
-    var airconsole;
-    var viewManager;
+    app.airconsole = null;
+    app.viewManager = null;
 
-    var isMasterPlayer = false;
-    var isConfirmed = false;
-    var playerName = "Guest";
-    var playerTeamId = "None";
-    var playerTeamName = "Unaffiliated";
+    app.isMasterPlayer = false;
+    app.isConfirmed = false;
+    app.playerName = "Guest";
+    app.playerTeamId = "None";
+    app.playerTeamName = "Unaffiliated";
 
-    var playerSlots = [];
-    var filledSlots = 0;
-    var teamSlots = [];
+    app.playerSlots = [];
+    app.filledSlots = 0;
+    app.teamSlots = [];
 
-    var isGameStarted = false;
+    app.isGameStarted = false;
 
-    var missilesRemaining = 0;
-    var chaffRemaining = 0;
+    app.missilesRemaining = 0;
+    app.chaffRemaining = 0;
 
-    var gameData = {};
+    app.gameData = {};
 
     app._initHandlebars()
 
@@ -95,6 +95,7 @@ function App() {
                 app.playerTeamId = data.teamId;
                 app.playerTeamName = data.teamName;
                 app.updateContent();
+
                 app.airconsole.setCustomDeviceStateProperty("teamData", data);
                 break;
             case MessageType.SetSlot:
@@ -179,6 +180,9 @@ App.prototype.reset = function() {
     if(app.gameData && app.gameData.Fighter) {
         app.playerSlots = new Array(app.gameData.Fighter.Schematic.Slots.length).fill(0);
         app.teamSlots = new Array(app.gameData.Fighter.Schematic.Slots.length).fill({});
+    } else {
+        app.playerSlots = [];
+        app.teamSlots = [];
     }
     app.filledSlots = 0;
 
@@ -256,10 +260,14 @@ App.prototype.updateGameState = function(data) {
 
     app.isGameStarted = data.gameState.isGameStarted;
 
-    app.debugLog("Getting fighter state", app.playerTeamId);
     var fighterState = data.gameState.fighterState[app.playerTeamId];
-    app.missilesRemaining = fighterState.specialsRemaining[SpecialType.Missiles];
-    app.chaffRemaining = fighterState.specialsRemaining[SpecialType.Chaff];
+    if(fighterState) {
+        app.missilesRemaining = fighterState.specialsRemaining[SpecialType.Missiles];
+        app.chaffRemaining = fighterState.specialsRemaining[SpecialType.Chaff];
+    } else {
+        app.missilesRemaining = 0;
+        app.chaffRemaining = 0;
+    }
 
     app.updateContent();
 }

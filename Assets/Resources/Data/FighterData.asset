@@ -35,3 +35,9 @@ MonoBehaviour:
     - _id: 6
       _name: Special
       _type: 4
+  _fighterNames:
+  - Puss n Boots
+  - Tuna
+  - Keiko
+  - Tiger
+  - Shadow

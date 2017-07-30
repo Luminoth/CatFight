@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 using CatFight.Data;
 using CatFight.Items.Weapons;
@@ -30,17 +31,25 @@ namespace CatFight.Fighters
         private void Awake()
         {
             AmmoContainer = new GameObject("Ammo");
+            AmmoContainer.transform.SetParent(transform);
+
             _fighterContainer = new GameObject("Fighters");
+            _fighterContainer.transform.SetParent(transform);
         }
 #endregion
 
         public void InitFighters(IReadOnlyCollection<FighterSpawn> spawnPoints)
         {
-            foreach(FighterSpawn spawnPoint in spawnPoints) {
+            var fighterNames = new List<string>();
+            DataManager.Instance.GameData.Fighter.GetRandomFighterNames(fighterNames, spawnPoints.Count);
+
+            for(int i=0; i<spawnPoints.Count; ++i) {
+                FighterSpawn spawnPoint = spawnPoints.ElementAt(i);
+
                 Fighter fighter = SpawnFighter(spawnPoint);
                 _fighters.Add(spawnPoint.TeamId, fighter);
 
-                fighter.Initialize(spawnPoint.TeamId, DataManager.Instance.GameData.Fighter);
+                fighter.Initialize(spawnPoint.TeamId, fighterNames[i], DataManager.Instance.GameData.Fighter);
             }
         }
 

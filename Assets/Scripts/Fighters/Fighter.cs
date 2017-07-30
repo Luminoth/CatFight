@@ -13,13 +13,22 @@ namespace CatFight.Fighters
     public sealed class Fighter : MonoBehavior
     {
         [SerializeField]
-        private TextMesh _health;
+        private TextMesh _healthText;
 
         [SerializeField]
         [ReadOnly]
         private Player.TeamIds _teamId;
 
         public Player.TeamIds TeamId => _teamId;
+
+        [SerializeField]
+        [ReadOnly]
+        private string _fighterName;
+
+        public string FighterName => _fighterName;
+
+        [SerializeField]
+        private TextMesh _nameText;
 
         [SerializeField]
         [ReadOnly]
@@ -46,7 +55,7 @@ namespace CatFight.Fighters
 
         private void Update()
         {
-            _health.text = Stats.CurrentHealth.ToString(CultureInfo.InvariantCulture);
+            _healthText.text = Stats.CurrentHealth.ToString(CultureInfo.InvariantCulture);
 
 #if UNITY_EDITOR
             if(Input.GetKey(KeyCode.Space)) {
@@ -64,9 +73,12 @@ namespace CatFight.Fighters
         }
 #endregion
 
-        public void Initialize(Player.TeamIds teamId, FighterData fighterData)
+        public void Initialize(Player.TeamIds teamId, string fighterName, FighterData fighterData)
         {
             _teamId = teamId;
+
+            _fighterName = fighterName;
+            _nameText.text = FighterName;
 
             gameObject.name = _teamId.ToString();
             gameObject.layer = LayerMask.NameToLayer(_teamId.ToString());

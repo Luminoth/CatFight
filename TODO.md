@@ -1,13 +1,16 @@
 SHANE
 ==========
 
-SPECIAL CONTROLLER HOOKUP
+Lobby needs to show master player
 
+Staging UI needs fixed in Unity
+
+Arena needs to make it clearer which team everything is associated with
+
+Fix special button text on controller
 SPECIAL ANIMATIONS
 
-FighterManager should parent and cleanup all of the pooled objects fighters spawn (ammo, impacts, specials, etc)
-
-******* Controller needs to reset all of its state when going back to the Lobby screen
+*** fighter slots are clearing when confirming/unconfirming and need to not
 
 Instead of having Set/Clear slot messages, controllers should set that information
 in their custom device state so that they get it back when they reconnect
