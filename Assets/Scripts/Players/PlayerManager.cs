@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using CatFight.AirConsole;
@@ -29,18 +28,15 @@ namespace CatFight.Players
 
         private readonly Dictionary<int, Player> _disconnectedPlayers = new Dictionary<int, Player>();
 
-        private readonly Dictionary<Player.TeamIds, List<Player>> _teams = new Dictionary<Player.TeamIds, List<Player>>();
+        private readonly Dictionary<int, List<Player>> _teams = new Dictionary<int, List<Player>>();
 
         private Player _masterPlayer;
 
 #region  Unity Lifecycle
         private void Awake()
         {
-            foreach(Player.TeamIds teamId in Enum.GetValues(typeof(Player.TeamIds))) {
-                if(Player.TeamIds.None == teamId) {
-                    continue;
-                }
-                _teams.Add(teamId, new List<Player>());
+            foreach(TeamData.TeamDataEntry teamData in DataManager.Instance.GameData.Teams.Teams) {
+                _teams.Add(teamData.Id, new List<Player>());
             }
         }
 #endregion
@@ -149,7 +145,7 @@ namespace CatFight.Players
 
         private void SetPlayerTeam(Player player)
         {
-            Player.TeamIds smallestTeamId = Player.TeamIds.TeamA;
+            int smallestTeamId = 0;
             List<Player> smallestTeam = null;
 
             foreach(var kvp in _teams) {
@@ -160,17 +156,17 @@ namespace CatFight.Players
             }
 
             if(null != smallestTeam) {
-                player.SetTeam(smallestTeamId);
+                player.SetTeam(DataManager.Instance.GameData.Teams.Entries[smallestTeamId]);
                 smallestTeam.Add(player);
             }
         }
 
-        public IReadOnlyCollection<Player> GetTeam(Player.TeamIds teamId)
+        public IReadOnlyCollection<Player> GetTeam(int teamId)
         {
             return _teams[teamId];
         }
 
-        public void BroadcastToTeam(Player.TeamIds teamId, Message message, int exceptDeviceId=-1)
+        public void BroadcastToTeam(int teamId, Message message, int exceptDeviceId=-1)
         {
             var players = _teams.GetOrDefault(teamId);
             if(null == players) {

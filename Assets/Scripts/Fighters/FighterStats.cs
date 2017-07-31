@@ -114,7 +114,7 @@ namespace CatFight.Fighters
         {
             if(null != brainSlot.Brain) {
                 _brain = brainSlot.Brain;
-                fsm.SetFsmTemplate(Brain?.LoadBrain());
+                fsm.SetFsmTemplate(Brain?.Template);
             }
         }
 

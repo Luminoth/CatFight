@@ -33,11 +33,11 @@ namespace CatFight.Fighters.Loadouts
 
         public void Initialize()
         {
-            Debug.Log($"Building loadout for team {_fighter.TeamId}'s fighter...");
+            Debug.Log($"Building loadout for team {_fighter.Team.Id}'s fighter...");
 
             _slots.Clear();
 
-            var team = PlayerManager.Instance.GetTeam(_fighter.TeamId);
+            var team = PlayerManager.Instance.GetTeam(_fighter.Team.Id);
             foreach(Player player in team) {
                 Schematic schematic = player.Schematic;
                 foreach(var kvp in schematic.Slots) {

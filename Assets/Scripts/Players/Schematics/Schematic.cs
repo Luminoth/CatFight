@@ -76,7 +76,7 @@ namespace CatFight.Players.Schematics
             _slots[slotId].ItemId = itemId;
             ++_filledSlotCount;
 
-            PlayerManager.Instance.BroadcastToTeam(_player.TeamId, new SetSlotMessage
+            PlayerManager.Instance.BroadcastToTeam(_player.Team.Id, new SetSlotMessage
                 {
                     slotId = slotId,
                     itemId = itemId
@@ -95,7 +95,7 @@ namespace CatFight.Players.Schematics
             _slots[slotId].Clear();
             --_filledSlotCount;
 
-            PlayerManager.Instance.BroadcastToTeam(_player.TeamId, new ClearSlotMessage
+            PlayerManager.Instance.BroadcastToTeam(_player.Team.Id, new ClearSlotMessage
                 {
                     slotId = slotId,
                     itemId = itemId

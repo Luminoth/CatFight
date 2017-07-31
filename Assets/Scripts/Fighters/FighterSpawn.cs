@@ -1,4 +1,5 @@
-﻿using CatFight.Players;
+﻿using CatFight.Data;
+using CatFight.Players;
 using CatFight.Util;
 
 using UnityEngine;
@@ -8,9 +9,11 @@ namespace CatFight.Fighters
     public sealed class FighterSpawn : MonoBehavior
     {
         [SerializeField]
-        private Player.TeamIds _teamId = Player.TeamIds.None;
+        private int _teamId;
 
-        public Player.TeamIds TeamId => _teamId;
+        public int TeamId => _teamId;
+
+        public TeamData.TeamDataEntry Team => DataManager.Instance.GameData.Teams.Entries[TeamId];
 
 #if UNITY_EDITOR
         private void OnDrawGizmos()

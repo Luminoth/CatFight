@@ -71,7 +71,7 @@ namespace CatFight.Stages.Lobby
             Player = player;
 
             Name = AirConsoleManager.Instance.GetNickname(Player.DeviceId);
-            Team = Player.TeamId.GetDescription();
+            Team = Player.Team.Name;
             AirConsoleManager.Instance.GetProfilePicture(Player.DeviceId, profileImage => {
                 ProfileImage = profileImage;
             });

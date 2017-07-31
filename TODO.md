@@ -20,6 +20,8 @@ and then the game doesn't have to do any extra broadcast work when receiving the
 
 Fighter needs concrete set of actions - Move, Attack - which do stuff based on equipped items
 
+Arena needs to handle more than 2 teams
+
 
 TIEN
 ==========

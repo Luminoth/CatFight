@@ -14,7 +14,7 @@ MonoBehaviour:
   _brains:
   - _id: 1
     _name: Aggressive
-    _type: 1
+    _template: {fileID: 11400000, guid: 2929532ecdbfd0649b9e66d1c6253ee3, type: 2}
   - _id: 2
     _name: Defensive
-    _type: 2
+    _template: {fileID: 11400000, guid: 6fc9e8ac575efce40ae83699f469a8af, type: 2}

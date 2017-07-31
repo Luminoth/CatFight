@@ -17,9 +17,9 @@ namespace CatFight.Fighters
 
         [SerializeField]
         [ReadOnly]
-        private Player.TeamIds _teamId;
+        private TeamData.TeamDataEntry _team;
 
-        public Player.TeamIds TeamId => _teamId;
+        public TeamData.TeamDataEntry Team => _team;
 
         [SerializeField]
         [ReadOnly]
@@ -73,15 +73,15 @@ namespace CatFight.Fighters
         }
 #endregion
 
-        public void Initialize(Player.TeamIds teamId, string fighterName, FighterData fighterData)
+        public void Initialize(TeamData.TeamDataEntry team, string fighterName, FighterData fighterData)
         {
-            _teamId = teamId;
+            _team = team;
 
             _fighterName = fighterName;
             _nameText.text = FighterName;
 
-            gameObject.name = _teamId.ToString();
-            gameObject.layer = LayerMask.NameToLayer(_teamId.ToString());
+            gameObject.name = _team.Name;
+            gameObject.layer = team.Layer;
 
             _loadout.Initialize();
             Debug.Log(Loadout);

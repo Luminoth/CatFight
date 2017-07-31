@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
 
-using CatFight.Players;
-using CatFight.Util;
-
 namespace CatFight.Fighters
 {
     public sealed class FighterState
     {
-        public Player.TeamIds teamId { get; }
+        public int teamId { get; }
 
         public float currentHealth { get; }
 
@@ -17,7 +14,7 @@ namespace CatFight.Fighters
 
         public FighterState(Fighter fighter)
         {
-            teamId = fighter.TeamId;
+            teamId = fighter.Team.Id;
             currentHealth = fighter.Stats.CurrentHealth;
 
             foreach(var kvp in fighter.Stats.Specials) {

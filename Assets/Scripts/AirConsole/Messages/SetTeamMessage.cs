@@ -1,7 +1,6 @@
 ﻿using System;
 
-using CatFight.Players;
-using CatFight.Util;
+using CatFight.Data;
 
 using Newtonsoft.Json.Linq;
 
@@ -25,10 +24,10 @@ namespace CatFight.AirConsole.Messages
             teamName = (string)data["teamName"];
         }
 
-        public SetTeamMessage(Player.TeamIds id)
+        public SetTeamMessage(TeamData.TeamDataEntry team)
         {
-            teamId = (int)id;
-            teamName = id.GetDescription();
+            teamId = team.Id;
+            teamName = team.Name;
         }
 
         private SetTeamMessage()

@@ -29,6 +29,11 @@ namespace CatFight.Data
 
         public FighterData Fighter => _fighter;
 
+        [SerializeField]
+        private TeamData _teams;
+
+        public TeamData Teams => _teams;
+
 #region Items
         [SerializeField]
         private BrainData _brains;
@@ -53,6 +58,8 @@ namespace CatFight.Data
 
         public void Initialize()
         {
+            Teams.Initialize();
+
             Brains.Initialize();
             Weapons.Initialize();
             Armor.Initialize();

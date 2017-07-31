@@ -43,7 +43,7 @@ namespace CatFight.Fighters.Loadouts
                 return;
             }
 
-            Brain = new Brain(brainData.Type);
+            Brain = new Brain(brainData);
         }
     }
 }

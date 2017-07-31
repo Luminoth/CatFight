@@ -13,6 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _version: 1
   _fighter: {fileID: 11400000, guid: 31b8c10aeb6c12f47aa66c7ed9cb330d, type: 2}
+  _teams: {fileID: 11400000, guid: ab20774e858d00f4c87bd0a569e8e866, type: 2}
   _brains: {fileID: 11400000, guid: ad4a21d145f02f24c9dd26fffc8e6aa8, type: 2}
   _weapons: {fileID: 11400000, guid: 2aabc4f5d1ece7945b16f57440f441e4, type: 2}
   _armor: {fileID: 11400000, guid: f7feae4b64d12654585f217b5439e064, type: 2}

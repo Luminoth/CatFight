@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 
 using CatFight.Util;
 
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 using UnityEngine;
 
@@ -23,30 +21,18 @@ namespace CatFight.Data
         }
 #endregion
 
-        public enum BrainType
-        {
-            [Description("none")]
-            None,
-
-            [Description("aggressive")]
-            Aggressive,
-
-            [Description("defensive")]
-            Defensive
-        }
-
         [Serializable]
         public sealed class BrainDataEntry : ItemData
         {
             [SerializeField]
-            private BrainType _type = BrainType.None;
+            private FsmTemplate _template;
 
-            [JsonConverter(typeof(StringEnumConverter))]
-            public BrainType Type => _type;
+            [JsonIgnore]
+            public FsmTemplate Template => _template;
 
             public override string ToString()
             {
-                return $"Brain({Id}: {Name} - {Type})";
+                return $"Brain({Id}: {Name})";
             }
         }
 

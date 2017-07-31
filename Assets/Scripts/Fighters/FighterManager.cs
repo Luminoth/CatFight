@@ -4,7 +4,6 @@ using System.Linq;
 
 using CatFight.Data;
 using CatFight.Items.Weapons;
-using CatFight.Players;
 using CatFight.Util;
 using CatFight.Util.ObjectPool;
 
@@ -23,9 +22,9 @@ namespace CatFight.Fighters
 
         public GameObject AmmoContainer { get; private set; }
 
-        private readonly Dictionary<Player.TeamIds, Fighter> _fighters = new Dictionary<Player.TeamIds, Fighter>();
+        private readonly Dictionary<int, Fighter> _fighters = new Dictionary<int, Fighter>();
 
-        public IReadOnlyDictionary<Player.TeamIds, Fighter> Fighters => _fighters;
+        public IReadOnlyDictionary<int, Fighter> Fighters => _fighters;
 
 #region Unity Lifecycle
         private void Awake()
@@ -49,7 +48,7 @@ namespace CatFight.Fighters
                 Fighter fighter = SpawnFighter(spawnPoint);
                 _fighters.Add(spawnPoint.TeamId, fighter);
 
-                fighter.Initialize(spawnPoint.TeamId, fighterNames[i], DataManager.Instance.GameData.Fighter);
+                fighter.Initialize(spawnPoint.Team, fighterNames[i], DataManager.Instance.GameData.Fighter);
             }
         }
 
@@ -86,7 +85,7 @@ namespace CatFight.Fighters
         }
 
         [CanBeNull]
-        public Fighter GetFighter(Player.TeamIds teamId)
+        public Fighter GetFighter(int teamId)
         {
             return _fighters.GetOrDefault(teamId);
         }

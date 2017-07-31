@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 
 using CatFight.AirConsole;
 using CatFight.AirConsole.Messages;
@@ -13,18 +12,6 @@ namespace CatFight.Players
     [Serializable]
     public sealed class Player
     {
-        public enum TeamIds
-        {
-            [Description("None")]
-            None = 0,
-
-            [Description("Team A")]
-            TeamA = 1,
-
-            [Description("Team B")]
-            TeamB = 2
-        }
-
         [SerializeField]
         [Util.ReadOnly]
         private int _deviceId;
@@ -45,9 +32,9 @@ namespace CatFight.Players
 
         [SerializeField]
         [Util.ReadOnly]
-        private TeamIds _teamId = TeamIds.TeamA;
+        private TeamData.TeamDataEntry _team;
 
-        public TeamIds TeamId { get { return _teamId; } private set { _teamId = value; } }
+        public TeamData.TeamDataEntry Team { get { return _team; } private set { _team = value; } }
 
         [SerializeField]
         [Util.ReadOnly]
@@ -66,10 +53,10 @@ namespace CatFight.Players
             Schematic.Reset();
         }
 
-        public void SetTeam(TeamIds teamId)
+        public void SetTeam(TeamData.TeamDataEntry team)
         {
-            TeamId = teamId;
-            AirConsoleManager.Instance.Message(DeviceId, new SetTeamMessage(TeamId));
+            Team = team;
+            AirConsoleManager.Instance.Message(DeviceId, new SetTeamMessage(team));
         }
 
         public void SetMasterPlayer(bool isMasterPlayer)

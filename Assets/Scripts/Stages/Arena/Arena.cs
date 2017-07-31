@@ -42,6 +42,7 @@ namespace CatFight.Stages.Arena
         private DateTime _timerStart;
 #endregion
 
+// TODO: this needs to be fixed to account for more than 2 teams
 #region Team A
         [SerializeField]
         private Text _teamAMissilesRemaining;
@@ -122,7 +123,9 @@ namespace CatFight.Stages.Arena
 
         private void UpdateFighters()
         {
-            Fighter fighterA = FighterManager.Instance.GetFighter(Player.TeamIds.TeamA);
+            // TODO: this needs to be updated to account for more than 2 teams
+            // basically just need the UI to be fixed is all
+            Fighter fighterA = FighterManager.Instance.GetFighter(1);
             if(null != fighterA) {
                 _teamAMissilesRemaining.text = fighterA.Stats.GetSpecialRemaining(SpecialData.SpecialType.Missiles).ToString();
                 _teamAChaffRemaining.text = fighterA.Stats.GetSpecialRemaining(SpecialData.SpecialType.Chaff).ToString();
@@ -131,7 +134,7 @@ namespace CatFight.Stages.Arena
                 }
             }
 
-            Fighter fighterB = FighterManager.Instance.GetFighter(Player.TeamIds.TeamB);
+            Fighter fighterB = FighterManager.Instance.GetFighter(2);
             if(null != fighterB) {
                 _teamBMissilesRemaining.text = fighterB.Stats.GetSpecialRemaining(SpecialData.SpecialType.Missiles).ToString();
                 _teamBChaffRemaining.text = fighterB.Stats.GetSpecialRemaining(SpecialData.SpecialType.Chaff).ToString();
@@ -200,9 +203,9 @@ namespace CatFight.Stages.Arena
                 return;
             }
 
-            Fighter fighter = FighterManager.Instance.GetFighter(player.TeamId);
+            Fighter fighter = FighterManager.Instance.GetFighter(player.Team.Id);
             if(null == fighter) {
-                Debug.LogError($"No fighter for team {player.TeamId}!");
+                Debug.LogError($"No fighter for team {player.Team.Id}!");
                 return;
             }
             fighter.Stats.UseSpecial(specialType);
