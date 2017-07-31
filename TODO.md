@@ -1,11 +1,11 @@
 SHANE
 ==========
 
+GAMEOVER SCREEN
+
 Lobby needs to show master player
 
 Staging UI needs fixed in Unity
-
-Arena needs to make it clearer which team everything is associated with
 
 Fix special button text on controller
 SPECIAL ANIMATIONS
@@ -19,8 +19,6 @@ and then the game doesn't have to do any extra broadcast work when receiving the
 *SLOTS NEED TO BE NON-ABSTRACT IN ORDER TO SERIALIZE IN THE EDITOR
 
 Fighter needs concrete set of actions - Move, Attack - which do stuff based on equipped items
-
-Arena needs to handle more than 2 teams
 
 
 TIEN

@@ -448,13 +448,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthText: {fileID: 102013424097096648}
-  _teamId: 0
-  _name: 
+  _team:
+    _id: 0
+    _layer:
+      serializedVersion: 2
+      m_Bits: 0
+  _fighterName: 
   _nameText: {fileID: 102708256159001938}
   _stats:
     _currentHealth: 0
-    _brain:
-      _brainType: 0
 --- !u!114 &114163483897369574
 MonoBehaviour:
   m_ObjectHideFlags: 1

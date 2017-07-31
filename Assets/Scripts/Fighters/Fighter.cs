@@ -2,7 +2,6 @@
 
 using CatFight.Data;
 using CatFight.Fighters.Loadouts;
-using CatFight.Players;
 using CatFight.Util;
 
 using UnityEngine;

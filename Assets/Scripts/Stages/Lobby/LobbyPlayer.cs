@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 namespace CatFight.Stages.Lobby
 {
+// TODO: rename this LobbyPlayerCard
     public sealed class LobbyPlayer : MonoBehavior
     {
         [SerializeField]

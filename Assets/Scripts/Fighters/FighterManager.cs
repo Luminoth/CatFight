@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -42,13 +43,15 @@ namespace CatFight.Fighters
             var fighterNames = new List<string>();
             DataManager.Instance.GameData.Fighter.GetRandomFighterNames(fighterNames, spawnPoints.Count);
 
-            for(int i=0; i<spawnPoints.Count; ++i) {
+            int maxSpawned = Math.Min(spawnPoints.Count, DataManager.Instance.GameData.Teams.Teams.Count);
+            for(int i=0; i<maxSpawned; ++i) {
                 FighterSpawn spawnPoint = spawnPoints.ElementAt(i);
+                TeamData.TeamDataEntry team = DataManager.Instance.GameData.Teams.Teams.ElementAt(i);
 
                 Fighter fighter = SpawnFighter(spawnPoint);
-                _fighters.Add(spawnPoint.TeamId, fighter);
+                _fighters.Add(team.Id, fighter);
 
-                fighter.Initialize(spawnPoint.Team, fighterNames[i], DataManager.Instance.GameData.Fighter);
+                fighter.Initialize(team, fighterNames[i], DataManager.Instance.GameData.Fighter);
             }
         }
 
@@ -88,6 +91,11 @@ namespace CatFight.Fighters
         public Fighter GetFighter(int teamId)
         {
             return _fighters.GetOrDefault(teamId);
+        }
+
+        public int AliveFighterCount()
+        {
+            return _fighters.Count(x => !x.Value.Stats.IsDead);
         }
 
         private Fighter SpawnFighter(FighterSpawn spawnPoint)

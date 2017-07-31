@@ -42,23 +42,6 @@ namespace CatFight.Stages.Arena
         private DateTime _timerStart;
 #endregion
 
-// TODO: this needs to be fixed to account for more than 2 teams
-#region Team A
-        [SerializeField]
-        private Text _teamAMissilesRemaining;
-
-        [SerializeField]
-        private Text _teamAChaffRemaining;
-#endregion
-
-#region Team B
-        [SerializeField]
-        private Text _teamBMissilesRemaining;
-
-        [SerializeField]
-        private Text _teamBChaffRemaining;
-#endregion
-
         [SerializeField]
         [ReadOnly]
         private int _actualFightTimeSeconds;
@@ -70,6 +53,12 @@ namespace CatFight.Stages.Arena
         [SerializeField]
         private FighterSpawn[] _spawnPoints;
 
+        [SerializeField]
+        private FighterStatsCard _fighterStatsCardPrefab;
+
+        [SerializeField]
+        private LayoutGroup _fighterStatsContainer;
+
 #region Unity Lifecycle
         protected override void Start()
         {
@@ -78,7 +67,7 @@ namespace CatFight.Stages.Arena
             _countdownText.text = _countdownSeconds.ToString();
             _timerText.text = _fightTimeSeconds.ToString();
 
-            FighterManager.Instance.InitFighters(_spawnPoints);
+            InitFighters();
 
             StartCoroutine(UpdateControllers());
 
@@ -108,9 +97,20 @@ namespace CatFight.Stages.Arena
                 UpdateTimer();
             }
 
-            UpdateFighters();
+            if(FighterManager.Instance.AliveFighterCount() <= 1) {
+                EndRound();
+            }
         }
 #endregion
+
+        private void InitFighters()
+        {
+            FighterManager.Instance.InitFighters(_spawnPoints);
+            foreach(var kvp in FighterManager.Instance.Fighters) {
+                FighterStatsCard fighterStatsCard = Instantiate(_fighterStatsCardPrefab, _fighterStatsContainer.transform);
+                fighterStatsCard.Initialize(kvp.Value);
+            }
+        }
 
         private IEnumerator UpdateControllers()
         {
@@ -118,29 +118,6 @@ namespace CatFight.Stages.Arena
                 yield return new WaitForSeconds(1.0f);
 
                 AirConsoleManager.Instance.SetCustomDeviceStateProperty(GameStateKey, new GameState());
-            }
-        }
-
-        private void UpdateFighters()
-        {
-            // TODO: this needs to be updated to account for more than 2 teams
-            // basically just need the UI to be fixed is all
-            Fighter fighterA = FighterManager.Instance.GetFighter(1);
-            if(null != fighterA) {
-                _teamAMissilesRemaining.text = fighterA.Stats.GetSpecialRemaining(SpecialData.SpecialType.Missiles).ToString();
-                _teamAChaffRemaining.text = fighterA.Stats.GetSpecialRemaining(SpecialData.SpecialType.Chaff).ToString();
-                if(fighterA.Stats.IsDead) {
-                    EndRound();
-                }
-            }
-
-            Fighter fighterB = FighterManager.Instance.GetFighter(2);
-            if(null != fighterB) {
-                _teamBMissilesRemaining.text = fighterB.Stats.GetSpecialRemaining(SpecialData.SpecialType.Missiles).ToString();
-                _teamBChaffRemaining.text = fighterB.Stats.GetSpecialRemaining(SpecialData.SpecialType.Chaff).ToString();
-                if(fighterB.Stats.IsDead) {
-                    EndRound();
-                }
             }
         }
 
