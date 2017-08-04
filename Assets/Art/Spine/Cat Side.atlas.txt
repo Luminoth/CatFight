@@ -1,0 +1,139 @@
+
+Cat Side.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+EarL
+  rotate: true
+  xy: 778, 429
+  size: 100, 191
+  orig: 102, 193
+  offset: 1, 1
+  index: -1
+EarR
+  rotate: true
+  xy: 580, 141
+  size: 104, 197
+  orig: 106, 199
+  offset: 1, 1
+  index: -1
+Eye
+  rotate: false
+  xy: 580, 2
+  size: 124, 137
+  orig: 126, 139
+  offset: 1, 1
+  index: -1
+EyeBG
+  rotate: false
+  xy: 194, 72
+  size: 179, 207
+  orig: 181, 209
+  offset: 1, 1
+  index: -1
+Head
+  rotate: false
+  xy: 2, 577
+  size: 468, 445
+  orig: 470, 447
+  offset: 1, 1
+  index: -1
+LegBLLower
+  rotate: true
+  xy: 375, 119
+  size: 132, 203
+  orig: 134, 205
+  offset: 1, 1
+  index: -1
+LegBLUpper
+  rotate: false
+  xy: 773, 768
+  size: 190, 254
+  orig: 192, 256
+  offset: 1, 1
+  index: -1
+LegBRLower
+  rotate: true
+  xy: 636, 247
+  size: 132, 211
+  orig: 134, 213
+  offset: 1, 1
+  index: -1
+LegBRUpper
+  rotate: false
+  xy: 2, 11
+  size: 190, 268
+  orig: 192, 270
+  offset: 1, 1
+  index: -1
+LegFLLower
+  rotate: false
+  xy: 778, 531
+  size: 75, 235
+  orig: 77, 237
+  offset: 1, 1
+  index: -1
+LegFLUpper
+  rotate: true
+  xy: 418, 253
+  size: 126, 216
+  orig: 128, 218
+  offset: 1, 1
+  index: -1
+LegFRUpper
+  rotate: true
+  xy: 418, 253
+  size: 126, 216
+  orig: 128, 218
+  offset: 1, 1
+  index: -1
+LegFRLower
+  rotate: false
+  xy: 855, 531
+  size: 74, 235
+  orig: 76, 237
+  offset: 1, 1
+  index: -1
+Mouth
+  rotate: false
+  xy: 849, 251
+  size: 140, 128
+  orig: 142, 130
+  offset: 1, 1
+  index: -1
+MouthInner
+  rotate: true
+  xy: 375, 14
+  size: 103, 151
+  orig: 105, 153
+  offset: 1, 1
+  index: -1
+Tail
+  rotate: false
+  xy: 418, 381
+  size: 600, 44
+  orig: 602, 46
+  offset: 1, 1
+  index: -1
+TorsoLower
+  rotate: false
+  xy: 472, 427
+  size: 304, 287
+  orig: 306, 289
+  offset: 1, 1
+  index: -1
+TorsoMid
+  rotate: false
+  xy: 2, 281
+  size: 414, 294
+  orig: 416, 296
+  offset: 1, 1
+  index: -1
+TorsoUpper
+  rotate: false
+  xy: 472, 716
+  size: 299, 306
+  orig: 301, 308
+  offset: 1, 1
+  index: -1

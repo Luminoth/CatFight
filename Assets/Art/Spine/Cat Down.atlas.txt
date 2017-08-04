@@ -1,0 +1,146 @@
+
+Cat Down.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+EarL
+  rotate: true
+  xy: 608, 204
+  size: 106, 130
+  orig: 108, 132
+  offset: 1, 1
+  index: -1
+EarR
+  rotate: false
+  xy: 740, 180
+  size: 106, 130
+  orig: 108, 132
+  offset: 1, 1
+  index: -1
+EyeBG
+  rotate: false
+  xy: 2, 45
+  size: 401, 192
+  orig: 403, 194
+  offset: 1, 1
+  index: -1
+EyeL
+  rotate: true
+  xy: 471, 191
+  size: 124, 135
+  orig: 126, 137
+  offset: 1, 1
+  index: -1
+EyeR
+  rotate: true
+  xy: 471, 191
+  size: 124, 135
+  orig: 126, 137
+  offset: 1, 1
+  index: -1
+Head
+  rotate: false
+  xy: 2, 591
+  size: 507, 430
+  orig: 509, 432
+  offset: 1, 1
+  index: -1
+LegBLLower
+  rotate: true
+  xy: 472, 317
+  size: 66, 178
+  orig: 68, 180
+  offset: 1, 1
+  index: -1
+LegBLUpper
+  rotate: true
+  xy: 472, 385
+  size: 99, 188
+  orig: 101, 190
+  offset: 1, 1
+  index: -1
+LegBRLower
+  rotate: true
+  xy: 652, 312
+  size: 71, 172
+  orig: 73, 174
+  offset: 1, 1
+  index: -1
+LegBRUpper
+  rotate: true
+  xy: 662, 385
+  size: 99, 188
+  orig: 101, 190
+  offset: 1, 1
+  index: -1
+LegFLLower
+  rotate: false
+  xy: 877, 787
+  size: 66, 234
+  orig: 68, 236
+  offset: 1, 1
+  index: -1
+LegFLUpper
+  rotate: false
+  xy: 945, 819
+  size: 75, 202
+  orig: 77, 204
+  offset: 1, 1
+  index: -1
+LegFRLower
+  rotate: false
+  xy: 406, 355
+  size: 64, 234
+  orig: 66, 236
+  offset: 1, 1
+  index: -1
+LegFRUpper
+  rotate: false
+  xy: 819, 525
+  size: 79, 214
+  orig: 81, 216
+  offset: 1, 1
+  index: -1
+Mouth
+  rotate: true
+  xy: 406, 224
+  size: 129, 63
+  orig: 131, 65
+  offset: 1, 1
+  index: -1
+MouthInner
+  rotate: false
+  xy: 608, 130
+  size: 124, 72
+  orig: 126, 74
+  offset: 1, 1
+  index: -1
+Tail
+  rotate: true
+  xy: 2, 2
+  size: 41, 394
+  orig: 43, 396
+  offset: 1, 1
+  index: -1
+lowerBodyf90
+  rotate: false
+  xy: 511, 486
+  size: 306, 253
+  orig: 308, 255
+  offset: 1, 1
+  index: -1
+midBodyf90
+  rotate: false
+  xy: 511, 741
+  size: 364, 280
+  orig: 366, 282
+  offset: 1, 1
+  index: -1
+upperBodyF90
+  rotate: false
+  xy: 2, 239
+  size: 402, 350
+  orig: 404, 352
+  offset: 1, 1
+  index: -1

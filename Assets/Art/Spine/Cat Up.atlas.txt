@@ -1,0 +1,111 @@
+
+Cat Up.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+EarL
+  rotate: true
+  xy: 740, 621
+  size: 105, 134
+  orig: 107, 136
+  offset: 1, 1
+  index: -1
+EarR
+  rotate: false
+  xy: 2, 2
+  size: 103, 137
+  orig: 105, 139
+  offset: 1, 1
+  index: -1
+Head
+  rotate: false
+  xy: 2, 614
+  size: 498, 408
+  orig: 500, 410
+  offset: 1, 1
+  index: -1
+LegBLLower
+  rotate: true
+  xy: 502, 651
+  size: 75, 236
+  orig: 77, 238
+  offset: 1, 1
+  index: -1
+LegBLUpper
+  rotate: false
+  xy: 855, 762
+  size: 93, 260
+  orig: 95, 262
+  offset: 1, 1
+  index: -1
+LegBRLower
+  rotate: true
+  xy: 377, 216
+  size: 87, 221
+  orig: 89, 223
+  offset: 1, 1
+  index: -1
+LegBRUpper
+  rotate: true
+  xy: 107, 60
+  size: 79, 230
+  orig: 81, 232
+  offset: 1, 1
+  index: -1
+LegFLLower
+  rotate: false
+  xy: 950, 785
+  size: 60, 237
+  orig: 62, 239
+  offset: 1, 1
+  index: -1
+LegFLUpper
+  rotate: false
+  xy: 597, 479
+  size: 86, 170
+  orig: 88, 172
+  offset: 1, 1
+  index: -1
+LegFRLower
+  rotate: true
+  xy: 339, 87
+  size: 52, 237
+  orig: 54, 239
+  offset: 1, 1
+  index: -1
+LegFRUpper
+  rotate: false
+  xy: 597, 306
+  size: 76, 171
+  orig: 78, 173
+  offset: 1, 1
+  index: -1
+Tail
+  rotate: true
+  xy: 2, 141
+  size: 62, 620
+  orig: 64, 622
+  offset: 1, 1
+  index: -1
+TorsoLower
+  rotate: false
+  xy: 2, 205
+  size: 373, 407
+  orig: 375, 409
+  offset: 1, 1
+  index: -1
+TorsoMid
+  rotate: false
+  xy: 502, 728
+  size: 351, 294
+  orig: 353, 296
+  offset: 1, 1
+  index: -1
+TorsoUpper
+  rotate: true
+  xy: 377, 305
+  size: 307, 218
+  orig: 309, 220
+  offset: 1, 1
+  index: -1

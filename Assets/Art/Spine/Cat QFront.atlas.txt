@@ -1,0 +1,159 @@
+
+Cat QFront.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+EyeL
+  rotate: false
+  xy: 234, 467
+  size: 64, 131
+  orig: 66, 133
+  offset: 1, 1
+  index: -1
+EyeLBG
+  rotate: true
+  xy: 489, 603
+  size: 80, 170
+  orig: 82, 172
+  offset: 1, 1
+  index: -1
+EyeR
+  rotate: false
+  xy: 108, 463
+  size: 124, 135
+  orig: 126, 137
+  offset: 1, 1
+  index: -1
+EyeRBG
+  rotate: true
+  xy: 492, 311
+  size: 163, 167
+  orig: 165, 169
+  offset: 1, 1
+  index: -1
+Head
+  rotate: false
+  xy: 2, 2
+  size: 488, 458
+  orig: 490, 460
+  offset: 1, 1
+  index: -1
+LegBLLower
+  rotate: true
+  xy: 780, 201
+  size: 102, 233
+  orig: 104, 235
+  offset: 1, 1
+  index: -1
+LegBRLower
+  rotate: true
+  xy: 780, 201
+  size: 102, 233
+  orig: 104, 235
+  offset: 1, 1
+  index: -1
+LegBLUpper
+  rotate: true
+  xy: 780, 45
+  size: 154, 225
+  orig: 156, 227
+  offset: 1, 1
+  index: -1
+LegBRUpper
+  rotate: true
+  xy: 780, 45
+  size: 154, 225
+  orig: 156, 227
+  offset: 1, 1
+  index: -1
+LegFLLower
+  rotate: false
+  xy: 2, 462
+  size: 104, 540
+  orig: 106, 542
+  offset: 1, 1
+  index: -1
+LegFLUpper
+  rotate: true
+  xy: 300, 476
+  size: 122, 355
+  orig: 124, 357
+  offset: 1, 1
+  index: -1
+LegFRLower
+  rotate: true
+  xy: 780, 305
+  size: 74, 234
+  orig: 76, 236
+  offset: 1, 1
+  index: -1
+Tailil
+  rotate: false
+  xy: 492, 685
+  size: 525, 317
+  orig: 527, 319
+  offset: 1, 1
+  index: -1
+TorsoLower
+  rotate: false
+  xy: 492, 4
+  size: 286, 305
+  orig: 288, 307
+  offset: 1, 1
+  index: -1
+TorsoMid
+  rotate: true
+  xy: 108, 600
+  size: 402, 379
+  orig: 404, 381
+  offset: 1, 1
+  index: -1
+TorsoUpper
+  rotate: false
+  xy: 661, 381
+  size: 331, 302
+  orig: 333, 304
+  offset: 1, 1
+  index: -1
+
+Cat QFront2.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+EarL
+  rotate: false
+  xy: 126, 55
+  size: 146, 172
+  orig: 148, 174
+  offset: 1, 1
+  index: -1
+EarR
+  rotate: true
+  xy: 274, 109
+  size: 118, 182
+  orig: 120, 184
+  offset: 1, 1
+  index: -1
+LegFRUpper
+  rotate: false
+  xy: 2, 2
+  size: 122, 225
+  orig: 124, 227
+  offset: 1, 1
+  index: -1
+Mouth
+  rotate: false
+  xy: 381, 6
+  size: 103, 101
+  orig: 105, 103
+  offset: 1, 1
+  index: -1
+MouthInner
+  rotate: false
+  xy: 274, 6
+  size: 105, 101
+  orig: 107, 103
+  offset: 1, 1
+  index: -1

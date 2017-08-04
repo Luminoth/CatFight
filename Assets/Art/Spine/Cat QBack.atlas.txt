@@ -1,0 +1,117 @@
+
+Cat QBack.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+EarR
+  rotate: false
+  xy: 2, 389
+  size: 448, 598
+  orig: 450, 600
+  offset: 1, 1
+  index: -1
+Head
+  rotate: false
+  xy: 452, 529
+  size: 491, 458
+  orig: 493, 460
+  offset: 1, 1
+  index: -1
+LegBLUpper
+  rotate: true
+  xy: 727, 6
+  size: 191, 255
+  orig: 193, 257
+  offset: 1, 1
+  index: -1
+LegBRUpper
+  rotate: true
+  xy: 446, 18
+  size: 179, 279
+  orig: 181, 281
+  offset: 1, 1
+  index: -1
+LegFLLower
+  rotate: false
+  xy: 945, 752
+  size: 73, 235
+  orig: 75, 237
+  offset: 1, 1
+  index: -1
+LegFRLower
+  rotate: false
+  xy: 945, 752
+  size: 73, 235
+  orig: 75, 237
+  offset: 1, 1
+  index: -1
+Tail
+  rotate: false
+  xy: 452, 199
+  size: 522, 328
+  orig: 524, 330
+  offset: 1, 1
+  index: -1
+TorsoMid
+  rotate: false
+  xy: 2, 2
+  size: 442, 385
+  orig: 444, 387
+  offset: 1, 1
+  index: -1
+
+Cat QBack2.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+EarL
+  rotate: false
+  xy: 828, 349
+  size: 100, 149
+  orig: 102, 151
+  offset: 1, 1
+  index: -1
+LegBLLower
+  rotate: false
+  xy: 720, 276
+  size: 106, 222
+  orig: 108, 224
+  offset: 1, 1
+  index: -1
+LegBRLower
+  rotate: true
+  xy: 2, 2
+  size: 105, 232
+  orig: 107, 234
+  offset: 1, 1
+  index: -1
+LegFLUpper
+  rotate: false
+  xy: 596, 273
+  size: 122, 225
+  orig: 124, 227
+  offset: 1, 1
+  index: -1
+LegFRUpper
+  rotate: false
+  xy: 596, 273
+  size: 122, 225
+  orig: 124, 227
+  offset: 1, 1
+  index: -1
+TorsoBack
+  rotate: false
+  xy: 303, 171
+  size: 291, 327
+  orig: 293, 329
+  offset: 1, 1
+  index: -1
+TorsoUpper
+  rotate: false
+  xy: 2, 109
+  size: 299, 389
+  orig: 301, 391
+  offset: 1, 1
+  index: -1
