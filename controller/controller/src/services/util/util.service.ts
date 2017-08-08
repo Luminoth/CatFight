@@ -1,22 +1,17 @@
-﻿import { Injectable } from '@angular/core';
+﻿import { Injectable } from "@angular/core";
 
 @Injectable()
 export class UtilService {
 
-  private assetPath: string = "";
+    private readonly assetPath: string = "assets/";
 
-  constructor() {
+    public getAssetPathUrl(path: string): string {
 
-    this.assetPath = "assets/";
-  }
+        return this.assetPath + path + "/";
+    }
 
-  public getAssetPathUrl(path: string): string {
+    public getAssetFileUrl(path: string, name: string): string {
 
-    return this.assetPath + path + "/";
-  }
-
-  public getAssetFileUrl(path: string, name: string): string {
-
-    return this.getAssetPathUrl(path) + name;
-  }
+        return this.getAssetPathUrl(path) + name;
+    }
 }

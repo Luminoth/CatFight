@@ -1,28 +1,36 @@
-﻿<!doctype html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{title}}</title>
-  <base href="/">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
-  <link rel="stylesheet" type="text/css" href="lib/controls/button/button.css">
+    <base href="/">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{Title}}</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="assets/lib/controls/button/button.css">
     
-  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-      <script src="//oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="//oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 <body>
-  <app-root></app-root>
-  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="//www.airconsole.com/api/airconsole-1.7.0.js"></script>
-  <script type="text/javascript" src="lib/controls/button/button.js"></script>
-  <script type="text/javascript" src="lib/airconsole-view-manager.js"></script>
+    <app-root>The game is loading! One moment, please...</app-root>
+
+    <!-- polyfills -->
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/shim.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/systemjs/0.20.17/system.js"></script>
+
+    <!-- third party stuff -->
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//www.airconsole.com/api/airconsole-1.7.0.js"></script>
+
+    <!-- local libs -->
+    <script type="text/javascript" src="assets/lib/controls/button/button.js"></script>
+    <script type="text/javascript" src="assets/lib/airconsole-view-manager.js"></script>
 </body>
 </html>

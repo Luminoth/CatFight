@@ -1,1 +1,46 @@
-﻿<div>Hello World!</div>
+﻿<div id="lobby" class="view view-container">
+    <p>
+        Welcome to the lobby {{player.name}}! You're on team {{player.teamName}}!<br />
+        This is where we gather and wait for the master player to start the game.<br />
+    </p>
+    <div id="button-start" class="button-300-150 center" [hidden]="!player.isMasterPlayer">
+        <div class="button-text">Start</div>
+    </div>
+</div>
+<div id="staging" class="view view-container">
+    <p>
+        Welcome to the staging area {{player.name}}!<br />
+        This is where we assign weapons, armor, and core parts to our fighter.<br />
+    </p>
+    <ng-container *ngIf="gameData.Fighter">
+    <div class="form-group row" *ngFor="let slot of gameData.Fighter.Schematic.Slots">
+        <label class="col-form-label col-sm-2" for="slot_{{slot.Id}}">{{slot.Name}}</label>
+        <div class="col-sm-10">
+            <select class="form-control" id="slot_{{slot.Id}}" name="slot_{{slot.Id}}" [disabled]="player.schematic.isMaxSlotsSet(gameData) && !player.schematic.isSlotSet(slot.Id)" (change)="selectSchematicSlot(slot.Id, $event.target.value)">
+                <option [value]="0" [selected]="!player.schematic.isSlotSet(slot.Id)">--</option>
+                <option *ngFor="let item of player.schematic.getSlotItems(slot.Id)" [value]="item.Id" [selected]="player.schematic.isSlotItem(slot.Id, item.Id)">{{item.Name}}</option>
+            </select>
+        </div>
+    </div>
+    </ng-container>
+    <div id="button-confirm" class="button-300-150 center">
+        <div id="button-unconfirm-text" class="button-text" *ngIf="player.isConfirmed">Unconfirm</div>
+        <div id="button-confirm-text" class="button-text" *ngIf="!player.isConfirmed">Confirm</div>
+    </div>
+</div>
+<div id="arena" class="view view-container">
+    <p>
+        Welcome to the arena {{player.name}}!<br />
+        This is where we watch our fighter compete against the other team's fighter!<br />
+    </p>
+    <p>
+        Missiles Remaining: {{gameState.missilesRemaining}}<br />
+        Chaff Remaining: {{gameState.chaffRemaining}}<br />
+    </p>
+    <div id="button-missiles" class="button-300-150 left" [hidden]="!gameState.isGameStarted || gameState.missilesRemaining <= 0">
+        <div id="button-missiles-text" class="button-text">Missiles</div>
+    </div>
+    <div id="button-chaff" class="button-300-150 right" [hidden]="!gameState.isGameStarted || gameState.chaffRemaining <= 0">
+        <div id="button-chaff-text" class="button-text">Chaff</div>
+    </div>
+</div>

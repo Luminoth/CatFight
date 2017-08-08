@@ -5,7 +5,6 @@ using CatFight.Data;
 using NDream.AirConsole;
 
 using UnityEditor;
-using UnityEditor.Callbacks;
 using UnityEngine;
 
 namespace CatFight.Editor
@@ -13,44 +12,57 @@ namespace CatFight.Editor
     [InitializeOnLoad]
     public static class AssetProcessor
     {
+#region Game Data
+        // GameData asset resource location
         private const string GameDataResourcePath = "Data/GameData";
 
-        private static bool _isPlaying;
+        private const string ControllerGameDataPath = "controller/controller/src/assets/data/GameData.json";
+#endregion
 
-    	static AssetProcessor()
-        {
-            _isPlaying = !EditorApplication.isPlayingOrWillChangePlaymode;
-            EditorApplication.playmodeStateChanged += OnUnityPlayModeChanged;
-		}
+#region Controller
+        // this is the file that is attached to the AirConsole object in the main scene
+        // we'll overwrite this with the index.html from the Angular project
+        private const string ControllerAssetDestPath = "Assets/controller.html";
 
-        [PostProcessBuild]
-        public static void CopyControllerResources(BuildTarget target, string pathToBuiltProject)
+        private  const string ControllerAssetPath = "controller/controller";
+
+        private const string ControllerDeployFilename = "deploy.bat";
+#endregion
+
+        [MenuItem("Cat Fight/Deploy Controller")]
+        private static void DeployController()
         {
-            CopyControllerResources();
+            WriteControllerGameData();
+
+            DeployControllerAssets();
         }
 
-        [MenuItem("Cat Fight/Data/Copy Controller Resources")]
-        private static void CopyControllerResources()
+        private static void WriteControllerGameData()
         {
-            string dest = Path.Combine(Directory.GetCurrentDirectory(), "Assets" + Settings.WEBTEMPLATE_PATH + "/data/GameData.json");
             GameData gameData = Resources.Load<GameData>(GameDataResourcePath);
 
-            Debug.Log($"Copying game data to {dest}...");
-            File.WriteAllText(dest, gameData.ToJson());
+            Debug.Log($"Writing game data to {ControllerGameDataPath}...");
+            File.WriteAllText(ControllerGameDataPath, gameData.ToJson());
         }
 
-#region Event Handlers
-        private static void OnUnityPlayModeChanged()
+        private static void DeployControllerAssets()
         {
-            // do things either when starting to play or finishing play
-            if(!_isPlaying && EditorApplication.isPlayingOrWillChangePlaymode) {
-                _isPlaying = true;
-                CopyControllerResources();
-            } else if(_isPlaying && !EditorApplication.isPaused) {
-                _isPlaying = false;
-                CopyControllerResources();
+            string deployPath = Path.Combine(Directory.GetCurrentDirectory(), ControllerAssetPath).Replace('/', Path.DirectorySeparatorChar);
+            string controllerAssetPath = Path.Combine(Directory.GetCurrentDirectory(), ControllerAssetDestPath).Replace('/', Path.DirectorySeparatorChar);
+            string controllerAssetsPath = Path.Combine(Directory.GetCurrentDirectory(), $"Assets{Settings.WEBTEMPLATE_PATH}/").Replace('/', Path.DirectorySeparatorChar);
+
+            Debug.Log($"Deploying controller to {controllerAssetsPath}...");
+            //EditorUtility.DisplayDialog("Deploying Controller", $"Deploying controller to {controllerAssetsPath}, please wait...", "Ok");
+
+            if(!Executor.ExecuteScript(deployPath, "cmd.exe",
+                process => {
+                    Debug.Log($"Controller deployment completed: {process.ExitCode}");
+                    //EditorUtility.DisplayDialog("Deploy Complete", $"Controller deployment completed: {process.ExitCode}", "Ok");
+                },
+                $"/c {ControllerDeployFilename} \"{controllerAssetPath}\" \"{controllerAssetsPath}\""))
+            {
+                EditorUtility.DisplayDialog("Process Error", "Unable to start controller deploy process!", "Ok");
             }
         }
-#endregion
     }
 }
