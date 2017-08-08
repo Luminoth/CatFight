@@ -1,0 +1,27 @@
+.view-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    right: 0px;
+    top: 50px;
+}
+
+#button-start {
+    width: 40%;
+    height: 100%;
+}
+
+#button-confirm {
+    width: 40%;
+    height: 100%;
+}
+
+#button-missiles {
+    width: 40%;
+    height: 100%;
+}
+
+#button-chaff {
+    width: 40%;
+    height: 100%;
+}
