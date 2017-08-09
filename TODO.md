@@ -1,8 +1,6 @@
 SHANE
 ==========
 
-Controller deploy needs to rm *.bundle.js* and *.bundle.css* from the template directory because they keep stacking up
-
 GAMEOVER SCREEN
 
 Lobby needs to show master player

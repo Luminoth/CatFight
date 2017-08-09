@@ -1,6 +1,7 @@
 ﻿using System.IO;
 
 using CatFight.Data;
+using CatFight.Util;
 
 using NDream.AirConsole;
 
@@ -32,9 +33,48 @@ namespace CatFight.Editor
         [MenuItem("Cat Fight/Deploy Controller")]
         private static void DeployController()
         {
+            CleanControllerAssets();
+
             WriteControllerGameData();
 
             DeployControllerAssets();
+        }
+
+        private static string GetControllerDeployPath()
+        {
+            return Path.Combine(Directory.GetCurrentDirectory(), $"Assets{Settings.WEBTEMPLATE_PATH}/").Replace('/', Path.DirectorySeparatorChar);
+        }
+
+        private static bool CleanControllerAssets()
+        {
+            try {
+                string controllerAssetsPath = GetControllerDeployPath();
+                DirectoryInfo dir = new DirectoryInfo(controllerAssetsPath);
+
+                foreach(FileInfo file in dir.EnumerateFiles("*.bundle.js*")) {
+                    file.Delete();
+                }
+
+                foreach(FileInfo file in dir.EnumerateFiles("*.bundle.css*")) {
+                    file.Delete();
+                }
+
+                if(Directory.Exists($"{controllerAssetsPath}/assets/")) {
+                    DirectoryExtensions.DeleteUnityDirectory($"{controllerAssetsPath}/assets/", true);
+                }
+
+                if(File.Exists($"{controllerAssetsPath}/controller.html")) {
+                    FileExtensions.DeleteUnityFile($"{controllerAssetsPath}/controller.html");
+                }
+
+                if(File.Exists($"{controllerAssetsPath}/favicon.ico")) {
+                    FileExtensions.DeleteUnityFile($"{controllerAssetsPath}/favicon.ico");
+                }
+            } catch(IOException ex) {
+                Debug.LogError($"Unable to clean controller assets: {ex}");
+                return false;
+            }
+            return true;
         }
 
         private static void WriteControllerGameData()
@@ -49,7 +89,7 @@ namespace CatFight.Editor
         {
             string deployPath = Path.Combine(Directory.GetCurrentDirectory(), ControllerAssetPath).Replace('/', Path.DirectorySeparatorChar);
             string controllerAssetPath = Path.Combine(Directory.GetCurrentDirectory(), ControllerAssetDestPath).Replace('/', Path.DirectorySeparatorChar);
-            string controllerAssetsPath = Path.Combine(Directory.GetCurrentDirectory(), $"Assets{Settings.WEBTEMPLATE_PATH}/").Replace('/', Path.DirectorySeparatorChar);
+            string controllerAssetsPath = GetControllerDeployPath();
 
             Debug.Log($"Deploying controller to {controllerAssetsPath}...");
             //EditorUtility.DisplayDialog("Deploying Controller", $"Deploying controller to {controllerAssetsPath}, please wait...", "Ok");
