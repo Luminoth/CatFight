@@ -59,10 +59,23 @@ namespace CatFight.Stages.Arena
         [SerializeField]
         private LayoutGroup _fighterStatsContainer;
 
+#region Game Over
+        [SerializeField]
+        private GameObject _gameOverContainer;
+
+        [SerializeField]
+        private Text _winnerText;
+
+        [SerializeField]
+        private int _gameOverSeconds = 5;
+#endregion
+
 #region Unity Lifecycle
         protected override void Start()
         {
             base.Start();
+
+            _gameOverContainer.SetActive(false);
 
             _countdownText.text = _countdownSeconds.ToString();
             _timerText.text = _fightTimeSeconds.ToString();
@@ -106,9 +119,9 @@ namespace CatFight.Stages.Arena
         private void InitFighters()
         {
             FighterManager.Instance.InitFighters(_spawnPoints);
-            foreach(var kvp in FighterManager.Instance.Fighters) {
+            foreach(Fighter fighter in FighterManager.Instance.Fighters) {
                 FighterStatsCard fighterStatsCard = Instantiate(_fighterStatsCardPrefab, _fighterStatsContainer.transform);
-                fighterStatsCard.Initialize(kvp.Value);
+                fighterStatsCard.Initialize(fighter);
             }
         }
 
@@ -125,6 +138,15 @@ namespace CatFight.Stages.Arena
         {
             _isRoundOver = true;
             GameStageManager.Instance.IsGameStarted = false;
+
+            _gameOverContainer.SetActive(true);
+
+            StartCoroutine(GameOverRoutine());
+        }
+
+        private IEnumerator GameOverRoutine()
+        {
+            yield return new WaitForSeconds(_gameOverSeconds);
 
             GameStageManager.Instance.LoadLobby();
         }

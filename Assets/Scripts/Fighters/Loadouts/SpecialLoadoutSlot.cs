@@ -12,7 +12,7 @@ namespace CatFight.Fighters.Loadouts
     {
         private readonly Dictionary<int, int> _specialTypeVotes = new Dictionary<int, int>();
 
-        public IReadOnlyDictionary<int, int> Specials => _specialTypeVotes;
+        public IReadOnlyDictionary<int, int> SpecialVotes => _specialTypeVotes;
 
         public SpecialLoadoutSlot(SchematicSlotData slotData)
             : base(slotData)

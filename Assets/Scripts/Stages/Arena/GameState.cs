@@ -16,8 +16,8 @@ namespace CatFight.Stages.Arena
         {
             isGameStarted = GameStageManager.Instance.IsGameStarted;
 
-            foreach(var kvp in FighterManager.Instance.Fighters) {
-                _fighterState.Add((int)kvp.Key, new FighterState(kvp.Value));
+            foreach(Fighter fighter in FighterManager.Instance.Fighters) {
+                _fighterState.Add(fighter.Team.Id, new FighterState(fighter));
             }
         }
     }

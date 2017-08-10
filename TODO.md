@@ -1,14 +1,13 @@
 SHANE
 ==========
 
-GAMEOVER SCREEN
+Fix special button text on controller
+SPECIAL ANIMATIONS
+SPECIAL BEHAVIORS
 
 Lobby needs to show master player
 
 Staging UI needs fixed in Unity
-
-Fix special button text on controller
-SPECIAL ANIMATIONS
 
 Instead of having Set/Clear slot messages, controllers should set that information
 in their custom device state so that they get it back when they reconnect

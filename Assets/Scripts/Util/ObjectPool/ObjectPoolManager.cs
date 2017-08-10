@@ -52,6 +52,7 @@ namespace CatFight.Util.ObjectPool
                     PopulatePool();
                 }
 
+                // NOTE: reparent then activate to avoid hierarchy rebuild
                 PooledObject pooledObject = _pooledObjects.Dequeue();
                 pooledObject.transform.SetParent(parent);
                 pooledObject.gameObject.SetActive(activate);
@@ -61,8 +62,9 @@ namespace CatFight.Util.ObjectPool
 
             public void Recycle(PooledObject pooledObject)
             {
-                pooledObject.transform.SetParent(_container.transform);
+                // NOTE: de-activate and then repart to avoid hierarchy rebuild
                 pooledObject.gameObject.SetActive(false);
+                pooledObject.transform.SetParent(_container.transform);
 
                 _pooledObjects.Enqueue(pooledObject);
             }

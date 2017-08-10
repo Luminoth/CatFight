@@ -25,7 +25,9 @@ namespace CatFight.Fighters
 
         private readonly Dictionary<int, Fighter> _fighters = new Dictionary<int, Fighter>();
 
-        public IReadOnlyDictionary<int, Fighter> Fighters => _fighters;
+        private readonly List<Fighter> _fighterList = new List<Fighter>();
+
+        public IReadOnlyCollection<Fighter> Fighters => _fighterList;
 
 #region Unity Lifecycle
         private void Awake()
@@ -50,6 +52,7 @@ namespace CatFight.Fighters
 
                 Fighter fighter = SpawnFighter(spawnPoint);
                 _fighters.Add(team.Id, fighter);
+                _fighterList.Add(fighter);
 
                 fighter.Initialize(team, fighterNames[i], DataManager.Instance.GameData.Fighter);
             }
@@ -85,6 +88,7 @@ namespace CatFight.Fighters
             }
 
             _fighters.Clear();
+            _fighterList.Clear();
         }
 
         [CanBeNull]
@@ -93,9 +97,11 @@ namespace CatFight.Fighters
             return _fighters.GetOrDefault(teamId);
         }
 
+        // TODO: this is dumb, have the fighter instead kick off an event
+        // when it dies and have the manager list for that and keep a count
         public int AliveFighterCount()
         {
-            return _fighters.Count(x => !x.Value.Stats.IsDead);
+            return _fighterList.Count(x => !x.Stats.IsDead);
         }
 
         private Fighter SpawnFighter(FighterSpawn spawnPoint)

@@ -24,7 +24,7 @@ namespace CatFight.Stages.Lobby
                 return false;
             }
 
-            Player player = PlayerManager.Instance.Players.GetOrDefault(deviceId);
+            Player player = PlayerManager.Instance.GetPlayer(deviceId);
             if(null == player) {
                 Debug.LogError($"Cannot add non-existant player {deviceId}");
                 return false;

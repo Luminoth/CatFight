@@ -66,8 +66,8 @@ namespace CatFight.Stages.Lobby
         private void AddExistingPlayers()
         {
 // TODO: it's likely this doesn't correctly handle existing players that are also disconnected
-            foreach(var kvp in PlayerManager.Instance.Players) {
-                AddPlayer(kvp.Key);
+            foreach(Player player in PlayerManager.Instance.Players) {
+                AddPlayer(player.DeviceId);
             }
         }
 

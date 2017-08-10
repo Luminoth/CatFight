@@ -17,7 +17,9 @@ namespace CatFight.Players.Schematics
 
         private readonly Dictionary<int, SchematicSlot> _slots = new Dictionary<int, SchematicSlot>();
 
-        public IReadOnlyDictionary<int, SchematicSlot> Slots => _slots;
+        private readonly List<SchematicSlot> _slotList = new List<SchematicSlot>();
+
+        public IReadOnlyCollection<SchematicSlot> Slots => _slotList;
 
 #if UNITY_EDITOR
         [SerializeField]
@@ -47,11 +49,13 @@ namespace CatFight.Players.Schematics
                 if(null == slot) {
                     continue;
                 }
+
                 _slots.Add(slotData.Id, slot);
+                _slotList.Add(slot);
             }
 
 #if UNITY_EDITOR
-            _debugSlots = _slots.Values.ToArray();
+            _debugSlots = Slots.ToArray();
 #endif
         }
 
@@ -60,8 +64,8 @@ namespace CatFight.Players.Schematics
             IsConfirmed = false;
             _filledSlotCount = 0;
 
-            foreach(var kvp in Slots) {
-                kvp.Value.Clear();
+            foreach(SchematicSlot slot in Slots) {
+                slot.Clear();
             }
         }
 

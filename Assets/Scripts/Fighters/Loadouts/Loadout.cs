@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 using CatFight.Players;
@@ -16,7 +15,9 @@ namespace CatFight.Fighters.Loadouts
     {
         private readonly Dictionary<int, LoadoutSlot> _slots = new Dictionary<int, LoadoutSlot>();
 
-        public IReadOnlyDictionary<int, LoadoutSlot> Slots => _slots;
+        private readonly List<LoadoutSlot> _slotList = new List<LoadoutSlot>();
+
+        public IReadOnlyCollection<LoadoutSlot> Slots => _slotList;
 
 #if UNITY_EDITOR
         [SerializeField]
@@ -36,29 +37,32 @@ namespace CatFight.Fighters.Loadouts
             Debug.Log($"Building loadout for team {_fighter.Team.Id}'s fighter...");
 
             _slots.Clear();
+            _slotList.Clear();
 
-            var team = PlayerManager.Instance.GetTeam(_fighter.Team.Id);
-            foreach(Player player in team) {
+            Team team = PlayerManager.Instance.GetTeam(_fighter.Team.Id);
+            foreach(Player player in team.Players) {
                 Schematic schematic = player.Schematic;
-                foreach(var kvp in schematic.Slots) {
-                    LoadoutSlot loadoutSlot = _slots.GetOrDefault(kvp.Key);
+                foreach(SchematicSlot slot in schematic.Slots) {
+                    LoadoutSlot loadoutSlot = _slots.GetOrDefault(slot.SlotData.Id);
                     if(null == loadoutSlot) {
-                        loadoutSlot = LoadoutSlotFactory.Create(kvp.Value.SlotData);
+                        loadoutSlot = LoadoutSlotFactory.Create(slot.SlotData);
                         if(null == loadoutSlot) {
                             continue;
                         }
-                        _slots[kvp.Key] = loadoutSlot;
+
+                        _slots.Add(slot.SlotData.Id, loadoutSlot);
+                        _slotList.Add(loadoutSlot);
                     }
-                    loadoutSlot.Process(kvp.Value);
+                    loadoutSlot.Process(slot);
                 }
             }
 
 #if UNITY_EDITOR
-            _debugSlots = _slots.Values.ToArray();
+            _debugSlots = _slotList.ToArray();
 #endif
 
-            foreach(var kvp in _slots) {
-                kvp.Value.Complete();
+            foreach(LoadoutSlot slot in Slots) {
+                slot.Complete();
             }
         }
 
@@ -66,8 +70,8 @@ namespace CatFight.Fighters.Loadouts
         {
             StringBuilder builder = new StringBuilder();
             builder.AppendLine("Loadout:");
-            foreach(var kvp in Slots) {
-                builder.AppendLine($"Slot {kvp.Key}: {kvp.Value}");
+            foreach(LoadoutSlot slot in Slots) {
+                builder.AppendLine($"Slot {slot.SlotData.Id}: {slot}");
             }
             return builder.ToString();
         }

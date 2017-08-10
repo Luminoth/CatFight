@@ -61,7 +61,9 @@ namespace CatFight.Fighters
 #region Specials
         private readonly Dictionary<SpecialData.SpecialType, Special> _specials = new Dictionary<SpecialData.SpecialType, Special>();
 
-        public IReadOnlyDictionary<SpecialData.SpecialType, Special> Specials => _specials;
+        private readonly List<Special> _specialList = new List<Special>();
+
+        public IReadOnlyCollection<Special> Specials => _specialList;
 #endregion
 
 #region Movement
@@ -85,10 +87,10 @@ namespace CatFight.Fighters
             _weapons.Clear();
 
             _specials.Clear();
-            SpecialFactory.Init(_specials);
+            _specialList.Clear();
+            SpecialFactory.Init(_specials, _specialList);
 
-            foreach(var kvp in loadout.Slots) {
-                LoadoutSlot slot = kvp.Value;
+            foreach(LoadoutSlot slot in loadout.Slots) {
                 switch(slot.SlotData.Type)
                 {
                 case SchematicSlotData.SlotType.Brain:
@@ -139,7 +141,7 @@ namespace CatFight.Fighters
 
         private void IncreaseSpecialUses(SpecialLoadoutSlot specialSlot)
         {
-            foreach(var kvp in specialSlot.Specials) {
+            foreach(var kvp in specialSlot.SpecialVotes) {
                 SpecialData.SpecialDataEntry specialData = DataManager.Instance.GameData.Specials.Entries.GetOrDefault(kvp.Key);
                 if(null == specialData) {
                     continue;
@@ -149,6 +151,7 @@ namespace CatFight.Fighters
                 if(null == special) {
                     special = SpecialFactory.Create(specialData, kvp.Value);
                     _specials.Add(specialData.Type, special);
+                    _specialList.Add(special);
                 } else {
                     special.IncreaseTotalUses(kvp.Value);
                 }
@@ -212,8 +215,8 @@ namespace CatFight.Fighters
                 builder.AppendLine(weapon.ToString());
             }
             builder.AppendLine("Specials:");
-            foreach(var kvp in Specials) {
-                builder.AppendLine($"{kvp.Key}: {kvp.Value}");
+            foreach(Special special in Specials) {
+                builder.AppendLine($"{special.SpecialType}: {special}");
             }
             builder.AppendLine($"Move Speed: {MoveSpeed}");
             return builder.ToString();

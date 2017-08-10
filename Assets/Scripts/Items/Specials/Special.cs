@@ -13,7 +13,7 @@ namespace CatFight.Items.Specials
     public static class SpecialFactory
     {
         [CanBeNull]
-        public static Special Create(SpecialData.SpecialDataEntry specialData, int uses)
+        public static Special Create(SpecialData.SpecialDataEntry specialData, int uses=0)
         {
             switch(specialData.Type)
             {
@@ -27,10 +27,13 @@ namespace CatFight.Items.Specials
             }
         }
 
-        public static void Init(IDictionary<SpecialData.SpecialType, Special> specials)
+        public static void Init(IDictionary<SpecialData.SpecialType, Special> specials, IList<Special> specialList)
         {
             foreach(SpecialData.SpecialDataEntry specialData in DataManager.Instance.GameData.Specials.Specials) {
-                specials.Add(specialData.Type, Create(specialData, 0));
+                Special special = Create(specialData);
+
+                specials.Add(specialData.Type, special);
+                specialList.Add(special);
             }
         }
     }

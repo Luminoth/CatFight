@@ -1,7 +1,6 @@
 ﻿using CatFight.AirConsole;
 using CatFight.AirConsole.Messages;
 using CatFight.Players;
-using CatFight.Util;
 
 using UnityEngine;
 
@@ -13,14 +12,14 @@ namespace CatFight.Stages.Staging
 
         private void SetSlot(int deviceId, int slotId, int itemId)
         {
-            Player player = PlayerManager.Instance.Players.GetOrDefault(deviceId);
+            Player player = PlayerManager.Instance.GetPlayer(deviceId);
             Debug.Log($"Player {player?.DeviceId} setting slot {slotId} to {itemId}");
             player?.Schematic.SetSlot(slotId, itemId);
         }
 
         private void ClearSlot(int deviceId, int slotId)
         {
-            Player player = PlayerManager.Instance.Players.GetOrDefault(deviceId);
+            Player player = PlayerManager.Instance.GetPlayer(deviceId);
             Debug.Log($"Player {player?.DeviceId} clearing slot {slotId}");
             player?.Schematic.ClearSlot(slotId);
         }

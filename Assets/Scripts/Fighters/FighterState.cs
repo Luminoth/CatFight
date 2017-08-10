@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using CatFight.Items.Specials;
+
 namespace CatFight.Fighters
 {
     public sealed class FighterState
@@ -17,8 +19,8 @@ namespace CatFight.Fighters
             teamId = fighter.Team.Id;
             currentHealth = fighter.Stats.CurrentHealth;
 
-            foreach(var kvp in fighter.Stats.Specials) {
-                _specialsRemaining.Add(kvp.Key.ToString(), kvp.Value.RemainingUses);
+            foreach(Special special in fighter.Stats.Specials) {
+                _specialsRemaining.Add(special.SpecialType.ToString(), special.RemainingUses);
             }
         }
     }
