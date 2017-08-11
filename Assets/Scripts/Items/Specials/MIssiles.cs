@@ -14,6 +14,10 @@ namespace CatFight.Items.Specials
 
         protected override void DoUse()
         {
+            // spawn N missiles
+            // spawn target
+            // missiles should track target as they fly
+
 UnityEngine.Debug.LogError("TODO: use missiles");
         }
     }

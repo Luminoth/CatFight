@@ -172,6 +172,14 @@ namespace CatFight.Fighters
             CurrentHealth -= reducedAmount;
         }
 
+        public void SpecialDamage(int amount)
+        {
+            if(!GameStageManager.Instance.IsGameStarted) {
+                return;
+            }
+            CurrentHealth -= amount;
+        }
+
         public void FireWeapon(int idx)
         {
             if(!GameStageManager.Instance.IsGameStarted || idx < 0 || idx >= Weapons.Count) {

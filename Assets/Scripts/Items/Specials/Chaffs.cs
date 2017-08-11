@@ -5,15 +5,17 @@ using CatFight.Data;
 namespace CatFight.Items.Specials
 {
     [Serializable]
-    public sealed class Chaff : Special
+    public sealed class Chaffs : Special
     {
-        public Chaff(SpecialData.SpecialDataEntry specialData, int totalUses)
+        public Chaffs(SpecialData.SpecialDataEntry specialData, int totalUses)
             : base(specialData, totalUses)
         {
         }
 
         protected override void DoUse()
         {
+            // spawn N chaff
+
 UnityEngine.Debug.LogError("TODO: use chaff");
         }
     }

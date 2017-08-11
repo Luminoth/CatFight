@@ -132,5 +132,19 @@ namespace CatFight.Fighters
 
             StartCoroutine(ImpactCoroutine(pooledObject));
         }
+
+        public void SpawnImpact(SpecialData.SpecialType specialType, Impact impactPrefab, Vector3 position, Quaternion rotation)
+        {
+            PooledObject pooledObject = ObjectPoolManager.Instance.GetPooledObject(SpecialData.GetImpactPool(specialType), AmmoContainer.transform);
+            Impact impact = pooledObject?.GetComponent<Impact>();
+            if(null == impact) {
+                return;
+            }
+
+            impact.transform.position = position;
+            impact.transform.rotation = rotation;
+
+            StartCoroutine(ImpactCoroutine(pooledObject));
+        }
     }
 }

@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 
+using CatFight.Items.Specials;
+using CatFight.Items.Weapons;
 using CatFight.Util;
+using CatFight.Util.ObjectPool;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -22,6 +25,17 @@ namespace CatFight.Data
             ScriptableObjectUtility.CreateAsset<SpecialData>();
         }
 #endregion
+
+// TODO: these should be extensions of SpecialType
+        public static string GetAmmoPool(SpecialType specialType)
+        {
+            return specialType.GetDescription() + "-ammo";
+        }
+
+        public static string GetImpactPool(SpecialType specialType)
+        {
+            return specialType.GetDescription() + "-impact";
+        }
 
         public enum SpecialType
         {
@@ -45,10 +59,35 @@ namespace CatFight.Data
             public SpecialType Type => _type;
 
             [SerializeField]
+            private int _spawnAmount = 1;
+
+            [JsonIgnore]
+            public int SpawnAmount => _spawnAmount;
+
+            [SerializeField]
+            [Range(0, 100)]
+            private int _damage;
+
+            [JsonIgnore]
+            public int Damage => _damage;
+
+            [SerializeField]
             [Range(0, 60)]
             private int _cooldownSeconds;
 
             public int CooldownSeconds => _cooldownSeconds;
+
+            [SerializeField]
+            private SpecialAmmo _ammoPrefab;
+
+            [JsonIgnore]
+            public SpecialAmmo AmmoPrefab => _ammoPrefab;
+
+            [SerializeField]
+            private int _poolSize;
+
+            [JsonIgnore]
+            public int PoolSize => _poolSize;
 
             public override string ToString()
             {
@@ -70,6 +109,29 @@ namespace CatFight.Data
         {
             foreach(SpecialDataEntry entry in Specials) {
                 _entries.Add(entry.Id, entry);
+                if(null != entry.AmmoPrefab) {
+                    PoolAmmo(entry.Type, entry.AmmoPrefab, entry.PoolSize);
+                }
+            }
+        }
+
+        private void PoolAmmo(SpecialType specialType, SpecialAmmo ammo, int poolSize)
+        {
+            PooledObject pooledObject = ammo?.GetComponent<PooledObject>();
+            if(null != pooledObject) {
+                ObjectPoolManager.Instance.InitializePool(GetAmmoPool(specialType), pooledObject, poolSize);
+            }
+
+            if(null != ammo.ImpactPrefab) {
+                PoolImpact(specialType, ammo.ImpactPrefab, poolSize);
+            }
+        }
+
+        private void PoolImpact(SpecialType specialType, Impact impact, int poolSize)
+        {
+            PooledObject pooledObject = impact?.GetComponent<PooledObject>();
+            if(null != pooledObject) {
+                ObjectPoolManager.Instance.InitializePool(GetImpactPool(specialType), pooledObject, poolSize);
             }
         }
     }

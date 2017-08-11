@@ -20,7 +20,7 @@ namespace CatFight.Items.Specials
             case SpecialData.SpecialType.Missiles:
                 return new Missiles(specialData, uses);
             case SpecialData.SpecialType.Chaff:
-                return new Chaff(specialData, uses);
+                return new Chaffs(specialData, uses);
             default:
                 Debug.LogError($"Invalid special type {specialData.Type}!");
                 return null;

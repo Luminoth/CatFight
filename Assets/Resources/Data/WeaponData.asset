@@ -23,7 +23,7 @@ MonoBehaviour:
   - _id: 2
     _name: Laser
     _type: 2
-    _damage: 50
+    _damage: 25
     _cooldownMilliseconds: 2500
     _ammoPrefab: {fileID: 114107721551708184, guid: 407b76c5c1b532840b618c9955ae7573,
       type: 2}

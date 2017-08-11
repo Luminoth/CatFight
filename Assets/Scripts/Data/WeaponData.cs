@@ -110,7 +110,7 @@ namespace CatFight.Data
 
         private void PoolAmmo(WeaponType weaponType, Ammo ammo, int poolSize)
         {
-            PooledObject pooledObject = ammo.GetComponent<PooledObject>();
+            PooledObject pooledObject = ammo?.GetComponent<PooledObject>();
             if(null != pooledObject) {
                 ObjectPoolManager.Instance.InitializePool(GetAmmoPool(weaponType), pooledObject, poolSize);
             }
@@ -122,7 +122,7 @@ namespace CatFight.Data
 
         private void PoolImpact(WeaponType weaponType, Impact impact, int poolSize)
         {
-            PooledObject pooledObject = impact.GetComponent<PooledObject>();
+            PooledObject pooledObject = impact?.GetComponent<PooledObject>();
             if(null != pooledObject) {
                 ObjectPoolManager.Instance.InitializePool(GetImpactPool(weaponType), pooledObject, poolSize);
             }
