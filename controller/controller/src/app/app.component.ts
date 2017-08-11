@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, AfterViewInit } from "@angular/core";
+﻿import { Component, OnInit } from "@angular/core";
 
 import { GameDataService } from "../services/gamedata/gamedata.service";
 
@@ -20,7 +20,7 @@ import { UseSpecialMessage } from "../models/messages/usespecialmessage";
 
 // TODO: go through and get rid of "any" variables where possible
 
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements OnInit {
 
     private static readonly CurrentGameDataVersion: number = 1;
 
@@ -127,35 +127,6 @@ export class AppComponent implements OnInit, AfterViewInit {
             .catch(this.handleError);
     }
 
-    public ngAfterViewInit(): void {
-
-        const app: AppComponent = this;
-
-        new Button("button-start", {
-            "down"() {
-                app.startGame(); 
-            }
-        });
-
-        new Button("button-confirm", {
-            "down"() {
-                app.confirmStaging(); 
-            }
-        });
-
-        new Button("button-missiles", {
-            "down"() {
-                app.fireMissiles();
-            }
-        });
-
-        new Button("button-chaff", {
-            "down"() {
-                app.launchChaff();
-            }
-        });
-    }
-
     public debugLog(msg: string, ...args: any[]): void {
 
         if(this._isAirConsoleReady) {
@@ -170,13 +141,13 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.gameState.reset(this.gameData);
     }
 
-    private startGame(): void {
+    public startGame(): void {
 
         this.debugLog("Starting game...");
         this.sendMessageToScreen(new StartGameMessage());
     }
 
-    private confirmStaging(): void {
+    public confirmStaging(): void {
 
         this.player.isConfirmed = !this.player.isConfirmed;
 
@@ -207,13 +178,13 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.player.schematic.clearSlot(slotId);
     }
 
-    private fireMissiles(): void {
+    public fireMissiles(): void {
 
         this.useSpecial(GameData.SpecialTypeMissiles);
         this.gameState.useMissile();
     }
 
-    private launchChaff(): void {
+    public launchChaff(): void {
 
         this.useSpecial(GameData.SpecialTypeChaff);
         this.gameState.useChaff();

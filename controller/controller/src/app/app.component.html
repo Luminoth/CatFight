@@ -3,9 +3,7 @@
         Welcome to the lobby {{player.name}}! You're on team {{player.teamName}}!<br />
         This is where we gather and wait for the master player to start the game.<br />
     </p>
-    <div id="button-start" class="button-300-150 center" [hidden]="!player.isMasterPlayer">
-        <div class="button-text">Start</div>
-    </div>
+    <button md-raised-button *ngIf="player.isMasterPlayer" (down)="startGame()">Start</button>
 </div>
 <div id="staging" class="view view-container">
     <p>
@@ -23,10 +21,8 @@
         </div>
     </div>
     </ng-container>
-    <div id="button-confirm" class="button-300-150 center">
-        <div id="button-unconfirm-text" class="button-text" *ngIf="player.isConfirmed">Unconfirm</div>
-        <div id="button-confirm-text" class="button-text" *ngIf="!player.isConfirmed">Confirm</div>
-    </div>
+    <button md-raised-button *ngIf="player.isConfirmed" (down)="confirmStaging()">Unconfirm</button>
+    <button md-raised-button *ngIf="!player.isConfirmed" (down)="confirmStaging()">Confirm</button>
 </div>
 <div id="arena" class="view view-container">
     <p>
@@ -37,10 +33,6 @@
         Missiles Remaining: {{gameState.missilesRemaining}}<br />
         Chaff Remaining: {{gameState.chaffRemaining}}<br />
     </p>
-    <div id="button-missiles" class="button-300-150 left" [hidden]="!gameState.isGameStarted || gameState.missilesRemaining <= 0">
-        <div id="button-missiles-text" class="button-text">Missiles</div>
-    </div>
-    <div id="button-chaff" class="button-300-150 right" [hidden]="!gameState.isGameStarted || gameState.chaffRemaining <= 0">
-        <div id="button-chaff-text" class="button-text">Chaff</div>
-    </div>
+    <button md-raised-button *ngIf="gameState.isGameStarted && gameState.missilesRemaining > 0" (down)="fireMissiles()">Fire Missiles</button>
+    <button md-raised-button *ngIf="gameState.isGameStarted && gameState.chaffRemaining > 0" (down)="launchChaff()">Launch Chaff</button>
 </div>
