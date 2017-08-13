@@ -22,6 +22,8 @@ namespace CatFight.Items.Specials
 
         public Impact ImpactPrefab => _impactPrefab;
 
+        public Fighter Fighter { get; private set; }
+
         private int _defaultLayer;
 
 #region Unity Lifecycle
@@ -42,17 +44,21 @@ namespace CatFight.Items.Specials
         }
 #endregion
 
-        public virtual void Initialize(Fighter fighter, int slotId)
+        public virtual void Initialize(Fighter fighter)
         {
-            gameObject.layer = fighter.gameObject.layer;
+            Fighter = fighter;
 
-            Transform spawn = fighter.GetSpecialAmmoSpawnTransform(slotId);
+            gameObject.layer = Fighter.gameObject.layer;
+
+            Transform spawn = Fighter.GetSpecialAmmoSpawnTransform();
             transform.position = spawn.position;
             transform.rotation = spawn.rotation;
         }
 
-        protected void Destroy()
+        protected virtual void Destroy()
         {
+            Fighter = null;
+
             gameObject.layer = _defaultLayer;
 
             transform.position = Vector3.zero;

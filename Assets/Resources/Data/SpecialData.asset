@@ -16,16 +16,18 @@ MonoBehaviour:
     _name: Missiles
     _type: 1
     _spawnAmount: 3
+    _spawnRateMs: 250
     _damage: 1
     _cooldownSeconds: 60
     _ammoPrefab: {fileID: 114382286587870314, guid: 3db9adea8af677d41931b79dbeee2654,
       type: 2}
-    _poolSize: 5
+    _poolSize: 6
   - _id: 2
     _name: Chaff
     _type: 2
     _spawnAmount: 3
+    _spawnRateMs: 250
     _damage: 0
     _cooldownSeconds: 1
     _ammoPrefab: {fileID: 0}
-    _poolSize: 5
+    _poolSize: 6

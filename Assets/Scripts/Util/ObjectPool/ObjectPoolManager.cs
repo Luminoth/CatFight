@@ -49,6 +49,8 @@ namespace CatFight.Util.ObjectPool
                     if(!AllowExpand) {
                         return null;
                     }
+
+                    Debug.LogWarning($"Expanding object pool {Tag}!");
                     PopulatePool();
                 }
 

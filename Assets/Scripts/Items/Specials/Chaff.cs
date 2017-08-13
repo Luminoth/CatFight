@@ -12,6 +12,8 @@ namespace CatFight.Items.Specials
     {
         private PooledObject _pooledObject;
 
+        private IChaffTarget _target;
+
 #region Unity Lifecycle
         private void Awake()
         {
@@ -20,11 +22,36 @@ namespace CatFight.Items.Specials
         }
 #endregion
 
-        protected override void OnFighterCollision(Fighter fighter)
+        public override void Initialize(Fighter fighter)
         {
-            base.OnFighterCollision(fighter);
+            base.Initialize(fighter);
 
-            _pooledObject.Recycle();
+            fighter.Stats.AddChaff(this);
+
+// TODO: chaff should fly up and then fall down
+        }
+
+        protected override void Destroy()
+        {
+            _target?.OnChaffDied();
+
+            Fighter.Stats.RemoveChaff(this);
+
+            base.Destroy();
+        }
+
+        public void Use(IChaffTarget target)
+        {
+            Fighter.Stats.RemoveChaff(this);
+
+            _target = target;
+        }
+
+        public void Release()
+        {
+            Fighter.Stats.AddChaff(this);
+
+            _target = null;
         }
 
         protected override void OnArenaCollision()

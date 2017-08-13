@@ -146,5 +146,7 @@ namespace CatFight.Fighters
 
             StartCoroutine(ImpactCoroutine(pooledObject));
         }
+
+// TODO: spawn missile target
     }
 }

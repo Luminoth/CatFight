@@ -18,11 +18,7 @@ namespace CatFight.Items.Weapons
         {
             PooledObject pooledObject = ObjectPoolManager.Instance.GetPooledObject(Data.WeaponData.GetAmmoPool(WeaponType), FighterManager.Instance.AmmoContainer.transform);
             LaserShot laserShot = pooledObject?.GetComponent<LaserShot>();
-            if(null == laserShot) {
-                return;
-            }
-
-            laserShot.Initialize(Fighter, SlotId, WeaponType, Damage);
+            laserShot?.Initialize(Fighter, SlotId, WeaponType, Damage);
         }
     }
 }

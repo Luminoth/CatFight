@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections;
 
 using CatFight.Data;
 using CatFight.Fighters;
+using CatFight.Util.ObjectPool;
+
+using UnityEngine;
 
 namespace CatFight.Items.Specials
 {
@@ -15,11 +19,24 @@ namespace CatFight.Items.Specials
 
         protected override void DoUse()
         {
-            // spawn N missiles
-            // spawn target
-            // missiles should track target as they fly
+            Fighter.StartCoroutine(Spawner());
+        }
 
-UnityEngine.Debug.LogError("TODO: use missiles");
+        private IEnumerator Spawner()
+        {
+            for(int i=0; i<SpecialData.SpawnAmount; ++i) {
+                PooledObject pooledObject = ObjectPoolManager.Instance.GetPooledObject(Data.SpecialData.GetAmmoPool(SpecialType), FighterManager.Instance.AmmoContainer.transform);
+                Missile missile = pooledObject?.GetComponent<Missile>();
+                missile?.Initialize(Fighter);
+
+                yield return new WaitForSeconds(SpecialData.SpawnRateSeconds);
+            }
+
+Debug.LogError("TODO: missile target stuff");
+
+// TODO: set the missile target
+
+// TODO: spawn the target on the target
         }
     }
 }

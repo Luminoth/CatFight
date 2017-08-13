@@ -65,6 +65,15 @@ namespace CatFight.Data
             public int SpawnAmount => _spawnAmount;
 
             [SerializeField]
+            private int _spawnRateMs = 500;
+
+            [JsonIgnore]
+            public int SpawnRateMs => _spawnRateMs;
+
+            [JsonIgnore]
+            public float SpawnRateSeconds => _spawnRateMs / 1000.0f;
+
+            [SerializeField]
             [Range(0, 100)]
             private int _damage;
 
@@ -75,7 +84,10 @@ namespace CatFight.Data
             [Range(0, 60)]
             private int _cooldownSeconds;
 
+            [JsonIgnore]
             public int CooldownSeconds => _cooldownSeconds;
+            
+            public int ActualCooldownSeconds => Mathf.CeilToInt(SpawnRateSeconds * _spawnAmount) + _cooldownSeconds;
 
             [SerializeField]
             private SpecialAmmo _ammoPrefab;

@@ -42,7 +42,7 @@ namespace CatFight.Items.Specials
     [Serializable]
     public abstract class Special : Item
     {
-        public SpecialData.SpecialType SpecialType => _specialData.Type;
+        public SpecialData.SpecialType SpecialType => SpecialData.Type;
 
         [SerializeField]
         [ReadOnly]
@@ -62,7 +62,7 @@ namespace CatFight.Items.Specials
         public bool IsOnCooldown => _cooldownEndTime > DateTime.Now;
 #endregion
 
-        private readonly SpecialData.SpecialDataEntry _specialData;
+        public SpecialData.SpecialDataEntry SpecialData { get; }
 
         public Fighter Fighter { get; }
 
@@ -93,7 +93,7 @@ namespace CatFight.Items.Specials
 
             --RemainingUses;
 
-            _cooldownEndTime = DateTime.Now.AddSeconds(_specialData.CooldownSeconds);
+            _cooldownEndTime = DateTime.Now.AddSeconds(SpecialData.ActualCooldownSeconds);
         }
 
         protected abstract void DoUse();
@@ -101,7 +101,7 @@ namespace CatFight.Items.Specials
         protected Special(Fighter fighter, SpecialData.SpecialDataEntry specialData, int totalUses)
         {
             Fighter = fighter;
-            _specialData = specialData;
+            SpecialData = specialData;
 
             TotalUses = totalUses;
             RemainingUses = TotalUses;

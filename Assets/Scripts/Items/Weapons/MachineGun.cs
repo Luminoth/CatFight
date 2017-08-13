@@ -18,11 +18,7 @@ namespace CatFight.Items.Weapons
         {
             PooledObject pooledObject = ObjectPoolManager.Instance.GetPooledObject(Data.WeaponData.GetAmmoPool(WeaponType), FighterManager.Instance.AmmoContainer.transform);
             Bullet bullet = pooledObject?.GetComponent<Bullet>();
-            if(null == bullet) {
-                return;
-            }
-
-            bullet.Initialize(Fighter, SlotId, WeaponType, Damage);
+            bullet?.Initialize(Fighter, SlotId, WeaponType, Damage);
         }
     }
 }

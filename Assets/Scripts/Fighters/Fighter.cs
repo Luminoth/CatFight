@@ -108,11 +108,9 @@ namespace CatFight.Fighters
             return slotItem?.AmmoTransform ?? transform;
         }
 
-        public Transform GetSpecialAmmoSpawnTransform(int slotId)
+        public Transform GetSpecialAmmoSpawnTransform()
         {
-            FighterLoadoutSlot slot = _loadoutSlotMap.GetOrDefault(slotId);
-            SpecialLoadoutSlotItem slotItem = slot?.SlotItem as SpecialLoadoutSlotItem;
-            return slotItem?.AmmoTransform ?? transform;
+            return transform;
         }
     }
 }

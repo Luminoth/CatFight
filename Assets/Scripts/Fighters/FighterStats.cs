@@ -21,6 +21,10 @@ namespace CatFight.Fighters
     [Serializable]
     public sealed class FighterStats
     {
+#region Events
+        public event EventHandler<ChaffEventArgs> ChaffEvent;
+#endregion
+
 // TODO: this should be configurable on a prefab somewhere
         private const int MinimumDamage = 1;
 
@@ -69,6 +73,8 @@ namespace CatFight.Fighters
 #region Movement
         public float MoveSpeed => DataManager.Instance.GameData.Fighter.MoveSpeed;
 #endregion
+
+        private readonly List<Chaff> _chaffs = new List<Chaff>();
 
         private readonly Fighter _fighter;
 
@@ -209,6 +215,17 @@ namespace CatFight.Fighters
         {
             Special special = _specials.GetOrDefault(type);
             return special?.RemainingUses ?? 0;
+        }
+
+        public void AddChaff(Chaff chaff)
+        {
+            _chaffs.Add(chaff);
+            ChaffEvent?.Invoke(this, new ChaffEventArgs { Chaff = chaff });
+        }
+
+        public void RemoveChaff(Chaff chaff)
+        {
+            _chaffs.Remove(chaff);
         }
 
         public override string ToString()
