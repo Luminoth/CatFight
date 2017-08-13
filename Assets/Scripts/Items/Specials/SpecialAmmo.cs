@@ -46,7 +46,7 @@ namespace CatFight.Items.Specials
         {
             gameObject.layer = fighter.gameObject.layer;
 
-            Transform spawn = fighter.GetWeaponAmmoSpawnTransform(slotId);
+            Transform spawn = fighter.GetSpecialAmmoSpawnTransform(slotId);
             transform.position = spawn.position;
             transform.rotation = spawn.rotation;
         }
