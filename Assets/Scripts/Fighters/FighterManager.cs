@@ -119,7 +119,7 @@ namespace CatFight.Fighters
             impactObject.Recycle();
         }
 
-        public void SpawnImpact(WeaponData.WeaponType weaponType, Impact impactPrefab, Vector3 position, Quaternion rotation)
+        public void SpawnImpact(WeaponData.WeaponType weaponType, Vector3 position, Quaternion rotation)
         {
             PooledObject pooledObject = ObjectPoolManager.Instance.GetPooledObject(WeaponData.GetImpactPool(weaponType), AmmoContainer.transform);
             Impact impact = pooledObject?.GetComponent<Impact>();
@@ -133,7 +133,7 @@ namespace CatFight.Fighters
             StartCoroutine(ImpactCoroutine(pooledObject));
         }
 
-        public void SpawnImpact(SpecialData.SpecialType specialType, Impact impactPrefab, Vector3 position, Quaternion rotation)
+        public void SpawnImpact(SpecialData.SpecialType specialType, Vector3 position, Quaternion rotation)
         {
             PooledObject pooledObject = ObjectPoolManager.Instance.GetPooledObject(SpecialData.GetImpactPool(specialType), AmmoContainer.transform);
             Impact impact = pooledObject?.GetComponent<Impact>();

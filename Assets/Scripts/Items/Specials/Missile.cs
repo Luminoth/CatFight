@@ -75,9 +75,9 @@ namespace CatFight.Items.Specials
             _pooledObject.Recycle();
         }
 
-        protected override void OnArenaCollision()
+        protected override void OnArenaCollision(ArenaEdge edge)
         {
-            base.OnArenaCollision();
+            base.OnArenaCollision(edge);
 
             _pooledObject.Recycle();
         }

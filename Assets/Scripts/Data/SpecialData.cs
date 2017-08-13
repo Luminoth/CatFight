@@ -134,7 +134,7 @@ namespace CatFight.Data
                 ObjectPoolManager.Instance.InitializePool(GetAmmoPool(specialType), pooledObject, poolSize);
             }
 
-            if(null != ammo.ImpactPrefab) {
+            if(null != ammo?.ImpactPrefab) {
                 PoolImpact(specialType, ammo.ImpactPrefab, poolSize);
             }
         }

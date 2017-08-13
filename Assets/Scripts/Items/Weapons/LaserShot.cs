@@ -2,6 +2,7 @@
 
 using CatFight.Data;
 using CatFight.Fighters;
+using CatFight.Stages.Arena;
 using CatFight.Util.ObjectPool;
 
 using UnityEngine;
@@ -43,9 +44,9 @@ namespace CatFight.Items.Weapons
             _pooledObject.Recycle();
         }
 
-        protected override void OnArenaCollision()
+        protected override void OnArenaCollision(ArenaEdge edge)
         {
-            base.OnArenaCollision();
+            base.OnArenaCollision(edge);
 
             _pooledObject.Recycle();
         }

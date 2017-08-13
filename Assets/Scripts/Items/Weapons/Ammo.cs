@@ -32,10 +32,14 @@ namespace CatFight.Items.Weapons
         {
             Fighter fighter = other.GetComponent<Fighter>();
             if(null != fighter) {
-                fighter.Stats.Damage(Damage, WeaponType);
                 OnFighterCollision(fighter);
-            } else if(null != other.GetComponent<ArenaEdge>()) {
-                OnArenaCollision();
+                return;
+            }
+
+            ArenaEdge edge = other.GetComponent<ArenaEdge>();
+            if(null != edge) {
+                OnArenaCollision(edge);
+                return;
             }
         }
 #endregion
@@ -69,12 +73,14 @@ namespace CatFight.Items.Weapons
 
         protected virtual void OnFighterCollision(Fighter fighter)
         {
-            FighterManager.Instance.SpawnImpact(WeaponType, ImpactPrefab, transform.position, transform.rotation);
+            fighter.Stats.Damage(Damage, WeaponType);
+
+            FighterManager.Instance.SpawnImpact(WeaponType, transform.position, transform.rotation);
         }
 
-        protected virtual void OnArenaCollision()
+        protected virtual void OnArenaCollision(ArenaEdge edge)
         {
-            FighterManager.Instance.SpawnImpact(WeaponType, ImpactPrefab, transform.position, transform.rotation);
+            FighterManager.Instance.SpawnImpact(WeaponType, transform.position, transform.rotation);
         }
     }
 }

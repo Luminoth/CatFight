@@ -54,11 +54,13 @@ namespace CatFight.Items.Specials
             _target = null;
         }
 
-        protected override void OnArenaCollision()
+        protected override void OnArenaCollision(ArenaEdge edge)
         {
-            base.OnArenaCollision();
+            base.OnArenaCollision(edge);
 
-            _pooledObject.Recycle();
+            if(edge.IsGround) {
+                _pooledObject.Recycle();
+            }
         }
 
 #region Event Handlers
