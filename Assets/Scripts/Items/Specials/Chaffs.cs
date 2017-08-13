@@ -27,7 +27,7 @@ namespace CatFight.Items.Specials
             for(int i=0; i<SpecialData.SpawnAmount; ++i) {
                 PooledObject pooledObject = ObjectPoolManager.Instance.GetPooledObject(Data.SpecialData.GetAmmoPool(SpecialType), FighterManager.Instance.AmmoContainer.transform);
                 Chaff chaff = pooledObject?.GetComponent<Chaff>();
-                chaff?.Initialize(Fighter);
+                chaff?.Initialize(Fighter, SpecialData.Type, SpecialData.Damage);
 
                 yield return new WaitForSeconds(SpecialData.SpawnRateSeconds);
             }

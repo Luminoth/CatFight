@@ -12,10 +12,7 @@ namespace CatFight.Items.Specials
     {
         public SpecialData.SpecialType SpecialType { get; private set; } = SpecialData.SpecialType.None;
 
-        [SerializeField]
-        private int _damage;
-
-        public int Damage => _damage;
+        public int Damage { get; private set; }
 
         [SerializeField]
         private Impact _impactPrefab;
@@ -48,11 +45,14 @@ namespace CatFight.Items.Specials
         }
 #endregion
 
-        public virtual void Initialize(Fighter fighter)
+        public virtual void Initialize(Fighter fighter, SpecialData.SpecialType specialType, int damage)
         {
             Fighter = fighter;
 
             gameObject.layer = Fighter.gameObject.layer;
+
+            SpecialType = specialType;
+            Damage = damage;
 
             Transform spawn = Fighter.GetSpecialAmmoSpawnTransform();
             transform.position = spawn.position;

@@ -1,6 +1,8 @@
 ﻿using System;
 
+using CatFight.Data;
 using CatFight.Fighters;
+using CatFight.Stages.Arena;
 using CatFight.Util;
 using CatFight.Util.ObjectPool;
 
@@ -42,9 +44,9 @@ namespace CatFight.Items.Specials
         }
 #endregion
 
-        public override void Initialize(Fighter fighter)
+        public override void Initialize(Fighter fighter, SpecialData.SpecialType specialType, int damage)
         {
-            base.Initialize(fighter);
+            base.Initialize(fighter, specialType, damage);
 
             _rigidBody.velocity = transform.right * _velocity;
 
