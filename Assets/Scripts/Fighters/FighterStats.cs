@@ -165,6 +165,7 @@ namespace CatFight.Fighters
         }
 #endregion
 
+#region Damage
         public void Damage(int amount, WeaponData.WeaponType type)
         {
             if(!GameStageManager.Instance.IsGameStarted) {
@@ -185,7 +186,9 @@ namespace CatFight.Fighters
             }
             CurrentHealth -= amount;
         }
+#endregion
 
+#region Weapons
         public void FireWeapon(int idx)
         {
             if(!GameStageManager.Instance.IsGameStarted || idx < 0 || idx >= Weapons.Count) {
@@ -200,7 +203,9 @@ namespace CatFight.Fighters
                 FireWeapon(i);
             }
         }
+#endregion
 
+#region Specials
         public void UseSpecial(SpecialData.SpecialType type)
         {
             if(!GameStageManager.Instance.IsGameStarted) {
@@ -216,7 +221,9 @@ namespace CatFight.Fighters
             Special special = _specials.GetOrDefault(type);
             return special?.RemainingUses ?? 0;
         }
+#endregion
 
+#region Chaff
         public void AddChaff(Chaff chaff)
         {
             _chaffs.Add(chaff);
@@ -227,6 +234,12 @@ namespace CatFight.Fighters
         {
             _chaffs.Remove(chaff);
         }
+
+        public Chaff GetChaff()
+        {
+            return _chaffs.FirstOrDefault();
+        }
+#endregion
 
         public override string ToString()
         {

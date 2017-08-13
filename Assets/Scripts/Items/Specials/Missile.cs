@@ -6,6 +6,8 @@ using CatFight.Stages.Arena;
 using CatFight.Util;
 using CatFight.Util.ObjectPool;
 
+using JetBrains.Annotations;
+
 using UnityEngine;
 
 namespace CatFight.Items.Specials
@@ -29,6 +31,9 @@ namespace CatFight.Items.Specials
         [ReadOnly]
         private Chaff _chaffTarget;
 
+        [CanBeNull]
+        private Transform Target => _chaffTarget?.transform ?? _fighterTarget?.transform;
+
 #region Unity Lifecycle
         private void Awake()
         {
@@ -40,23 +45,35 @@ namespace CatFight.Items.Specials
 
         private void FixedUpdate()
         {
-// TODO: missile should track the target
+            transform.LookAt2D(Target);
         }
 #endregion
 
-        public override void Initialize(Fighter fighter, SpecialData.SpecialType specialType, int damage)
+        public void Initialize(Fighter fighter, Fighter target, SpecialData.SpecialType specialType, int damage)
         {
             base.Initialize(fighter, specialType, damage);
 
+            _fighterTarget = target;
+
+            Chaff chaff = _fighterTarget.Stats.GetChaff();
+            if(null != chaff) {
+                TargetChaff(chaff);
+            } else {
+                TargetFighter(target);
+            }
+
+            transform.LookAt2D(Target);
             _rigidBody.velocity = transform.right * _velocity;
+        }
 
-// TODO: if the target already has a chaff, we should target it instead of the target
-
-// TODO: hook into the target's chaff event (don't forget to unhook!) - when the event fires, we re-target
+        public override void Initialize(Fighter fighter, SpecialData.SpecialType specialType, int damage)
+        {
+            throw new NotSupportedException();
         }
 
         protected override void Destroy()
         {
+            _fighterTarget.Stats.ChaffEvent -= ChaffEventHandler;
             _fighterTarget = null;
 
             _chaffTarget?.Release();
@@ -68,6 +85,21 @@ namespace CatFight.Items.Specials
         public void OnChaffDied()
         {
             _chaffTarget = null;
+            TargetFighter(_fighterTarget);
+        }
+
+        private void TargetFighter(Fighter fighter)
+        {
+            _fighterTarget = fighter;
+            _fighterTarget.AddMissileTarget();
+
+            _fighterTarget.Stats.ChaffEvent += ChaffEventHandler;
+        }
+
+        private void TargetChaff(Chaff chaff)
+        {
+            _chaffTarget = chaff;
+            _chaffTarget.Use(this);
         }
 
         protected override void OnFighterCollision(Fighter fighter)
@@ -94,9 +126,10 @@ namespace CatFight.Items.Specials
 
         private void ChaffEventHandler(object sender, ChaffEventArgs evt)
         {
-            _chaffTarget = evt.Chaff;
-
-            evt.Chaff.Use(this);
+            if(null != _chaffTarget) {
+                return;
+            }
+            TargetChaff(evt.Chaff);
         }
 #endregion
     }

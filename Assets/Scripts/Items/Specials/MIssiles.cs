@@ -19,24 +19,21 @@ namespace CatFight.Items.Specials
 
         protected override void DoUse()
         {
-            Fighter.StartCoroutine(Spawner());
+            Fighter target = FighterManager.Instance.GetFighterNotOnTeam(Fighter.Team.Id);
+            if(null != target) {
+                Fighter.StartCoroutine(Spawner(target));
+            }
         }
 
-        private IEnumerator Spawner()
+        private IEnumerator Spawner(Fighter target)
         {
             for(int i=0; i<SpecialData.SpawnAmount; ++i) {
                 PooledObject pooledObject = ObjectPoolManager.Instance.GetPooledObject(Data.SpecialData.GetAmmoPool(SpecialType), FighterManager.Instance.AmmoContainer.transform);
                 Missile missile = pooledObject?.GetComponent<Missile>();
-                missile?.Initialize(Fighter, SpecialData.Type, SpecialData.Damage);
+                missile?.Initialize(Fighter, target, SpecialData.Type, SpecialData.Damage);
 
                 yield return new WaitForSeconds(SpecialData.SpawnRateSeconds);
             }
-
-Debug.LogError("TODO: missile target stuff");
-
-// TODO: set the missile target
-
-// TODO: spawn the target on the target
         }
     }
 }

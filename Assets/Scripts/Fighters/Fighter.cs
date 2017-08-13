@@ -31,6 +31,9 @@ namespace CatFight.Fighters
         private TextMesh _nameText;
 
         [SerializeField]
+        private GameObject _missileTargetObject;
+
+        [SerializeField]
         [ReadOnly]
         private Loadout _loadout;
 
@@ -46,6 +49,10 @@ namespace CatFight.Fighters
         private FighterLoadoutSlot[] _loadoutSlots;
 
         private readonly Dictionary<int, FighterLoadoutSlot> _loadoutSlotMap = new Dictionary<int, FighterLoadoutSlot>();
+
+        [SerializeField]
+        [ReadOnly]
+        private int _targetingMissiles;
 
         private PlayMakerFSM _fsm;
 
@@ -101,6 +108,7 @@ namespace CatFight.Fighters
             Debug.Log(Stats);
         }
 
+#region Ammo Spawns
         public Transform GetWeaponAmmoSpawnTransform(int slotId)
         {
             FighterLoadoutSlot slot = _loadoutSlotMap.GetOrDefault(slotId);
@@ -112,5 +120,23 @@ namespace CatFight.Fighters
         {
             return transform;
         }
+#endregion
+
+#region Missiles
+        public void AddMissileTarget()
+        {
+            ++_targetingMissiles;
+            //_missileTargetObject.SetActive(true);
+        }
+
+        public void RemoveMissileTarget()
+        {
+            --_targetingMissiles;
+            if(_targetingMissiles <= 0) {
+                _targetingMissiles = 0;
+                //_missileTargetObject.SetActive(false);
+            }
+        }
+#endregion
     }
 }

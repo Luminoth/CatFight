@@ -159,7 +159,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c3fb8db10a67804fb25c044ab88a935, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 0
   _impactPrefab: {fileID: 114257822177534370, guid: 1d8cc07cfe9fb454abacf9e94f478751,
     type: 2}
   _velocity: 25

@@ -12,6 +12,9 @@ namespace CatFight.Items.Specials
     [RequireComponent(typeof(PooledObject))]
     public sealed class Chaff : SpecialAmmo
     {
+        [SerializeField]
+        private GameObject _missileTargetObject;
+
         private PooledObject _pooledObject;
 
         private IChaffTarget _target;
@@ -39,18 +42,22 @@ namespace CatFight.Items.Specials
 
             Fighter.Stats.RemoveChaff(this);
 
+            //_missileTargetObject.SetActive(false);
+
             base.Destroy();
         }
 
         public void Use(IChaffTarget target)
         {
             Fighter.Stats.RemoveChaff(this);
+            //_missileTargetObject.SetActive(true);
 
             _target = target;
         }
 
         public void Release()
         {
+            //_missileTargetObject.SetActive(false);
             Fighter.Stats.AddChaff(this);
 
             _target = null;

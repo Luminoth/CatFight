@@ -97,6 +97,15 @@ namespace CatFight.Fighters
             return _fighters.GetOrDefault(teamId);
         }
 
+        [CanBeNull]
+        public Fighter GetFighterNotOnTeam(int teamId)
+        {
+            // TODO: this would be better if it returned
+            // a random fighter from the ones not on the given team
+            // rather than the first one we find
+            return Fighters.FirstOrDefault(fighter => fighter.Team.Id != teamId);
+        }
+
         // TODO: this is dumb, have the fighter instead kick off an event
         // when it dies and have the manager list for that and keep a count
         public int AliveFighterCount()
@@ -146,7 +155,5 @@ namespace CatFight.Fighters
 
             StartCoroutine(ImpactCoroutine(pooledObject));
         }
-
-// TODO: spawn missile target
     }
 }
