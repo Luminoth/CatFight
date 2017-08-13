@@ -46,6 +46,7 @@ namespace CatFight.Items.Specials
         private void FixedUpdate()
         {
             transform.LookAt2D(Target);
+            _rigidBody.velocity = transform.right * _velocity;
         }
 #endregion
 
