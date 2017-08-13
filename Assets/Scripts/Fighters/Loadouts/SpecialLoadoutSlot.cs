@@ -14,8 +14,8 @@ namespace CatFight.Fighters.Loadouts
 
         public IReadOnlyDictionary<int, int> SpecialVotes => _specialTypeVotes;
 
-        public SpecialLoadoutSlot(SchematicSlotData slotData)
-            : base(slotData)
+        public SpecialLoadoutSlot(Fighter fighter, SchematicSlotData slotData)
+            : base(fighter, slotData)
         {
         }
 

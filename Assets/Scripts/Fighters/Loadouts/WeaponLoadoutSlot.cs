@@ -18,8 +18,8 @@ namespace CatFight.Fighters.Loadouts
         [CanBeNull]
         public Weapon Weapon { get; private set; }
 
-        public WeaponLoadoutSlot(SchematicSlotData slotData)
-            : base(slotData)
+        public WeaponLoadoutSlot(Fighter fighter, SchematicSlotData slotData)
+            : base(fighter, slotData)
         {
         }
 
@@ -42,7 +42,7 @@ namespace CatFight.Fighters.Loadouts
                 return;
             }
 
-            Weapon = WeaponFactory.Create(weaponData);
+            Weapon = WeaponFactory.Create(Fighter, weaponData);
             if(null != Weapon) {
                 Weapon.Strength = _weaponTypeVotes[winnerType];
             }

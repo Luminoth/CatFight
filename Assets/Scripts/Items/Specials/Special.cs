@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using CatFight.Data;
+using CatFight.Fighters;
 using CatFight.Util;
 
 using JetBrains.Annotations;
@@ -13,24 +14,24 @@ namespace CatFight.Items.Specials
     public static class SpecialFactory
     {
         [CanBeNull]
-        public static Special Create(SpecialData.SpecialDataEntry specialData, int uses=0)
+        public static Special Create(Fighter fighter, SpecialData.SpecialDataEntry specialData, int uses=0)
         {
             switch(specialData.Type)
             {
             case SpecialData.SpecialType.Missiles:
-                return new Missiles(specialData, uses);
+                return new Missiles(fighter, specialData, uses);
             case SpecialData.SpecialType.Chaff:
-                return new Chaffs(specialData, uses);
+                return new Chaffs(fighter, specialData, uses);
             default:
                 Debug.LogError($"Invalid special type {specialData.Type}!");
                 return null;
             }
         }
 
-        public static void Init(IDictionary<SpecialData.SpecialType, Special> specials, IList<Special> specialList)
+        public static void Init(Fighter fighter, IDictionary<SpecialData.SpecialType, Special> specials, IList<Special> specialList)
         {
             foreach(SpecialData.SpecialDataEntry specialData in DataManager.Instance.GameData.Specials.Specials) {
-                Special special = Create(specialData);
+                Special special = Create(fighter, specialData);
 
                 specials.Add(specialData.Type, special);
                 specialList.Add(special);
@@ -62,6 +63,8 @@ namespace CatFight.Items.Specials
 #endregion
 
         private readonly SpecialData.SpecialDataEntry _specialData;
+
+        public Fighter Fighter { get; }
 
         public TimeSpan GetCooldownRemaining()
         {
@@ -95,9 +98,11 @@ namespace CatFight.Items.Specials
 
         protected abstract void DoUse();
 
-        protected Special(SpecialData.SpecialDataEntry specialData, int totalUses)
+        protected Special(Fighter fighter, SpecialData.SpecialDataEntry specialData, int totalUses)
         {
+            Fighter = fighter;
             _specialData = specialData;
+
             TotalUses = totalUses;
             RemainingUses = TotalUses;
         }

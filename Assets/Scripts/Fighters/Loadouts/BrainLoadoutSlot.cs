@@ -18,8 +18,8 @@ namespace CatFight.Fighters.Loadouts
         [CanBeNull]
         public Brain Brain { get; private set; }
 
-        public BrainLoadoutSlot(SchematicSlotData slotData)
-            : base(slotData)
+        public BrainLoadoutSlot(Fighter fighter, SchematicSlotData slotData)
+            : base(fighter, slotData)
         {
         }
 

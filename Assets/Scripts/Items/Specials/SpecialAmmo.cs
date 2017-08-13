@@ -35,7 +35,7 @@ namespace CatFight.Items.Specials
             Fighter fighter = other.GetComponent<Fighter>();
             if(null != fighter) {
                 fighter.Stats.SpecialDamage(Damage);
-                OnFighterCollision();
+                OnFighterCollision(fighter);
             } else if(null != other.GetComponent<ArenaEdge>()) {
                 OnArenaCollision();
             }
@@ -58,7 +58,7 @@ namespace CatFight.Items.Specials
             transform.eulerAngles = Vector3.zero;
         }
 
-        protected virtual void OnFighterCollision()
+        protected virtual void OnFighterCollision(Fighter fighter)
         {
             FighterManager.Instance.SpawnImpact(SpecialType, ImpactPrefab, transform.position, transform.rotation);
         }

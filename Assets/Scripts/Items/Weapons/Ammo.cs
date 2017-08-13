@@ -31,7 +31,7 @@ namespace CatFight.Items.Weapons
             Fighter fighter = other.GetComponent<Fighter>();
             if(null != fighter) {
                 fighter.Stats.Damage(Damage, WeaponType);
-                OnFighterCollision();
+                OnFighterCollision(fighter);
             } else if(null != other.GetComponent<ArenaEdge>()) {
                 OnArenaCollision();
             }
@@ -60,7 +60,7 @@ namespace CatFight.Items.Weapons
             transform.eulerAngles = Vector3.zero;
         }
 
-        protected virtual void OnFighterCollision()
+        protected virtual void OnFighterCollision(Fighter fighter)
         {
             FighterManager.Instance.SpawnImpact(WeaponType, ImpactPrefab, transform.position, transform.rotation);
         }

@@ -9,12 +9,12 @@ namespace CatFight.Items.Weapons
     [Serializable]
     public sealed class Laser : Weapon
     {
-        public Laser(WeaponData.WeaponDataEntry weaponData)
-            : base(weaponData)
+        public Laser(Fighter fighter, WeaponData.WeaponDataEntry weaponData)
+            : base(fighter, weaponData)
         {
         }
 
-        protected override void DoFire(Fighter fighter)
+        protected override void DoFire()
         {
             PooledObject pooledObject = ObjectPoolManager.Instance.GetPooledObject(Data.WeaponData.GetAmmoPool(WeaponType), FighterManager.Instance.AmmoContainer.transform);
             LaserShot laserShot = pooledObject?.GetComponent<LaserShot>();
@@ -22,7 +22,7 @@ namespace CatFight.Items.Weapons
                 return;
             }
 
-            laserShot.Initialize(fighter, WeaponType, Damage);
+            laserShot.Initialize(Fighter, WeaponType, Damage);
         }
     }
 }

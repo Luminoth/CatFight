@@ -14,8 +14,8 @@ namespace CatFight.Fighters.Loadouts
 
         public IReadOnlyDictionary<int, int> ArmorTypeVotes => _armorTypeVotes;
 
-        public ArmorLoadoutSlot(SchematicSlotData slotData)
-            : base(slotData)
+        public ArmorLoadoutSlot(Fighter fighter, SchematicSlotData slotData)
+            : base(fighter, slotData)
         {
         }
 

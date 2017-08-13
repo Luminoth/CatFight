@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 
 using CatFight.Data;
 using CatFight.Fighters.Loadouts;
@@ -40,6 +41,11 @@ namespace CatFight.Fighters
         private FighterStats _stats;
 
         public FighterStats Stats => _stats;
+
+        [SerializeField]
+        private FighterLoadoutSlot[] _loadoutSlots;
+
+        private readonly Dictionary<int, FighterLoadoutSlot> _loadoutSlotMap = new Dictionary<int, FighterLoadoutSlot>();
 
         private PlayMakerFSM _fsm;
 
@@ -85,8 +91,19 @@ namespace CatFight.Fighters
             _loadout.Initialize();
             Debug.Log(Loadout);
 
+            _loadoutSlotMap.Clear();
+            foreach(FighterLoadoutSlot slot in _loadoutSlots) {
+                slot.Initialize(_loadout);
+                _loadoutSlotMap.Add(slot.SlotId, slot);
+            }
+
             _stats.Initialize(_loadout, _fsm);
             Debug.Log(Stats);
+        }
+
+        public Transform GetAmmoSpawnTransform(int slotId)
+        {
+            return _loadoutSlotMap.GetOrDefault(slotId)?.transform ?? transform;
         }
     }
 }

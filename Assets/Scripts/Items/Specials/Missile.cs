@@ -35,9 +35,9 @@ namespace CatFight.Items.Specials
             _rigidBody.velocity = transform.right * _velocity;
         }
 
-        protected override void OnFighterCollision()
+        protected override void OnFighterCollision(Fighter fighter)
         {
-            base.OnFighterCollision();
+            base.OnFighterCollision(fighter);
 
             _pooledObject.Recycle();
         }

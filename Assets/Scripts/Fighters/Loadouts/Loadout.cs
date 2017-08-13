@@ -45,7 +45,7 @@ namespace CatFight.Fighters.Loadouts
                 foreach(SchematicSlot slot in schematic.Slots) {
                     LoadoutSlot loadoutSlot = _slots.GetOrDefault(slot.SlotData.Id);
                     if(null == loadoutSlot) {
-                        loadoutSlot = LoadoutSlotFactory.Create(slot.SlotData);
+                        loadoutSlot = LoadoutSlotFactory.Create(_fighter, slot.SlotData);
                         if(null == loadoutSlot) {
                             continue;
                         }

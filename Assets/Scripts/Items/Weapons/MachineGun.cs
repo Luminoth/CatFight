@@ -9,12 +9,12 @@ namespace CatFight.Items.Weapons
     [Serializable]
     public sealed class MachineGun : Weapon
     {
-        public MachineGun(WeaponData.WeaponDataEntry weaponData)
-            : base(weaponData)
+        public MachineGun(Fighter fighter, WeaponData.WeaponDataEntry weaponData)
+            : base(fighter, weaponData)
         {
         }
 
-        protected override void DoFire(Fighter fighter)
+        protected override void DoFire()
         {
             PooledObject pooledObject = ObjectPoolManager.Instance.GetPooledObject(Data.WeaponData.GetAmmoPool(WeaponType), FighterManager.Instance.AmmoContainer.transform);
             Bullet bullet = pooledObject?.GetComponent<Bullet>();
@@ -22,7 +22,7 @@ namespace CatFight.Items.Weapons
                 return;
             }
 
-            bullet.Initialize(fighter, WeaponType, Damage);
+            bullet.Initialize(Fighter, WeaponType, Damage);
         }
     }
 }

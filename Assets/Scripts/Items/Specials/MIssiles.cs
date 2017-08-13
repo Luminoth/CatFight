@@ -1,14 +1,15 @@
 ﻿using System;
 
 using CatFight.Data;
+using CatFight.Fighters;
 
 namespace CatFight.Items.Specials
 {
     [Serializable]
     public sealed class Missiles : Special
     {
-        public Missiles(SpecialData.SpecialDataEntry specialData, int totalUses)
-            : base(specialData, totalUses)
+        public Missiles(Fighter fighter, SpecialData.SpecialDataEntry specialData, int totalUses)
+            : base(fighter, specialData, totalUses)
         {
         }
 

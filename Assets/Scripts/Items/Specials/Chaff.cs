@@ -1,5 +1,6 @@
 ﻿using System;
 
+using CatFight.Fighters;
 using CatFight.Util.ObjectPool;
 
 using UnityEngine;
@@ -19,9 +20,9 @@ namespace CatFight.Items.Specials
         }
 #endregion
 
-        protected override void OnFighterCollision()
+        protected override void OnFighterCollision(Fighter fighter)
         {
-            base.OnFighterCollision();
+            base.OnFighterCollision(fighter);
 
             _pooledObject.Recycle();
         }

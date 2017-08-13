@@ -47,6 +47,12 @@ namespace CatFight.Data
         [JsonConverter(typeof(StringEnumConverter))]
         public SlotType Type => _type;
 
+        [SerializeField]
+        private GameObject _slotPrefab;
+
+        [JsonIgnore]
+        public GameObject SlotPrefab => _slotPrefab;
+
         public override string ToString()
         {
             return $"Slot({Id}: {Name} - {Type})";

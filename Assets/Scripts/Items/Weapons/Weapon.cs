@@ -12,14 +12,14 @@ namespace CatFight.Items.Weapons
     public static class WeaponFactory
     {
         [CanBeNull]
-        public static Weapon Create(WeaponData.WeaponDataEntry weaponData)
+        public static Weapon Create(Fighter fighter, WeaponData.WeaponDataEntry weaponData)
         {
             switch(weaponData.Type)
             {
             case WeaponData.WeaponType.MachineGun:
-                return new MachineGun(weaponData);
+                return new MachineGun(fighter, weaponData);
             case WeaponData.WeaponType.Laser:
-                return new Laser(weaponData);
+                return new Laser(fighter, weaponData);
             default:
                 Debug.LogError($"Invalid weapon type {weaponData.Type}!");
                 return null;
@@ -30,7 +30,7 @@ namespace CatFight.Items.Weapons
     [Serializable]
     public abstract class Weapon : Item
     {
-        public WeaponData.WeaponType WeaponType => _weaponData.Type;
+        public WeaponData.WeaponType WeaponType => WeaponData.Type;
 
 #region Cooldown
         public DateTime _cooldownEndTime = DateTime.Now;
@@ -38,9 +38,9 @@ namespace CatFight.Items.Weapons
         public bool IsOnCooldown => _cooldownEndTime > DateTime.Now;
 #endregion
 
-        private readonly WeaponData.WeaponDataEntry _weaponData;
+        public WeaponData.WeaponDataEntry WeaponData { get; }
 
-        public WeaponData.WeaponDataEntry WeaponData => _weaponData;
+        public Fighter Fighter { get; }
 
         private int _strength;
 
@@ -62,22 +62,23 @@ namespace CatFight.Items.Weapons
             return _cooldownEndTime - now;
         }
 
-        public void Fire(Fighter fighter)
+        public void Fire()
         {
             if(IsOnCooldown) {
                 return;
             }
 
-            DoFire(fighter);
+            DoFire();
 
-            _cooldownEndTime = DateTime.Now.AddMilliseconds(_weaponData.CooldownMilliseconds);
+            _cooldownEndTime = DateTime.Now.AddMilliseconds(WeaponData.CooldownMilliseconds);
         }
 
-        protected abstract void DoFire(Fighter fighter);
+        protected abstract void DoFire();
 
-        protected Weapon(WeaponData.WeaponDataEntry weaponData)
+        protected Weapon(Fighter fighter, WeaponData.WeaponDataEntry weaponData)
         {
-            _weaponData = weaponData;
+            Fighter = fighter;
+            WeaponData = weaponData;
         }
     }
 }

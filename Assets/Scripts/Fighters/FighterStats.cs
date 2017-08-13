@@ -88,7 +88,7 @@ namespace CatFight.Fighters
 
             _specials.Clear();
             _specialList.Clear();
-            SpecialFactory.Init(_specials, _specialList);
+            SpecialFactory.Init(_fighter, _specials, _specialList);
 
             foreach(LoadoutSlot slot in loadout.Slots) {
                 switch(slot.SlotData.Type)
@@ -149,7 +149,7 @@ namespace CatFight.Fighters
 
                 Special special = _specials.GetOrDefault(specialData.Type);
                 if(null == special) {
-                    special = SpecialFactory.Create(specialData, kvp.Value);
+                    special = SpecialFactory.Create(_fighter, specialData, kvp.Value);
                     _specials.Add(specialData.Type, special);
                     _specialList.Add(special);
                 } else {
@@ -185,7 +185,7 @@ namespace CatFight.Fighters
             if(!GameStageManager.Instance.IsGameStarted || idx < 0 || idx >= Weapons.Count) {
                 return;
             }
-            Weapons.ElementAt(idx).Fire(_fighter);
+            Weapons.ElementAt(idx).Fire();
         }
 
         public void FireAllWeapons()
