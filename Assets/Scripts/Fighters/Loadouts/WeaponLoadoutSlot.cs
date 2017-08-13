@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using CatFight.Data;
 using CatFight.Items.Weapons;
@@ -46,6 +47,11 @@ namespace CatFight.Fighters.Loadouts
             if(null != Weapon) {
                 Weapon.Strength = _weaponTypeVotes[winnerType];
             }
+        }
+
+        public override LoadoutSlotItem GetSlotItemPrefab()
+        {
+            return null == Weapon ? null : SlotData.SlotItemPrefabs.OfType<WeaponLoadoutSlotItem>().FirstOrDefault(weaponSlotItemPrefab => weaponSlotItemPrefab.Type == Weapon.WeaponType);
         }
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 
+using CatFight.Fighters.Loadouts;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -48,10 +50,10 @@ namespace CatFight.Data
         public SlotType Type => _type;
 
         [SerializeField]
-        private GameObject _slotPrefab;
+        private LoadoutSlotItem[] _slotItemPrefabs;
 
         [JsonIgnore]
-        public GameObject SlotPrefab => _slotPrefab;
+        public LoadoutSlotItem[] SlotItemPrefabs => _slotItemPrefabs;
 
         public override string ToString()
         {

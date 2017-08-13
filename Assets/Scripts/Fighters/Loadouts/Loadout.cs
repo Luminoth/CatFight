@@ -6,6 +6,8 @@ using CatFight.Players;
 using CatFight.Players.Schematics;
 using CatFight.Util;
 
+using JetBrains.Annotations;
+
 using UnityEngine;
 
 namespace CatFight.Fighters.Loadouts
@@ -64,6 +66,12 @@ namespace CatFight.Fighters.Loadouts
             foreach(LoadoutSlot slot in Slots) {
                 slot.Complete();
             }
+        }
+
+        [CanBeNull]
+        public LoadoutSlot GetSlot(int slotId)
+        {
+            return _slots.GetOrDefault(slotId);
         }
 
         public override string ToString()

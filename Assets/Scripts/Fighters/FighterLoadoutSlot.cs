@@ -1,5 +1,4 @@
-﻿using CatFight.Data;
-using CatFight.Fighters.Loadouts;
+﻿using CatFight.Fighters.Loadouts;
 using CatFight.Util;
 
 using UnityEngine;
@@ -13,14 +12,18 @@ namespace CatFight.Fighters
 
         public int SlotId => _slotId;
 
+        private LoadoutSlot _slot;
+
         public void Initialize(Loadout loadout)
         {
-            SchematicSlotData slotData = DataManager.Instance.GameData.Fighter.Schematic.Entries.GetOrDefault(_slotId);
-            if(null == slotData?.SlotPrefab) {
+            _slot = loadout.GetSlot(SlotId);
+
+            LoadoutSlotItem slotItemPrefab = _slot?.GetSlotItemPrefab();
+            if(null == slotItemPrefab) {
                 return;
             }
 
-            Instantiate(slotData.SlotPrefab, transform);
+            Instantiate(slotItemPrefab, transform);
         }
     }
 }

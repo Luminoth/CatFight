@@ -4,6 +4,8 @@ using CatFight.Data;
 using CatFight.Players.Schematics;
 using CatFight.Util;
 
+using JetBrains.Annotations;
+
 using UnityEngine;
 
 namespace CatFight.Fighters.Loadouts
@@ -43,6 +45,12 @@ namespace CatFight.Fighters.Loadouts
         public abstract void Process(SchematicSlot schematicSlot);
 
         public abstract void Complete();
+
+        [CanBeNull]
+        public virtual LoadoutSlotItem GetSlotItemPrefab()
+        {
+            return null;
+        }
 
         protected LoadoutSlot(Fighter fighter, SchematicSlotData slotData)
         {
