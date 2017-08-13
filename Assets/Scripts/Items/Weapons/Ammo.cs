@@ -38,15 +38,16 @@ namespace CatFight.Items.Weapons
         }
 #endregion
 
-        public virtual void Initialize(Fighter fighter, WeaponData.WeaponType weaponType, int damage)
+        public virtual void Initialize(Fighter fighter, int slotId, WeaponData.WeaponType weaponType, int damage)
         {
             gameObject.layer = fighter.gameObject.layer;
 
             WeaponType = weaponType;
             Damage = damage;
 
-            transform.position = fighter.transform.position;
-            transform.rotation = fighter.transform.rotation;
+            Transform spawn = fighter.GetWeaponAmmoSpawnTransform(slotId);
+            transform.position = spawn.position;
+            transform.rotation = spawn.rotation;
         }
 
         protected void Destroy()

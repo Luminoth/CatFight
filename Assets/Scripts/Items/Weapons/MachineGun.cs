@@ -9,8 +9,8 @@ namespace CatFight.Items.Weapons
     [Serializable]
     public sealed class MachineGun : Weapon
     {
-        public MachineGun(Fighter fighter, WeaponData.WeaponDataEntry weaponData)
-            : base(fighter, weaponData)
+        public MachineGun(Fighter fighter, int slotId, WeaponData.WeaponDataEntry weaponData)
+            : base(fighter, slotId, weaponData)
         {
         }
 
@@ -22,7 +22,7 @@ namespace CatFight.Items.Weapons
                 return;
             }
 
-            bullet.Initialize(Fighter, WeaponType, Damage);
+            bullet.Initialize(Fighter, SlotId, WeaponType, Damage);
         }
     }
 }

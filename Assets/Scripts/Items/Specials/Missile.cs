@@ -28,9 +28,9 @@ namespace CatFight.Items.Specials
         }
 #endregion
 
-        public override void Initialize(Fighter fighter)
+        public override void Initialize(Fighter fighter, int slotId)
         {
-            base.Initialize(fighter);
+            base.Initialize(fighter, slotId);
 
             _rigidBody.velocity = transform.right * _velocity;
         }

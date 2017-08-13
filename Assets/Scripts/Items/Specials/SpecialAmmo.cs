@@ -42,12 +42,13 @@ namespace CatFight.Items.Specials
         }
 #endregion
 
-        public virtual void Initialize(Fighter fighter)
+        public virtual void Initialize(Fighter fighter, int slotId)
         {
             gameObject.layer = fighter.gameObject.layer;
 
-            transform.position = fighter.transform.position;
-            transform.rotation = fighter.transform.rotation;
+            Transform spawn = fighter.GetWeaponAmmoSpawnTransform(slotId);
+            transform.position = spawn.position;
+            transform.rotation = spawn.rotation;
         }
 
         protected void Destroy()

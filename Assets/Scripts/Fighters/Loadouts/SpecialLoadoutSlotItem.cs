@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace CatFight.Fighters.Loadouts
 {
-    public sealed class WeaponLoadoutSlotItem : LoadoutSlotItem
+    public sealed class SpecialLoadoutSlotItem : LoadoutSlotItem
     {
         [SerializeField]
-        private WeaponData.WeaponType _type;
+        private SpecialData.SpecialType _specialType;
 
-        public WeaponData.WeaponType Type => _type;
+        public SpecialData.SpecialType Type => _specialType;
 
         [SerializeField]
         private Transform _ammoTransform;

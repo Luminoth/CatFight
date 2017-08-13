@@ -33,5 +33,7 @@ namespace CatFight.Fighters.Loadouts
         public override void Complete()
         {
         }
+
+// TODO: there should be a way to spawn the special prefab(s) here
     }
 }

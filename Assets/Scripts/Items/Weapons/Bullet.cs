@@ -29,9 +29,9 @@ namespace CatFight.Items.Weapons
         }
 #endregion
 
-        public override void Initialize(Fighter fighter, WeaponData.WeaponType weaponType, int damage)
+        public override void Initialize(Fighter fighter, int slotId, WeaponData.WeaponType weaponType, int damage)
         {
-            base.Initialize(fighter, weaponType, damage);
+            base.Initialize(fighter, slotId, weaponType, damage);
 
             _rigidBody.velocity = transform.right * _velocity;
         }

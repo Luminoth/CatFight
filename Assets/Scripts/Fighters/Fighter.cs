@@ -101,9 +101,18 @@ namespace CatFight.Fighters
             Debug.Log(Stats);
         }
 
-        public Transform GetAmmoSpawnTransform(int slotId)
+        public Transform GetWeaponAmmoSpawnTransform(int slotId)
         {
-            return _loadoutSlotMap.GetOrDefault(slotId)?.transform ?? transform;
+            FighterLoadoutSlot slot = _loadoutSlotMap.GetOrDefault(slotId);
+            WeaponLoadoutSlotItem slotItem = slot?.SlotItem as WeaponLoadoutSlotItem;
+            return slotItem?.AmmoTransform ?? transform;
+        }
+
+        public Transform GetSpecialAmmoSpawnTransform(int slotId)
+        {
+            FighterLoadoutSlot slot = _loadoutSlotMap.GetOrDefault(slotId);
+            SpecialLoadoutSlotItem slotItem = slot?.SlotItem as SpecialLoadoutSlotItem;
+            return slotItem?.AmmoTransform ?? transform;
         }
     }
 }

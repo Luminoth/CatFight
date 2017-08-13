@@ -14,16 +14,14 @@ namespace CatFight.Fighters
 
         private LoadoutSlot _slot;
 
+        public LoadoutSlotItem SlotItem { get; private set; }
+
         public void Initialize(Loadout loadout)
         {
             _slot = loadout.GetSlot(SlotId);
 
             LoadoutSlotItem slotItemPrefab = _slot?.GetSlotItemPrefab();
-            if(null == slotItemPrefab) {
-                return;
-            }
-
-            Instantiate(slotItemPrefab, transform);
+            SlotItem = null == slotItemPrefab ? null : Instantiate(slotItemPrefab, transform);
         }
     }
 }

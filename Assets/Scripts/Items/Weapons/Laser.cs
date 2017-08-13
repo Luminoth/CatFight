@@ -9,8 +9,8 @@ namespace CatFight.Items.Weapons
     [Serializable]
     public sealed class Laser : Weapon
     {
-        public Laser(Fighter fighter, WeaponData.WeaponDataEntry weaponData)
-            : base(fighter, weaponData)
+        public Laser(Fighter fighter, int slotId, WeaponData.WeaponDataEntry weaponData)
+            : base(fighter, slotId, weaponData)
         {
         }
 
@@ -22,7 +22,7 @@ namespace CatFight.Items.Weapons
                 return;
             }
 
-            laserShot.Initialize(Fighter, WeaponType, Damage);
+            laserShot.Initialize(Fighter, SlotId, WeaponType, Damage);
         }
     }
 }

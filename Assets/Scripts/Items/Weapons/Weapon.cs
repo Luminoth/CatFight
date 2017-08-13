@@ -12,14 +12,14 @@ namespace CatFight.Items.Weapons
     public static class WeaponFactory
     {
         [CanBeNull]
-        public static Weapon Create(Fighter fighter, WeaponData.WeaponDataEntry weaponData)
+        public static Weapon Create(Fighter fighter, int slotId, WeaponData.WeaponDataEntry weaponData)
         {
             switch(weaponData.Type)
             {
             case WeaponData.WeaponType.MachineGun:
-                return new MachineGun(fighter, weaponData);
+                return new MachineGun(fighter, slotId, weaponData);
             case WeaponData.WeaponType.Laser:
-                return new Laser(fighter, weaponData);
+                return new Laser(fighter, slotId, weaponData);
             default:
                 Debug.LogError($"Invalid weapon type {weaponData.Type}!");
                 return null;
@@ -41,6 +41,8 @@ namespace CatFight.Items.Weapons
         public WeaponData.WeaponDataEntry WeaponData { get; }
 
         public Fighter Fighter { get; }
+
+        public int SlotId { get; }
 
         private int _strength;
 
@@ -75,9 +77,10 @@ namespace CatFight.Items.Weapons
 
         protected abstract void DoFire();
 
-        protected Weapon(Fighter fighter, WeaponData.WeaponDataEntry weaponData)
+        protected Weapon(Fighter fighter, int slotId, WeaponData.WeaponDataEntry weaponData)
         {
             Fighter = fighter;
+            SlotId = slotId;
             WeaponData = weaponData;
         }
     }

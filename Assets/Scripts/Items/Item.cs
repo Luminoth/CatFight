@@ -1,7 +1,5 @@
 ﻿using System;
 
-using CatFight.Data;
-
 namespace CatFight.Items
 {
     [Serializable]
