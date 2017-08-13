@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 61069985701172094}
   - component: {fileID: 50131847656868900}
   - component: {fileID: 114382286587870314}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: Missile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,6 +163,8 @@ MonoBehaviour:
   _impactPrefab: {fileID: 114257822177534370, guid: 1d8cc07cfe9fb454abacf9e94f478751,
     type: 2}
   _velocity: 25
+  _fighterTarget: {fileID: 0}
+  _chaffTarget: {fileID: 0}
 --- !u!114 &114688124730888604
 MonoBehaviour:
   m_ObjectHideFlags: 1
