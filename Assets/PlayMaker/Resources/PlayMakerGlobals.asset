@@ -33,3 +33,4 @@ MonoBehaviour:
   events:
   - Moveaway
   - NoIW
+  - FireAllWeapons
