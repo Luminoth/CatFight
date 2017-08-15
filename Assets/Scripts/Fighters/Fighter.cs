@@ -122,6 +122,13 @@ namespace CatFight.Fighters
         }
 #endregion
 
+#region Weapons
+        public void FireAllWeapons()
+        {
+            Stats.FireAllWeapons();
+        }
+#endregion
+
 #region Missiles
         public void AddMissileTarget()
         {
