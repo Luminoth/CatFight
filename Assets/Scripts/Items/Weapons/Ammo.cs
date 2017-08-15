@@ -75,12 +75,12 @@ namespace CatFight.Items.Weapons
         {
             fighter.Stats.Damage(Damage, WeaponType);
 
-            FighterManager.Instance.SpawnImpact(WeaponType, transform.position, transform.rotation);
+            FighterManager.Instance.SpawnImpact(WeaponType, transform.position);
         }
 
         protected virtual void OnArenaCollision(ArenaEdge edge)
         {
-            FighterManager.Instance.SpawnImpact(WeaponType, transform.position, transform.rotation);
+            FighterManager.Instance.SpawnImpact(WeaponType, transform.position);
         }
     }
 }

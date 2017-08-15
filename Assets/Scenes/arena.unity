@@ -634,6 +634,11 @@ Prefab:
       propertyPath: _teamId
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114368084734062988, guid: 603a477eeff5a2746b21b6ff85edd44b,
+        type: 2}
+      propertyPath: _facingDirection
+      value: 180
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 603a477eeff5a2746b21b6ff85edd44b, type: 2}
   m_IsPrefabParent: 0

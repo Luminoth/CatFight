@@ -46,7 +46,7 @@ namespace CatFight.Items.Specials
         private void FixedUpdate()
         {
             transform.LookAt2D(Target);
-            _rigidBody.velocity = transform.right * _velocity;
+            _rigidBody.velocity = Fighter.Forward * _velocity;
         }
 #endregion
 
@@ -64,7 +64,7 @@ namespace CatFight.Items.Specials
             }
 
             transform.LookAt2D(Target);
-            _rigidBody.velocity = transform.right * _velocity;
+            _rigidBody.velocity = Fighter.Forward * _velocity;
         }
 
         public override void Initialize(Fighter fighter, SpecialData.SpecialType specialType, int damage)

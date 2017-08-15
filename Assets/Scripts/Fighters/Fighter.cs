@@ -28,6 +28,14 @@ namespace CatFight.Fighters
         public string FighterName => _fighterName;
 
         [SerializeField]
+        [ReadOnly]
+        private Direction _facingDirection = Direction.East;
+
+        public Direction FacingDirection { get { return _facingDirection; } set { _facingDirection = value; } }
+
+        public Vector3 Forward => transform.right.FacingDirection2D(FacingDirection);
+
+        [SerializeField]
         private TextMesh _nameText;
 
         [SerializeField]

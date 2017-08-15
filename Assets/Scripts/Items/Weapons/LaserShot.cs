@@ -34,7 +34,7 @@ namespace CatFight.Items.Weapons
         {
             base.Initialize(fighter, slotId, weaponType, damage);
 
-            _rigidBody.velocity = transform.right * _velocity;
+            _rigidBody.velocity = Fighter.Forward * _velocity;
         }
 
         protected override void OnFighterCollision(Fighter fighter)

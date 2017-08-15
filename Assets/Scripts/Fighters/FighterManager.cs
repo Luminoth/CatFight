@@ -117,6 +117,7 @@ namespace CatFight.Fighters
         {
             Fighter fighter = Instantiate(_fighterPrefab, _fighterContainer.transform);
             fighter.transform.position = spawnPoint.transform.position;
+            fighter.FacingDirection = spawnPoint.FacingDirection;
             return fighter;
         }
 
@@ -128,7 +129,7 @@ namespace CatFight.Fighters
             impactObject.Recycle();
         }
 
-        public void SpawnImpact(WeaponData.WeaponType weaponType, Vector3 position, Quaternion rotation)
+        public void SpawnImpact(WeaponData.WeaponType weaponType, Vector3 position)
         {
             PooledObject pooledObject = ObjectPoolManager.Instance.GetPooledObject(WeaponData.GetImpactPool(weaponType), AmmoContainer.transform);
             Impact impact = pooledObject?.GetComponent<Impact>();
@@ -137,12 +138,11 @@ namespace CatFight.Fighters
             }
 
             impact.transform.position = position;
-            impact.transform.rotation = rotation;
 
             StartCoroutine(ImpactCoroutine(pooledObject));
         }
 
-        public void SpawnImpact(SpecialData.SpecialType specialType, Vector3 position, Quaternion rotation)
+        public void SpawnImpact(SpecialData.SpecialType specialType, Vector3 position)
         {
             PooledObject pooledObject = ObjectPoolManager.Instance.GetPooledObject(SpecialData.GetImpactPool(specialType), AmmoContainer.transform);
             Impact impact = pooledObject?.GetComponent<Impact>();
@@ -151,7 +151,6 @@ namespace CatFight.Fighters
             }
 
             impact.transform.position = position;
-            impact.transform.rotation = rotation;
 
             StartCoroutine(ImpactCoroutine(pooledObject));
         }

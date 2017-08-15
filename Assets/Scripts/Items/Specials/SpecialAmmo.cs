@@ -73,12 +73,12 @@ namespace CatFight.Items.Specials
         {
             fighter.Stats.SpecialDamage(Damage);
 
-            FighterManager.Instance.SpawnImpact(SpecialType, transform.position, transform.rotation);
+            FighterManager.Instance.SpawnImpact(SpecialType, transform.position);
         }
 
         protected virtual void OnArenaCollision(ArenaEdge edge)
         {
-            FighterManager.Instance.SpawnImpact(SpecialType, transform.position, transform.rotation);
+            FighterManager.Instance.SpawnImpact(SpecialType, transform.position);
         }
     }
 }

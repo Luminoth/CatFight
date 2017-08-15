@@ -1,9 +1,7 @@
 SHANE
 ==========
 
-Fix special button text on controller
-SPECIAL ANIMATIONS
-SPECIAL BEHAVIORS
+FIGHTER DIRECTIONS
 
 Lobby needs to show master player
 
