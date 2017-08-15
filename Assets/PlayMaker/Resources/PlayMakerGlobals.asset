@@ -34,3 +34,7 @@ MonoBehaviour:
   - Moveaway
   - NoIW
   - FireAllWeapons
+  - StopMovement
+  - ChangeDirection
+  - FlipMovement
+  - StartMovement

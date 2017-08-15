@@ -16,15 +16,15 @@ MonoBehaviour:
     dataVersion: 2
     usedInTemplate: {fileID: 11400000}
     name: FSM
-    startState: State 1
+    startState: State 2
     states:
     - name: State 1
       description: 
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 64
-        y: 226.11719
+        x: 480
+        y: 194.11719
         width: 100
         height: 144
       isBreakpoint: 0
@@ -574,8 +574,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 415
-        y: 137.10156
+        x: 831
+        y: 105.10156
         width: 100
         height: 32
       isBreakpoint: 0
@@ -1026,8 +1026,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 408.5
-        y: 207.61719
+        x: 824.5
+        y: 175.61719
         width: 100
         height: 32
       isBreakpoint: 0
@@ -1478,8 +1478,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 411.5
-        y: 261.6172
+        x: 827.5
+        y: 229.61719
         width: 100
         height: 32
       isBreakpoint: 0
@@ -1930,8 +1930,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 414.5
-        y: 315.6172
+        x: 830.5
+        y: 283.6172
         width: 100
         height: 32
       isBreakpoint: 0
@@ -2382,8 +2382,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 648
-        y: 216.11719
+        x: 1064
+        y: 184.11719
         width: 100
         height: 32
       isBreakpoint: 0
@@ -2459,8 +2459,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 419
-        y: 376.1172
+        x: 835
+        y: 344.1172
         width: 100
         height: 32
       isBreakpoint: 0
@@ -2771,8 +2771,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 416
-        y: 429.1172
+        x: 832
+        y: 397.1172
         width: 100
         height: 32
       isBreakpoint: 0
@@ -3223,8 +3223,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 419
-        y: 477.1172
+        x: 835
+        y: 445.1172
         width: 100
         height: 32
       isBreakpoint: 0
@@ -3535,8 +3535,8 @@ MonoBehaviour:
       colorIndex: 0
       position:
         serializedVersion: 2
-        x: 415
-        y: 525.1172
+        x: 831
+        y: 493.1172
         width: 100
         height: 32
       isBreakpoint: 0
@@ -3982,6 +3982,58 @@ MonoBehaviour:
         - realTime
         paramDataPos: 000000000000000001000000000000000100000001000000020000000300000002000000030000000200000004000000050000000400000005000000030000000600000007000000060000000700000004000000080000000900000008000000090000000a0000000000000000000000000000000000000000000000010000000e0000000f0000000200000010000000030000000100000011000000050000001200000004000000050000000200000003000000000000001600000006000000060000000700000017000000040000000000000001000000010000000a000000010000000800000009000000050000000600000002000000000000000b000000000000000c00000007000000020000001b000000
         paramByteDataSize: 000000000000000000000000010000000100000000000000000000000000000001000000010000000000000000000000000000000100000001000000000000000000000000000000010000000100000000000000000000000000000001000000010000000400000000000000000000000000000000000000000000000000000001000000010000000000000001000000000000000000000001000000000000000400000000000000000000000000000000000000000000000100000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000
+    - name: State 2
+      description: 
+      colorIndex: 0
+      position:
+        serializedVersion: 2
+        x: 52.88556
+        y: 373.73755
+        width: 100
+        height: 16
+      isBreakpoint: 0
+      isSequence: 0
+      hideUnused: 0
+      transitions: []
+      actionData:
+        actionNames: []
+        customNames: []
+        actionEnabled: 
+        actionIsOpen: 
+        actionStartIndex: 
+        actionHashCodes: 
+        unityObjectParams: []
+        fsmGameObjectParams: []
+        fsmOwnerDefaultParams: []
+        animationCurveParams: []
+        functionCallParams: []
+        fsmTemplateControlParams: []
+        fsmEventTargetParams: []
+        fsmPropertyParams: []
+        layoutOptionParams: []
+        fsmStringParams: []
+        fsmObjectParams: []
+        fsmVarParams: []
+        fsmArrayParams: []
+        fsmEnumParams: []
+        fsmFloatParams: []
+        fsmIntParams: []
+        fsmBoolParams: []
+        fsmVector2Params: []
+        fsmVector3Params: []
+        fsmColorParams: []
+        fsmRectParams: []
+        fsmQuaternionParams: []
+        stringParams: []
+        byteData: 
+        arrayParamSizes: 
+        arrayParamTypes: []
+        customTypeSizes: 
+        customTypeNames: []
+        paramDataType: 
+        paramName: []
+        paramDataPos: 
+        paramByteDataSize: 
     events:
     - name: North
       isSystemEvent: 0
