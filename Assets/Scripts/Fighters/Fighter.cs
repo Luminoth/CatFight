@@ -9,7 +9,6 @@ using UnityEngine;
 
 namespace CatFight.Fighters
 {
-    [RequireComponent(typeof(PlayMakerFSM))]
     public sealed class Fighter : MonoBehavior
     {
         [SerializeField]
@@ -62,13 +61,12 @@ namespace CatFight.Fighters
         [ReadOnly]
         private int _targetingMissiles;
 
-        private PlayMakerFSM _fsm;
+        [SerializeField]
+        private PlayMakerFSM _aiFSM;
 
 #region Unity Lifecycle
         private void Awake()
         {
-            _fsm = GetComponent<PlayMakerFSM>();
-
             _loadout = new Loadout(this);
             _stats = new FighterStats(this);
         }
@@ -112,7 +110,7 @@ namespace CatFight.Fighters
                 _loadoutSlotMap.Add(slot.SlotId, slot);
             }
 
-            _stats.Initialize(_loadout, _fsm);
+            _stats.Initialize(_loadout, _aiFSM);
             Debug.Log(Stats);
         }
 

@@ -1,7 +1,7 @@
 SHANE
 ==========
 
-FIGHTER DIRECTIONS
+Audio
 
 Lobby needs to show master player
 
