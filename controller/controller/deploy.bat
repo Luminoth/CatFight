@@ -1,5 +1,6 @@
 @echo off
 
+set NPM=npm
 set NG=ng
 set BUILDARGS=build --aot --prod
 set DISTDIR=dist
@@ -11,6 +12,10 @@ if [%2] == [] goto usage
 @echo Cleaning %DISTDIR%...
 
 del /F /Q %DISTDIR% 2>nul
+
+@echo Running npm install, this may take a moment...
+
+call %NPM% install
 
 @echo Building, this may take a moment...
 
