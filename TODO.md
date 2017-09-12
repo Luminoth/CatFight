@@ -1,7 +1,7 @@
 SHANE
 ==========
 
-Audio
+Add actual audio and have it play!
 
 Lobby needs to show master player
 
