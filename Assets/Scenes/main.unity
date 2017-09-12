@@ -516,6 +516,8 @@ MonoBehaviour:
     type: 2}
   _fighterManagerPrefab: {fileID: 114222648363077520, guid: 3854a91f717a5fa4ca87a0053c58925d,
     type: 2}
+  _audioManagerPrefab: {fileID: 114696093560284456, guid: ad4847a4113bb1a429443597b0a9274b,
+    type: 2}
   _managersObject: {fileID: 0}
   _isAirConsoleReady: 0
 --- !u!4 &1392004620

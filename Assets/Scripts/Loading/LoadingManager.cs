@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 
 using CatFight.AirConsole;
+using CatFight.Audio;
 using CatFight.Data;
 using CatFight.Fighters;
 using CatFight.Players;
@@ -29,6 +30,9 @@ namespace CatFight.Loading
 
         [SerializeField]
         private FighterManager _fighterManagerPrefab;
+
+        [SerializeField]
+        private AudioManager _audioManagerPrefab;
 #endregion
 
         [SerializeField]
@@ -90,6 +94,7 @@ namespace CatFight.Loading
             DataManager.CreateFromPrefab(_dataManagerPrefab.gameObject, _managersObject);
             GameStageManager.CreateFromPrefab(_gameStageManagerPrefab.gameObject, _managersObject);
             FighterManager.CreateFromPrefab(_fighterManagerPrefab.gameObject, _managersObject);
+            AudioManager.CreateFromPrefab(_audioManagerPrefab.gameObject, _managersObject);
             PlayerManager.Create(_managersObject);
         }
 

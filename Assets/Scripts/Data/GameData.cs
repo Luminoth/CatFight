@@ -25,6 +25,12 @@ namespace CatFight.Data
 #endregion
 
         [SerializeField]
+        private AudioData _audio;
+
+        [JsonIgnore]
+        public AudioData Audio => _audio;
+
+        [SerializeField]
         private FighterData _fighter;
 
         public FighterData Fighter => _fighter;
