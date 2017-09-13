@@ -11,6 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6b194f808b1af6499c93410e504af42, type: 3}
   m_Name: Cat Side_Atlas
   m_EditorClassIdentifier: 
-  atlasFile: {fileID: 4900000, guid: e2e4400fa803b7d47943a550adc13ab3, type: 3}
+  atlasFile: {fileID: 4900000, guid: 27afc6516515d8c41839ce6e2444d2c0, type: 3}
   materials:
-  - {fileID: 2100000, guid: fe556b2665e17ba45a9d1e9782f9469c, type: 2}
+  - {fileID: 2100000, guid: 35934e5b214deb34bac9c5c7394588ce, type: 2}
