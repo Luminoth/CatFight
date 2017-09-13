@@ -11,4 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adf682857d84cc04fa7507cdc12a802c, type: 3}
   m_Name: AudioData
   m_EditorClassIdentifier: 
-  _audio: []
+  _audio:
+  - _id: missile
+    _audioClip: {fileID: 8300000, guid: 6e03b1a1868fbaa4e8072933d78dd336, type: 3}

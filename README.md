@@ -7,3 +7,7 @@ Cat Fight AirConsole Game
     1. cd controller/controller
     2.  npm install --save-dev @angular/cli@latest
 2. In Unity, run Cat Fight -> Deploy Controller
+
+# Resource Licensing
+* Missile Audio
+  * http://soundbible.com/709-Bottle-Rocket.html

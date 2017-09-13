@@ -1,5 +1,6 @@
 ﻿using System;
 
+using CatFight.Audio;
 using CatFight.Data;
 using CatFight.Fighters;
 using CatFight.Stages.Arena;
@@ -22,6 +23,9 @@ namespace CatFight.Items.Specials
 
         [SerializeField]
         private float _velocity = 25.0f;
+
+        [SerializeField]
+        private string _launchAudioId;
 
         [SerializeField]
         [ReadOnly]
@@ -65,6 +69,8 @@ namespace CatFight.Items.Specials
 
             transform.LookAt2D(Target);
             _rigidBody.velocity = Fighter.Forward * _velocity;
+
+            AudioManager.Instance.PlayAudioOneShot(_launchAudioId);
         }
 
         public override void Initialize(Fighter fighter, SpecialData.SpecialType specialType, int damage)

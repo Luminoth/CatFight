@@ -73,11 +73,18 @@ namespace CatFight.Items.Specials
         {
             fighter.Stats.SpecialDamage(Damage);
 
-            FighterManager.Instance.SpawnImpact(SpecialType, transform.position);
+            Impact();
         }
 
         protected virtual void OnArenaCollision(ArenaEdge edge)
         {
+            Impact();
+        }
+
+        private void Impact()
+        {
+            // TODO: play impact audio
+
             FighterManager.Instance.SpawnImpact(SpecialType, transform.position);
         }
     }
