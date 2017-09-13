@@ -1,4 +1,5 @@
-﻿using CatFight.Util;
+﻿using CatFight.Data;
+using CatFight.Util;
 
 using UnityEngine;
 using UnityEngine.Audio;
@@ -20,6 +21,14 @@ namespace CatFight.Audio
             _oneShotAudioSource.outputAudioMixerGroup = _audioMixer.outputAudioMixerGroup;
         }
 #endregion
+
+        public void PlayAudioOneShot(string id)
+        {
+            AudioClip audioClip = DataManager.Instance.GameData.Audio.Entries.GetOrDefault(id)?.AudioClip;
+            if(null != audioClip) {
+                PlayAudioOneShot(audioClip);
+            }
+        }
 
         public void PlayAudioOneShot(AudioClip audioClip)
         {
