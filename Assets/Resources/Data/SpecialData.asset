@@ -19,7 +19,7 @@ MonoBehaviour:
     _spawnRateMs: 250
     _damage: 10
     _cooldownSeconds: 60
-    _ammoPrefab: {fileID: 114059217750620034, guid: 80f3093d09a963f4cb45053ef3bba80f,
+    _ammoPrefab: {fileID: 114035843463992932, guid: 3db9adea8af677d41931b79dbeee2654,
       type: 2}
     _poolSize: 6
   - _id: 2

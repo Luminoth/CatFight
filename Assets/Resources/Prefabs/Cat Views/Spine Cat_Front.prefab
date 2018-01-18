@@ -52,11 +52,12 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 1f0f6d00ea158194fa2847e9ba55b289, type: 2}
+  - {fileID: 0}
   - {fileID: 2100000, guid: ca201c424aea58042b525884f5092772, type: 2}
   - {fileID: 2100000, guid: 1f0f6d00ea158194fa2847e9ba55b289, type: 2}
   - {fileID: 2100000, guid: ca201c424aea58042b525884f5092772, type: 2}
@@ -73,6 +74,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -116,7 +118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9db98c60740638449864eb028fbe7ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: 52a4459df0b112f44a4d9cec7841906d, type: 2}
+  skeletonDataAsset: {fileID: 0}
   initialSkinName: default
   initialFlipX: 0
   initialFlipY: 0

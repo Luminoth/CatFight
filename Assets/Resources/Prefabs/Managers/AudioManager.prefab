@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4098845012872264}
-  - component: {fileID: 114696093560284456}
+  - component: {fileID: 114499479044268314}
   - component: {fileID: 82993943851263816}
   m_Layer: 0
   m_Name: AudioManager
@@ -121,7 +121,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!114 &114696093560284456
+--- !u!114 &114499479044268314
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -129,8 +129,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 1854116927008916}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b929435e798311b4fb2607394875ae1e, type: 3}
+  m_Script: {fileID: 11500000, guid: a75aaff1a0123fa478c4658635bb8bb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioMixer: {fileID: 24100000, guid: 473fc5aaaedf55c4da7bf1f27b054d09, type: 2}
+  _audioMixer: {fileID: 24100000, guid: 136860c6b530626459faeb6b38a0ce15, type: 2}
   _oneShotAudioSource: {fileID: 82993943851263816}
